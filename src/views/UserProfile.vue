@@ -1,0 +1,5 @@
+<template>
+  <div>
+    <h1>This will be the profile page</h1>
+  </div>
+</template>
