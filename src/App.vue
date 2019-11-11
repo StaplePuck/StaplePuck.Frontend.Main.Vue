@@ -3,13 +3,14 @@
     <div id="nav">
       <router-link to="/">Home</router-link>&nbsp;|
       <a
-        v-if="!$auth.isAuthenticated && !$auth.loading"
+        v-if="!this.$store.state.userIsAuthorized"
         id="qsLoginBtn"
         @click.prevent="login"
       >Login</a>
-      <router-link v-if="$auth.isAuthenticated" to="/user">My Profile</router-link>
+      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
+      <span v-if="this.$store.state.userIsAuthorized">&nbsp;|&nbsp;</span>
       <a
-        v-if="$auth.isAuthenticated"
+        v-if="this.$store.state.userIsAuthorized"
         id="qsLoginBtn"
         @click.prevent="logout"
       >Log Out</a>
@@ -21,19 +22,24 @@
 
 <script>
 export default {
+  data () {
+    return {
+      clientId: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN
+    }
+  },
   methods: {
     login() {
-      this.$auth.loginWithRedirect();
+      this.$store.dispatch('auth0Login');
     },
     logout() {
-      this.$auth.logout();
+      this.$store.dispatch('auth0Logout');
       this.$router.push({ path: "/" });
     }
   }
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
