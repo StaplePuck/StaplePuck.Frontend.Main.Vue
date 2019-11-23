@@ -40,21 +40,18 @@ export default new Vuex.Store({
           router.replace('/');
         } 
         else if (err) {
-          alert('login failed. Error #KJN838');
+          alert('login failed');
           router.replace('/');
           console.log(err);
         }
       })
     },
     auth0Logout (context) {
-      // No need to update the bearer in global axiosConfig to null because we are redirecting out of the application
-      // Clear Access Token and ID Token from local storage
+
       localStorage.removeItem('access_token');
       localStorage.removeItem('id_token');
       localStorage.removeItem('expires_at');
-
-      // redirect to auth0 logout to completely log the user out
-      window.location.href = process.env.VUE_APP_AUTH0_CONFIG_DOMAINURL + "/v2/logout?returnTo=" + process.env.VUE_APP_DOMAINURL + "/"; 
+      window.location.href =  "/"; 
     },    
   }
 });
