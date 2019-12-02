@@ -1,17 +1,35 @@
 <template>
   <div class="hello">
     <h2>{{ msg }}</h2>
-    <p>
-      The grid of leagues will go here
-    </p>
+    <league-item
+      v-for="league in leagues"
+      :key="league.id"
+      :league="league">
+    </league-item>
   </div>
 </template>
 
 <script>
+import LeagueItem from "./LeagueItem"
+import { QUERY_ALL_LEAGUES } from "../constants/graphQLqueries/graphQLqueries"
+
 export default {
   name: "AllLeagues",
   props: {
     msg: String
+  },
+  data () {
+    return {
+      leagues: []
+    }
+  },
+  components: {
+    LeagueItem
+  },
+  apollo: {
+    leagues: {
+      query: QUERY_ALL_LEAGUES
+    }
   }
 };
 </script>
