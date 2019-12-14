@@ -48,7 +48,8 @@ export default {
   color: #30303c;
 }
 #nav {
-  padding: 30px;
+  padding-top: 15px;
+  padding-bottom: 0;
   a {
     font-weight: bold;
     color: #30303c;

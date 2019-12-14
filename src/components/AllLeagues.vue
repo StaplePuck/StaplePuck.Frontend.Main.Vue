@@ -1,11 +1,21 @@
 <template>
-  <div class="hello">
+  <div class="container">
     <h2>{{ msg }}</h2>
-    <league-item
-      v-for="league in leagues"
-      :key="league.id"
-      :league="league">
-    </league-item>
+      <b-card-group>
+        <b-card no-body deck v-for="(league, idx) in leagues" :key="idx">
+          <b-card-header>
+            <a href="#" class="card-link">{{ league.name }}</a>
+          </b-card-header>
+          <b-list-group flush>
+            <b-list-group-item>{{ league.season.sport.name }}</b-list-group-item>
+            <b-list-group-item>{{ league.season.fullName }}</b-list-group-item>
+            <b-list-group-item>{{ league.description }}</b-list-group-item>
+          </b-list-group>
+          <p style="color:red;">
+            {{ league.announcement }}
+          </p>
+        </b-card>
+      </b-card-group>
   </div>
 </template>
 
@@ -39,15 +49,12 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 a {
-  color: #42b983;
+  color: darkblue;
+  font-weight: 700;
+  text-decoration: underline;
+  &::after {
+    content: " >";
+  }
 }
 </style>
