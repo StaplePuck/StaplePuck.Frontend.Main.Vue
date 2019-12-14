@@ -1,28 +1,63 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link>&nbsp;|
+      <a
+        v-if="!this.$store.state.userIsAuthorized"
+        id="qsLoginBtn"
+        @click.prevent="login"
+      >Login</a>
+      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
+      <span v-if="this.$store.state.userIsAuthorized">&nbsp;|&nbsp;</span>
+      <a
+        v-if="this.$store.state.userIsAuthorized"
+        id="qsLoginBtn"
+        @click.prevent="logout"
+      >Log Out</a>
     </div>
+    <img alt="StaplePuck logo" src="./assets/StaplePuck-Logo.png" width="200" height="200" />
     <router-view />
   </div>
 </template>
 
-<style lang="scss">
+<script>
+export default {
+  data () {
+    return {
+      clientId: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN
+    }
+  },
+  methods: {
+    login() {
+      this.$store.dispatch('auth0Login');
+    },
+    logout() {
+      this.$store.dispatch('auth0Logout');
+      this.$router.push({ path: "/" });
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #30303c;
 }
 #nav {
-  padding: 30px;
+  padding-top: 15px;
+  padding-bottom: 0;
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #30303c;
+    text-decoration: underline;
+    cursor: pointer;
     &.router-link-exact-active {
-      color: #42b983;
+      color: rgb(255, 217, 0);
+      text-decoration: none;
     }
   }
 }
