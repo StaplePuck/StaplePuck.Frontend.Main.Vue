@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import LeagueItem from "./LeagueItem"
 import { QUERY_ALL_LEAGUES } from "../constants/graphQLqueries/graphQLqueries"
 
 export default {
@@ -32,9 +31,6 @@ export default {
     return {
       leagues: []
     }
-  },
-  components: {
-    LeagueItem
   },
   apollo: {
     leagues: {

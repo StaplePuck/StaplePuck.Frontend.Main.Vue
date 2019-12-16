@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <AllLeagues msg="Current StaplePuck Leagues" />
+  <div>
+    <AllLeagues msg="StaplePuck Leagues" />
   </div>
 </template>
 
@@ -14,10 +14,3 @@ export default {
   }
 };
 </script>
-
-<style scoped lang="scss">
-img {
-  padding: 0;
-  margin: 0;
-}
-</style>

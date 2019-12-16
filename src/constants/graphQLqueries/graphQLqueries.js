@@ -19,3 +19,14 @@ export const QUERY_ALL_LEAGUES = gql`
     }
   }
 `
+
+export const QUERY_USER_PROFILE = gql`
+  {
+    currentUser {
+      id
+      name
+      email
+      receiveEmails
+    }
+  }
+`
