@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Profile from "./views/UserProfile.vue";
+import User from "./views/UserProfile.vue";
 import AuthCallback from './views/AuthCallback.vue'
 import Store from './store'
 
@@ -24,7 +24,7 @@ const router = new Router({
     {
       path: "/user",
       name: "user",
-      component: Profile,
+      component: User,
       meta: { requiresAuth: true }
     }
   ]
