@@ -9,7 +9,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: "/",
   routes: [
     {
       path: '/authcallback',
@@ -33,7 +33,6 @@ const router = new Router({
 router.beforeEach( (to,from,next)=>{
   // Allow finishing callback url for logging in
   if(to.matched.some(record=>record.path == "/authcallback")){
-   console.log("router.beforeEach found /authcallback url");
    Store.dispatch('auth0HandleAuthentication');
    next(false);
  }
@@ -42,7 +41,6 @@ router.beforeEach( (to,from,next)=>{
   let routerAuthCheck = false;  
   // Verify all the proper access variables are present for proper authorization
   if( localStorage.getItem('access_token') && localStorage.getItem('id_token') && localStorage.getItem('expires_at') ){
-    console.log('found local storage tokens');
     // Check whether the current time is past the Access Token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     // set localAuthTokenCheck true if unexpired / false if expired

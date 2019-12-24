@@ -11,8 +11,8 @@ export default new Vuex.Store({
     auth0: new auth0.WebAuth({
       domain: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN,
       clientID: process.env.VUE_APP_AUTH0_CONFIG_CLIENTID,
-      redirectUri: process.env.VUE_APP_DOMAINURL + "/authcallback",
-      audience: "auth.staplepuck.com",
+      redirectUri: process.env.VUE_APP_AUTH0_CONFIG_CALLBACKURL,
+      audience: process.env.VUE_APP_AUTH0_CONFIG_AUD,
       responseType: process.env.VUE_APP_AUTH0_CONFIG_RESPONSETYPE,
       scope: process.env.VUE_APP_AUTH0_CONFIG_SCOPE
     })
