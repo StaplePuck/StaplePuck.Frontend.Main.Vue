@@ -29,7 +29,7 @@ Vue.component("b-list-group-item", BListGroupItem);
 Vue.use(VueApollo);
 
 const httpLink = new HttpLink({
-  uri: "https://api.staplepuck.com/graphql"
+  uri: process.env.VUE_APP_GRAPHQL_CLIENT
 });
 
 const authLink = new ApolloLink((operation, forward) => {
