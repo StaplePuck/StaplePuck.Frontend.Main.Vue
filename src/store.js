@@ -9,11 +9,12 @@ export default new Vuex.Store({
   state: {
     userIsAuthorized: false,
     auth0: new auth0.WebAuth({
-      domain: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN,
-      clientID: process.env.VUE_APP_AUTH0_CONFIG_CLIENTID,
-      redirectUri: process.env.VUE_APP_DOMAINURL + "/authcallback",
-      responseType: process.env.VUE_APP_AUTH0_CONFIG_RESPONSETYPE,
-      scope: process.env.VUE_APP_AUTH0_CONFIG_SCOPE
+      domain: "staplepuck.auth0.com",
+      clientID: "LMz8BpoP7nUZz5YD01QfR6Qi9eGKgYaU",
+      redirectUri: "http://localhost:8080/authcallback",
+      audience: "auth.staplepuck.com",
+      responseType: "token id_token",
+      scope: "openid"
     })
   },
   mutations: {
@@ -28,15 +29,14 @@ export default new Vuex.Store({
     auth0HandleAuthentication(context) {
       context.state.auth0.parseHash((err, authResult) => {
         if (authResult && authResult.accessToken && authResult.idToken) {
+          console.log(authResult);
           let expiresAt = JSON.stringify(
             authResult.expiresIn * 1000 + new Date().getTime()
           );
-          // save the tokens locally
           localStorage.setItem("access_token", authResult.accessToken);
           localStorage.setItem("id_token", authResult.idToken);
           localStorage.setItem("expires_at", expiresAt);
           router.replace("/");
-          this.$token = authResult.accessToken;
         } else if (err) {
           alert("login failed");
           router.replace("/");

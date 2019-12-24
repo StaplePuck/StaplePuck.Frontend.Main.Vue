@@ -29,26 +29,21 @@ Vue.component("b-list-group-item", BListGroupItem);
 Vue.use(VueApollo);
 
 const httpLink = new HttpLink({
-  uri: "http://api.staplepuck.com/graphql"
+  uri: "https://api.staplepuck.com/graphql"
 });
 
 const authLink = new ApolloLink((operation, forward) => {
-  // Retrieve the authorization token from local storage.
-  const token = localStorage.getItem("access_token");
-
-  // Use the setContext method to set the HTTP headers.
+  const token = localStorage.getItem("id_token");
   operation.setContext({
     headers: {
       authorization: token ? `Bearer ${token}` : null
     }
   });
-
-  // Call the next link in the middleware chain.
   return forward(operation);
 });
 
 const apolloClient = new ApolloClient({
-  link: authLink.concat(httpLink), // Chain it with the HttpLink
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   connectToDevTools: true
 });
