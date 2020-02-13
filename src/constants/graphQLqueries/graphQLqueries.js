@@ -30,3 +30,15 @@ export const QUERY_USER_PROFILE = gql`
     }
   }
 `
+
+export const UPDATE_USER_PROFILE = gql`
+  mutation ($user: UserInput!) {
+    updateUser(
+      user: $user
+    ) {
+      id
+      success
+      message
+    }
+  }
+`
