@@ -3,8 +3,8 @@
     <div class="row align-items-center profile-header">
       <div class="col-md text-center">
         <h2>StaplePuck Profile</h2>
-        <UserProfile/>
       </div>
+      <UserProfile/>
     </div>
   </div>
 </template>

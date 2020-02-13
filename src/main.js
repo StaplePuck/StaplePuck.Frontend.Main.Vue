@@ -16,7 +16,15 @@ import {
   BCardText,
   BCardHeader,
   BListGroup,
-  BListGroupItem
+  BListGroupItem,
+  BRow,
+  BCol,
+  BForm,
+  BFormGroup,
+  BFormInput,
+  BFormRadioGroup,
+  BFormRadio,
+  BButton
 } from "bootstrap-vue";
 
 Vue.config.productionTip = false;
@@ -26,6 +34,14 @@ Vue.component("b-card-text", BCardText);
 Vue.component("b-card-header", BCardHeader);
 Vue.component("b-list-group", BListGroup);
 Vue.component("b-list-group-item", BListGroupItem);
+Vue.component("b-row", BRow);
+Vue.component("b-col", BCol);
+Vue.component("b-form", BForm);
+Vue.component("b-form-group", BFormGroup);
+Vue.component("b-input", BFormInput);
+Vue.component("b-form-radio-group", BFormRadioGroup);
+Vue.component("b-form-radio", BFormRadio);
+Vue.component("b-button", BButton);
 Vue.use(VueApollo);
 
 const httpLink = new HttpLink({
