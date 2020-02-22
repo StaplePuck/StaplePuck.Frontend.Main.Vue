@@ -17,7 +17,7 @@
           <b-form-group
             label-cols-sm="3"
             label="Receive Emails:"
-            label-align-sm="right" 
+            label-align-sm="right"
             class="mb-0"
             label-for="userReceiveEmails"
           >
@@ -25,7 +25,7 @@
               class="pt-2"
               id="userReceiveEmails"
               name="receiveEmails"
-              v-model="currentUser.receiveEmails" 
+              v-model="currentUser.receiveEmails"
             >
               <b-form-radio value="true">Yes</b-form-radio>
               <b-form-radio value="false">No</b-form-radio>
@@ -36,7 +36,6 @@
           </div>
         </b-form>
       </div>
-      
     </div>
   </div>
 </template>
@@ -63,12 +62,12 @@ export default {
       this.$apollo.mutate({
         mutation: UPDATE_USER_PROFILE,
         variables: {
-          user: {  
+          user: {
             email: userEmail.value,
             receiveEmails: this.receiveEmails
           }
         }
-      })
+      });
     }
   }
 };
