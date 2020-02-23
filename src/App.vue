@@ -21,10 +21,26 @@
 </template>
 
 <script>
+import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
+
 export default {
   data () {
     return {
       clientId: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN
+    }
+  },
+  apollo: {
+    currentUser: {
+      query: QUERY_USER_PROFILE,
+      skip() {
+        return !this.$store.state.userIsAuthorized;
+      },
+      result ({ data, loading, networkStatus }) {
+        console.log('yooo')
+        if (data.currentUser == null || data.currentUser.name == null) {
+          this.$router.push('/user')
+        }
+      }
     }
   },
   methods: {
