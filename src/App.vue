@@ -6,16 +6,27 @@
         v-if="!this.$store.state.userIsAuthorized"
         id="qsLoginBtn"
         @click.prevent="login"
-      >Login</a>
-      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
+      >
+        Login
+      </a>
+      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">
+        My Profile
+      </router-link>
       <span v-if="this.$store.state.userIsAuthorized">&nbsp;|&nbsp;</span>
       <a
         v-if="this.$store.state.userIsAuthorized"
         id="qsLoginBtn"
         @click.prevent="logout"
-      >Log Out</a>
+      >
+        Log Out
+      </a>
     </div>
-    <img alt="StaplePuck logo" src="./assets/StaplePuck-Logo.png" width="200" height="200" />
+    <img
+      alt="StaplePuck logo"
+      src="./assets/StaplePuck-Logo.png"
+      width="200"
+      height="200"
+    />
     <router-view />
   </div>
 </template>
@@ -24,10 +35,10 @@
 import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
 
 export default {
-  data () {
+  data() {
     return {
       clientId: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN
-    }
+    };
   },
   apollo: {
     currentUser: {
@@ -35,20 +46,19 @@ export default {
       skip() {
         return !this.$store.state.userIsAuthorized;
       },
-      result ({ data, loading, networkStatus }) {
-        console.log('yooo')
+      result({ data }) {
         if (data.currentUser == null || data.currentUser.name == null) {
-          this.$router.push('/user')
+          this.$router.push("/newUser");
         }
       }
     }
   },
   methods: {
     login() {
-      this.$store.dispatch('auth0Login');
+      this.$store.dispatch("auth0Login");
     },
     logout() {
-      this.$store.dispatch('auth0Logout');
+      this.$store.dispatch("auth0Logout");
       this.$router.push({ path: "/" });
     }
   }

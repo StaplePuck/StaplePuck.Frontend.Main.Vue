@@ -1,24 +1,24 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const QUERY_ALL_LEAGUES = gql`
   {
     leagues {
+      id
+      name
+      description
+      announcement
+      allowMultipleTeams
+      season {
         id
-        name
-        description
-        announcement
-        allowMultipleTeams
-        season {
-            id
-            fullName
-            sport {
-                name
-                id
-            }
+        fullName
+        sport {
+          name
+          id
         }
+      }
     }
   }
-`
+`;
 
 export const QUERY_USER_PROFILE = gql`
   {
@@ -29,16 +29,14 @@ export const QUERY_USER_PROFILE = gql`
       receiveEmails
     }
   }
-`
+`;
 
 export const UPDATE_USER_PROFILE = gql`
-  mutation ($user: UserInput!) {
-    updateUser(
-      user: $user
-    ) {
+  mutation($user: UserInput!) {
+    updateUser(user: $user) {
       id
       success
       message
     }
   }
-`
+`;
