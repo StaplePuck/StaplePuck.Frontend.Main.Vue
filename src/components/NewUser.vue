@@ -1,10 +1,25 @@
 <template>
   <div class="container">
+    <p>
+      Welcome to StaplePuck. In order to continue you will need to define a
+      handle that you want to go by and your email address to receive updates.
+      Note that the handle is not the same as your team name.
+    </p>
     <b-form @submit="updateUser">
       <div class="text-left">
-        <b>Handle:</b> {{ currentUser.name }}
-        <br />
-        Feel free to update your email preferences
+        <b-form-group
+          label-cols-sm="3"
+          label="Handle:"
+          label-align-sm="right"
+          label-for="userName"
+        >
+          <b-input
+            id="userName"
+            v-model="currentUser.name"
+            required
+            trim
+          ></b-input>
+        </b-form-group>
         <b-form-group
           label-cols-sm="3"
           label="Email Address:"
@@ -48,12 +63,11 @@
 </template>
 
 <script>
-import { QUERY_USER_PROFILE } from "../constants/graphQLqueries/graphQLqueries";
 import { UPDATE_USER_PROFILE } from "../constants/graphQLqueries/graphQLqueries";
 import ServerInputErrors from "./ServerInputErrors";
 
 export default {
-  name: "UserProfile",
+  name: "NewUser",
   components: {
     ServerInputErrors
   },
@@ -65,11 +79,6 @@ export default {
       graphErrorKey: 0
     };
   },
-  apollo: {
-    currentUser: {
-      query: QUERY_USER_PROFILE
-    }
-  },
   methods: {
     updateUser(evt) {
       evt.preventDefault();
@@ -78,6 +87,7 @@ export default {
           mutation: UPDATE_USER_PROFILE,
           variables: {
             user: {
+              name: this.currentUser.name,
               email: this.currentUser.email,
               receiveEmails: this.currentUser.receiveEmails
             }
