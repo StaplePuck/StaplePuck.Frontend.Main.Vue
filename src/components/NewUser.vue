@@ -79,11 +79,6 @@ export default {
       graphErrorKey: 0
     };
   },
-  computed: {
-    nameState() {
-      return this.currentUser.name.length > 0 ? true : false;
-    }
-  },
   methods: {
     updateUser(evt) {
       evt.preventDefault();
