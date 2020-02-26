@@ -11,7 +11,12 @@
           label-align-sm="right"
           label-for="userEmail"
         >
-          <b-input id="userEmail" v-model="currentUser.email"></b-input>
+          <b-input
+            id="userEmail"
+            v-model="currentUser.email"
+            required
+            trim
+          ></b-input>
         </b-form-group>
         <b-form-group
           label-cols-sm="3"

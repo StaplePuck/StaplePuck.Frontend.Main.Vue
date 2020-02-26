@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <p>
+      Welcome to StaplePuck. In order to continue you will need to define a
+      handle that you want to go by and your email address to receive updates.
+      Note that the handle is not the same as your team name.
+    </p>
     <b-form @submit="updateUser">
       <div class="text-left">
         <b-form-group
@@ -8,7 +13,12 @@
           label-align-sm="right"
           label-for="userName"
         >
-          <b-input id="userName" v-model="currentUser.name"></b-input>
+          <b-input
+            id="userName"
+            v-model="currentUser.name"
+            required
+            trim
+          ></b-input>
         </b-form-group>
         <b-form-group
           label-cols-sm="3"
@@ -16,7 +26,12 @@
           label-align-sm="right"
           label-for="userEmail"
         >
-          <b-input id="userEmail" v-model="currentUser.email"></b-input>
+          <b-input
+            id="userEmail"
+            v-model="currentUser.email"
+            required
+            trim
+          ></b-input>
         </b-form-group>
         <b-form-group
           label-cols-sm="3"
@@ -63,6 +78,11 @@ export default {
       newUser: false,
       graphErrorKey: 0
     };
+  },
+  computed: {
+    nameState() {
+      return this.currentUser.name.length > 0 ? true : false;
+    }
   },
   methods: {
     updateUser(evt) {

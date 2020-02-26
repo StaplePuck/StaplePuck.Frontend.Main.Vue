@@ -47,7 +47,11 @@ export default {
         return !this.$store.state.userIsAuthorized;
       },
       result({ data }) {
-        if (data.currentUser == null || data.currentUser.name == null) {
+        if (
+          data.currentUser == null ||
+          data.currentUser.name == null ||
+          data.currentUser.name == ""
+        ) {
           this.$router.push("/newUser");
         }
       }
