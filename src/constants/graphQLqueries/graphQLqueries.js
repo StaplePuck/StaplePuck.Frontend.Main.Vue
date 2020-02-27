@@ -20,6 +20,30 @@ export const QUERY_ALL_LEAGUES = gql`
   }
 `;
 
+export const QUERY_TEAMS_IN_LEAGUE = gql`
+  query getleagues($leagueid: ID) {
+    leagues(id: $leagueid) {
+      id
+      name
+      isLocked
+      paymentInfo
+      announcement
+      allowMultipleTeams
+      fantasyTeams {
+        name
+        id
+        rank
+        score
+        todaysScore
+        gM {
+          externalId
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const QUERY_USER_PROFILE = gql`
   {
     currentUser {

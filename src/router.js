@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import User from "./views/UserProfile.vue";
 import NewUser from "./views/NewUser.vue";
+import League from "./views/LeagueTeams.vue";
 import AuthCallback from "./views/AuthCallback.vue";
 import Store from "./store";
 
@@ -33,6 +34,12 @@ const router = new Router({
       name: "user",
       component: User,
       meta: { requiresAuth: true }
+    },
+    {
+      path: "/league/:id",
+      name: "league",
+      component: League,
+      props: true
     }
   ]
 });
