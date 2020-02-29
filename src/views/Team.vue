@@ -1,14 +1,16 @@
 <template>
   <div class="container">
-    <div v-for="(league, idx) in leagues" :key="idx">
+    <div v-for="(team, idx) in fantasyTeams" :key="idx">
       <div class="row align-items-center profile-header">
         <div class="col-md text-center">
-          <h2>{{ league.name }}</h2>
-          <p>{{ league.announcement }}</p>
+          <h2>{{ team.name }}</h2>
+          League Ranking: {{ team.rank }}<br />
+          Total Score: {{ team.score }}<br />
+          Today's Score: {{ team.todaysScore }}<br />
         </div>
         <b-table
           striped
-          :items="league.fantasyTeams"
+          :items="team.fantasyTeamPlayers"
           :fields="fields"
           :sort-by.sync="sortBy"
         >
@@ -29,49 +31,51 @@
 </template>
 
 <script>
-import { QUERY_TEAMS_IN_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
+import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 
 export default {
-  name: "leagueTeams",
+  name: "team",
   data() {
     return {
-      sortBy: "rank",
+      sortBy: "team",
       fields: [
         {
-          key: "name",
-          label: "Team",
+          key: "player.fullName",
+          label: "Player",
           sortable: true
         },
         {
-          key: "rank",
+          key: "playerSeason.team.name",
+          label: "Team",
           sortable: true,
           sortDirection: "asc"
         },
         {
-          key: "score",
+          key: "playerSeason.positionType.shortName",
+          label: "Position",
           sortable: true
         },
         {
-          key: "todaysScore",
-          label: "Today's Score",
+          key: "playerCalculatedScore.score",
+          label: "Total Points",
           sortable: true
         },
         {
-          key: "gM.name",
-          label: "Team GM",
+          key: "playerCalculatedScore.todaysScore",
+          label: "Today's Points",
           sortable: true
         }
       ],
-      leagues: {}
+      fantasyTeams: {}
     };
   },
   props: ["id"],
   apollo: {
-    leagues: {
-      query: QUERY_TEAMS_IN_LEAGUE,
+    fantasyTeams: {
+      query: QUERY_TEAM,
       variables() {
         return {
-          leagueid: this.id
+          teamid: this.id
         };
       }
     }
