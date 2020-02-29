@@ -15,16 +15,6 @@
           :sort-by.sync="sortBy"
           :tbody-tr-class="rowClass"
         >
-          <template v-slot:cell(name)="{ item, value }">
-            <div v-if="league.isLocked == true">
-              <router-link :to="{ name: 'team', params: { id: item.id } }">{{
-                value
-              }}</router-link>
-            </div>
-            <div v-else>
-              {{ value }}
-            </div>
-          </template>
         </b-table>
       </div>
     </div>
