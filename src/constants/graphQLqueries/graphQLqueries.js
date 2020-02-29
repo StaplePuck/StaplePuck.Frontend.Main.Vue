@@ -61,6 +61,9 @@ export const QUERY_TEAM = gql`
           team {
             name
           }
+          teamStateForSeason {
+            gameState
+          }
           positionType {
             shortName
           }
@@ -81,6 +84,16 @@ export const QUERY_TEAM = gql`
           }
         }
       }
+    }
+  }
+`;
+
+export const QUERY_SCORING_TYPES_FOR_TEAM = gql`
+  query scoringTypes($teamid: Int) {
+    scoringTypeHeadersForTeam(id: $teamid) {
+      id
+      name
+      shortName
     }
   }
 `;
