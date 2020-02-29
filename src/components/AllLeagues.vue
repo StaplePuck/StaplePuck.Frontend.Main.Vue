@@ -1,36 +1,40 @@
 <template>
   <div class="container">
     <h2>{{ msg }}</h2>
-      <b-card-group>
-        <b-card no-body deck v-for="(league, idx) in leagues" :key="idx">
-          <b-card-header>
-            <a href="#" class="card-link">{{ league.name }}</a>
-          </b-card-header>
-          <b-list-group flush>
-            <b-list-group-item>{{ league.season.sport.name }}</b-list-group-item>
-            <b-list-group-item>{{ league.season.fullName }}</b-list-group-item>
-            <b-list-group-item>{{ league.description }}</b-list-group-item>
-          </b-list-group>
-          <p style="color:red;">
-            {{ league.announcement }}
-          </p>
-        </b-card>
-      </b-card-group>
+    <b-card-group>
+      <b-card no-body deck v-for="(league, idx) in leagues" :key="idx">
+        <b-card-header>
+          <router-link
+            :to="{ name: 'league', params: { id: league.id } }"
+            class="card-link"
+            >{{ league.name }}</router-link
+          >
+        </b-card-header>
+        <b-list-group flush>
+          <b-list-group-item>{{ league.season.sport.name }}</b-list-group-item>
+          <b-list-group-item>{{ league.season.fullName }}</b-list-group-item>
+          <b-list-group-item>{{ league.description }}</b-list-group-item>
+        </b-list-group>
+        <p style="color:red;">
+          {{ league.announcement }}
+        </p>
+      </b-card>
+    </b-card-group>
   </div>
 </template>
 
 <script>
-import { QUERY_ALL_LEAGUES } from "../constants/graphQLqueries/graphQLqueries"
+import { QUERY_ALL_LEAGUES } from "../constants/graphQLqueries/graphQLqueries";
 
 export default {
   name: "AllLeagues",
   props: {
     msg: String
   },
-  data () {
+  data() {
     return {
       leagues: []
-    }
+    };
   },
   apollo: {
     leagues: {
