@@ -39,35 +39,7 @@ export default {
   name: "team",
   data() {
     return {
-      sortBy: "team",
-      fields: [
-        {
-          key: "player.fullName",
-          label: "Player",
-          sortable: true
-        },
-        {
-          key: "playerSeason.team.name",
-          label: "Team",
-          sortable: true,
-          sortDirection: "asc"
-        },
-        {
-          key: "playerSeason.positionType.shortName",
-          label: "Position",
-          sortable: true
-        },
-        {
-          key: "playerCalculatedScore.score",
-          label: "Total Points",
-          sortable: true
-        },
-        {
-          key: "playerCalculatedScore.todaysScore",
-          label: "Today's Points",
-          sortable: true
-        }
-      ],
+      sortBy: "teamName",
       fantasyTeams: {}
     };
   },
