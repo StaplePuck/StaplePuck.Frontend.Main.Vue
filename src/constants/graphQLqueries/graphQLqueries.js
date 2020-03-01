@@ -44,6 +44,60 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
   }
 `;
 
+export const QUERY_TEAM = gql`
+  query getFantasty($teamid: ID) {
+    fantasyTeams(id: $teamid) {
+      id
+      name
+      score
+      todaysScore
+      rank
+      fantasyTeamPlayers {
+        player {
+          id
+          fullName
+        }
+        playerSeason {
+          team {
+            name
+          }
+          teamStateForSeason {
+            gameState
+          }
+          positionType {
+            shortName
+          }
+        }
+        playerCalculatedScore {
+          todaysScore
+          score
+          scoring {
+            scoringType {
+              id
+              shortName
+              name
+            }
+            total
+            todaysScore
+            todaysTotal
+            score
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_SCORING_TYPES_FOR_TEAM = gql`
+  query scoringTypes($teamid: Int) {
+    scoringTypeHeadersForTeam(id: $teamid) {
+      id
+      name
+      shortName
+    }
+  }
+`;
+
 export const QUERY_USER_PROFILE = gql`
   {
     currentUser {

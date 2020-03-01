@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import User from "./views/UserProfile.vue";
 import NewUser from "./views/NewUser.vue";
 import League from "./views/LeagueTeams.vue";
+import Team from "./views/Team.vue";
 import AuthCallback from "./views/AuthCallback.vue";
 import Store from "./store";
 
@@ -39,6 +40,12 @@ const router = new Router({
       path: "/league/:id",
       name: "league",
       component: League,
+      props: true
+    },
+    {
+      path: "/team/:id",
+      name: "team",
+      component: Team,
       props: true
     }
   ]

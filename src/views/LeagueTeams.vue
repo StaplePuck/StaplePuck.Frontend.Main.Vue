@@ -11,10 +11,11 @@
           :items="league.fantasyTeams"
           :fields="fields"
           :sort-by.sync="sortBy"
+          :small="true"
         >
           <template v-slot:cell(name)="{ item, value }">
             <div v-if="league.isLocked == true">
-              <router-link :to="{ name: 'league', params: { id: item.id } }">{{
+              <router-link :to="{ name: 'team', params: { id: item.id } }">{{
                 value
               }}</router-link>
             </div>
