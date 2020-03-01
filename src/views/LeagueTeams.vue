@@ -11,6 +11,7 @@
           :items="league.fantasyTeams"
           :fields="fields"
           :sort-by.sync="sortBy"
+          :small="true"
         >
           <template v-slot:cell(name)="{ item, value }">
             <div v-if="league.isLocked == true">
