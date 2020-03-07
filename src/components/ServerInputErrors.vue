@@ -2,7 +2,11 @@
   <div class="container" v-if="cleanedMessages">
     Address the following:
     <b-list-group>
-      <b-list-group-item v-for="message in cleanedMessages" variant="danger">
+      <b-list-group-item
+        v-for="(message, idx) in cleanedMessages"
+        :key="idx"
+        variant="danger"
+      >
         {{ message }}
       </b-list-group-item>
     </b-list-group>
@@ -24,6 +28,9 @@ export default {
         return null;
       }
       const errors = this.graphError.graphQLErrors;
+      if (errors == null) {
+        return null;
+      }
       const messages = [];
       var i;
       for (i = 0; i < errors.length; i++) {
