@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    ID: {{ id }}
     <div v-for="(league, idx) in leagues" :key="idx">
       <div class="row align-items-center profile-header">
         <div class="col-md text-center">
