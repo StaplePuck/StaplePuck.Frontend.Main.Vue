@@ -26,8 +26,7 @@ import {
   BFormRadio,
   BButton,
   BTable,
-  BFormSelect,
-  BFormSelectOption
+  BFormSelect
 } from "bootstrap-vue";
 
 Vue.config.productionTip = false;
@@ -45,7 +44,6 @@ Vue.component("b-input", BFormInput);
 Vue.component("b-form-radio-group", BFormRadioGroup);
 Vue.component("b-form-radio", BFormRadio);
 Vue.component("b-form-select", BFormSelect);
-Vue.component("b-form-select-option", BFormSelectOption);
 Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
 Vue.use(VueApollo);
