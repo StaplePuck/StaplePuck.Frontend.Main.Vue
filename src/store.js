@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userIsAuthorized: false,
+    userSub: "",
     auth0: new auth0.WebAuth({
       domain: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN,
       clientID: process.env.VUE_APP_AUTH0_CONFIG_CLIENTID,
@@ -35,6 +36,8 @@ export default new Vuex.Store({
           localStorage.setItem("access_token", authResult.accessToken);
           localStorage.setItem("id_token", authResult.idToken);
           localStorage.setItem("expires_at", expiresAt);
+          localStorage.setItem("user_sub", authResult.idTokenPayload.sub);
+          localStorage.setItem("user_scope", authResult.scope);
           router.replace("/");
         } else if (err) {
           alert("login failed");
@@ -47,6 +50,8 @@ export default new Vuex.Store({
       localStorage.removeItem("access_token");
       localStorage.removeItem("id_token");
       localStorage.removeItem("expires_at");
+      localStorage.removeItem("user_sub");
+      localStorage.removeItem("user_scope");
       window.location.href = "/";
     }
   }

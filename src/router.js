@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import User from "./views/UserProfile.vue";
+import NewTeam from "./views/NewTeam.vue";
+import EditTeam from "./views/EditTeam.vue";
 import NewUser from "./views/NewUser.vue";
 import League from "./views/LeagueTeams.vue";
 import Team from "./views/Team.vue";
@@ -41,6 +43,20 @@ const router = new Router({
       name: "league",
       component: League,
       props: true
+    },
+    {
+      path: "/league/:id/newTeam",
+      name: "newTeam",
+      component: NewTeam,
+      props: true,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/team/:id/edit",
+      name: "editTeam",
+      component: EditTeam,
+      props: true,
+      meta: { requiresAuth: true }
     },
     {
       path: "/team/:id",

@@ -44,7 +44,9 @@ export default {
     currentUser: {
       query: QUERY_USER_PROFILE,
       skip() {
-        return !this.$store.state.userIsAuthorized;
+        return (
+          !this.$store.state.userIsAuthorized || this.$route.name == "newUser"
+        );
       },
       result({ data }) {
         if (
@@ -54,7 +56,8 @@ export default {
         ) {
           this.$router.push("/newUser");
         }
-      }
+      },
+      error() {}
     }
   },
   methods: {

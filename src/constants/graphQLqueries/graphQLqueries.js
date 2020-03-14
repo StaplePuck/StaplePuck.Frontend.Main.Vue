@@ -118,3 +118,64 @@ export const UPDATE_USER_PROFILE = gql`
     }
   }
 `;
+
+export const CREATE_TEAM = gql`
+  mutation($fantasyTeam: FantasyTeamInput!) {
+    createFantasyTeam(fantasyTeam: $fantasyTeam) {
+      id
+      message
+      success
+    }
+  }
+`;
+
+export const SET_TEAM_LINEUP = gql`
+  mutation($fantasyTeam: FantasyTeamUpdateInput!) {
+    updateFantasyTeam(fantasyTeam: $fantasyTeam) {
+      id
+      success
+      message
+    }
+  }
+`;
+
+export const GET_TEAM_DATA_FOR_EDIT = gql`
+  query getTeam($teamid: ID) {
+    fantasyTeams(id: $teamid) {
+      id
+      name
+      gM {
+        externalId
+        id
+      }
+      fantasyTeamPlayers {
+        player {
+          id
+        }
+      }
+      league {
+        season {
+          id
+          fullName
+          teamSeasons {
+            team {
+              locationName
+              fullName
+              id
+            }
+            playerSeasons {
+              player {
+                id
+                fullName
+              }
+              positionType {
+                name
+                shortName
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
