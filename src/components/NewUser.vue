@@ -5,7 +5,8 @@
       handle that you want to go by and your email address to receive updates.
       Note that the handle is not the same as your team name.
     </p>
-    <b-form @submit="updateUser">
+    <h4 v-if="loading">Loading...</h4>
+    <b-form v-else @submit="updateUser">
       <div class="text-left">
         <b-form-group
           label-cols-sm="3"
@@ -76,7 +77,8 @@ export default {
       currentUser: { name: "", email: "", receiveEmails: true },
       graphError: Object,
       newUser: false,
-      graphErrorKey: 0
+      graphErrorKey: 0,
+      loading: 0
     };
   },
   methods: {

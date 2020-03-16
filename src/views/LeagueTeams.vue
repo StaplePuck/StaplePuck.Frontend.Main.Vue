@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div v-for="(league, idx) in leagues" :key="idx">
+    <h4 v-if="loading">Loading...</h4>
+    <div v-else v-for="(league, idx) in leagues" :key="idx">
       <div class="row align-items-center profile-header">
         <div class="col-md text-center">
           <h2>{{ league.name }}</h2>
@@ -85,7 +86,8 @@ export default {
           sortable: true
         }
       ],
-      leagues: {}
+      leagues: {},
+      loading: 0
     };
   },
   props: ["id"],

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div v-for="(team, idx) in fantasyTeams" :key="idx">
+    <h4 v-if="loading">Loading...</h4>
+    <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div class="row align-items-center profile-header">
         <div class="col-md text-center">
           <h2>{{ team.name }}</h2>
@@ -59,7 +60,8 @@ export default {
       selected: {},
       teamOptions: {},
       graphError: null,
-      graphErrorKey: 0
+      graphErrorKey: 0,
+      loading: 0
     };
   },
   computed: {
