@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="row align-items-center profile-header" v-if="leagues[0]">
+    <h4 v-if="loading">Loading...</h4>
+    <div v-else class="row align-items-center profile-header">
       <div class="col-md text-center">
         <h2>Create a team for the {{ leagues[0].name }}</h2>
       </div>
@@ -89,7 +90,8 @@ export default {
       leagues: {},
       newTeam: { name: "" },
       graphError: null,
-      graphErrorKey: 0
+      graphErrorKey: 0,
+      loading: 0
     };
   },
   methods: {

@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <b-form @submit="updateUser">
+    <h4 v-if="loading">Loading...</h4>
+    <b-form v-else @submit="updateUser">
       <div class="text-left">
         <b>Handle:</b> {{ currentUser.name }}
         <br />
@@ -62,7 +63,8 @@ export default {
       currentUser: { name: "", email: "", receiveEmails: true },
       graphError: Object,
       newUser: false,
-      graphErrorKey: 0
+      graphErrorKey: 0,
+      loading: 0
     };
   },
   apollo: {
