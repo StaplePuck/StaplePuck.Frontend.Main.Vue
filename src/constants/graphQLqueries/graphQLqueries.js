@@ -36,6 +36,7 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
         score
         todaysScore
         gM {
+          id
           externalId
           name
         }
