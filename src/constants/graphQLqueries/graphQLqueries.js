@@ -36,6 +36,7 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
         score
         todaysScore
         gM {
+          id
           externalId
           name
         }
@@ -52,6 +53,10 @@ export const QUERY_TEAM = gql`
       score
       todaysScore
       rank
+      league {
+        id
+        isLocked
+      }
       fantasyTeamPlayers {
         player {
           id
@@ -154,6 +159,8 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
         }
       }
       league {
+        id
+        isLocked
         season {
           id
           fullName
@@ -174,6 +181,35 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_LEAGUE_RULES = gql`
+  query getLeagueRules($leagueId: ID) {
+    leagues(id: $leagueId) {
+      id
+      scoringRules {
+        scoringType {
+          id
+          name
+          shortName
+        }
+        positionType {
+          id
+          name
+          shortName
+        }
+        pointsPerScore
+      }
+      numberPerPositions {
+        count
+        positionType {
+          id
+          name
+          shortName
         }
       }
     }

@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       sortBy: "teamName",
-      fantasyTeams: {},
+      fantasyTeams: null,
       loading: 0
     };
   },
@@ -121,6 +121,14 @@ export default {
         return {
           teamid: this.id
         };
+      },
+      result() {
+        if (this.fantasyTeams == null) {
+          return;
+        }
+        if (this.fantasyTeams[0].league.isLocked == false) {
+          this.$router.push({ name: "unauthorized" });
+        }
       }
     },
     scoringTypeHeadersForTeam: {

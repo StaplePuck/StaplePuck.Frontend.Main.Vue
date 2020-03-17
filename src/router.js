@@ -9,6 +9,7 @@ import League from "./views/LeagueTeams.vue";
 import Team from "./views/Team.vue";
 import AuthCallback from "./views/AuthCallback.vue";
 import Store from "./store";
+import Unauthorized from "./views/Unauthorized.vue";
 
 Vue.use(Router);
 
@@ -63,6 +64,11 @@ const router = new Router({
       name: "team",
       component: Team,
       props: true
+    },
+    {
+      path: "/unauthorized",
+      name: "unauthorized",
+      component: Unauthorized
     }
   ]
 });

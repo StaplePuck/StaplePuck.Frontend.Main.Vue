@@ -5,15 +5,7 @@
       <div class="row align-items-center profile-header">
         <div class="col-md text-center">
           <h2>{{ team.name }}</h2>
-          You must selcet one player from each NHL team and the following number
-          of players: 10 Forwards (F), 4 Defenseman (D), and 2 Goalies (G)<br />
-          :Scoring Rules:<br />
-          Forwards - Points per Goal: 3 Points per Assist: 2 <br />
-          Defensemen - Points per Goal: 4 Points per Assist: 3 <br />
-          Goalies - Win: 5 Shutout: 5 Points per Goal: 10 Points per Assist: 4
-          <br />
-          Bonus points - Overtime goal: +5 Series clinching goal: +5 Shorthanded
-          goal: +2 <br />
+          <LeagueRules :leagueId="team.league.id"></LeagueRules>
         </div>
       </div>
       <div class="container">
@@ -49,11 +41,15 @@
 import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import ServerInputErrors from "../components/ServerInputErrors";
+import LeagueRules from "../components/LeagueRules";
+import { UserIsLeagueOwner } from "../userAuthorization";
+import { UserIsTeamOwner } from "../userAuthorization";
 
 export default {
   name: "editTeam",
   components: {
-    ServerInputErrors
+    ServerInputErrors,
+    LeagueRules
   },
   data() {
     return {
@@ -84,6 +80,19 @@ export default {
       result() {
         const list = [];
         var i;
+        if (this.fantasyTeams == null) {
+          return;
+        }
+        if (this.fantasyTeams[0].league.isLocked) {
+          this.$router.push({ name: "unauthorized" });
+        }
+        const scope = localStorage.getItem("user_scope");
+        if (
+          !UserIsLeagueOwner(this.fantasyTeams[0].league.id, scope) &&
+          !UserIsTeamOwner(this.fantasyTeams[0].id, scope)
+        ) {
+          this.$router.push({ name: "unauthorized" });
+        }
         for (i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
           const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
           list.push(fp.player.id);

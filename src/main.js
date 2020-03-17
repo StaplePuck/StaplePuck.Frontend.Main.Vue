@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import {
   BCardGroup,
   BCard,
+  BCardBody,
   BCardText,
   BCardHeader,
   BListGroup,
@@ -32,6 +33,7 @@ import {
 Vue.config.productionTip = false;
 Vue.component("b-card-group", BCardGroup);
 Vue.component("b-card", BCard);
+Vue.component("b-card-body", BCardBody);
 Vue.component("b-card-text", BCardText);
 Vue.component("b-card-header", BCardHeader);
 Vue.component("b-list-group", BListGroup);
