@@ -154,6 +154,7 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
         }
       }
       league {
+        id
         season {
           id
           fullName
@@ -174,6 +175,35 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_LEAGUE_RULES = gql`
+  query getLeagueRules($leagueId: ID) {
+    leagues(id: $leagueId) {
+      id
+      scoringRules {
+        scoringType {
+          id
+          name
+          shortName
+        }
+        positionType {
+          id
+          name
+          shortName
+        }
+        pointsPerScore
+      }
+      numberPerPositions {
+        count
+        positionType {
+          id
+          name
+          shortName
         }
       }
     }
