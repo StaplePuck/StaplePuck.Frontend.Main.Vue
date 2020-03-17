@@ -53,6 +53,10 @@ export const QUERY_TEAM = gql`
       score
       todaysScore
       rank
+      league {
+        id
+        isLocked
+      }
       fantasyTeamPlayers {
         player {
           id
@@ -156,6 +160,7 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
       }
       league {
         id
+        isLocked
         season {
           id
           fullName

@@ -42,6 +42,8 @@ import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueri
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import ServerInputErrors from "../components/ServerInputErrors";
 import LeagueRules from "../components/LeagueRules";
+import { UserIsLeagueOwner } from "../userAuthorization";
+import { UserIsTeamOwner } from "../userAuthorization";
 
 export default {
   name: "editTeam",
@@ -80,6 +82,16 @@ export default {
         var i;
         if (this.fantasyTeams == null) {
           return;
+        }
+        if (this.fantasyTeams[0].league.isLocked) {
+          this.$router.push({ name: "unauthorized" });
+        }
+        const scope = localStorage.getItem("user_scope");
+        if (
+          !UserIsLeagueOwner(this.fantasyTeams[0].league.id, scope) &&
+          !UserIsTeamOwner(this.fantasyTeams[0].id, scope)
+        ) {
+          this.$router.push({ name: "unauthorized" });
         }
         for (i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
           const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
