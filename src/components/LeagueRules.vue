@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4>League Rules</h4>
+    <h5>League Rules</h5>
     <h4 v-if="loading">Loading Rules...</h4>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
       <b-card-group>
