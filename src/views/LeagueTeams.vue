@@ -13,7 +13,9 @@
               Log in to join this league or edit your team.
             </div>
             <div v-else-if="league.allowMultipleTeams">
-              <b-button :to="{ name: 'newTeam', params: { id: id } }"
+              <b-button
+                class="join"
+                :to="{ name: 'newTeam', params: { id: id } }"
                 >Join League</b-button
               >
             </div>
@@ -50,6 +52,12 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.join {
+  margin: 0.5em;
+}
+</style>
 
 <script>
 import { QUERY_TEAMS_IN_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
