@@ -53,6 +53,27 @@ export default new Vuex.Store({
       localStorage.removeItem("user_sub");
       localStorage.removeItem("user_scope");
       window.location.href = "/";
+    },
+    auth0Refresh(context) {
+      return new Promise((resolve, reject) => {
+        context.state.auth0.checkSession({}, function(err, authResult) {
+          if (authResult && authResult.accessToken && authResult.idToken) {
+            let expiresAt = JSON.stringify(
+              authResult.expiresIn * 1000 + new Date().getTime()
+            );
+            localStorage.setItem("access_token", authResult.accessToken);
+            localStorage.setItem("id_token", authResult.idToken);
+            localStorage.setItem("expires_at", expiresAt);
+            localStorage.setItem("user_sub", authResult.idTokenPayload.sub);
+            localStorage.setItem("user_scope", authResult.scope);
+            resolve(authResult.accessToken);
+          } else if (err) {
+            alert("login failed");
+            console.log(err);
+            reject(err);
+          }
+        });
+      });
     }
   }
 });
