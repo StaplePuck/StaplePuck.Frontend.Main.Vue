@@ -1,25 +1,20 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>&nbsp;|
+      <router-link to="/">Home</router-link>
+      <span class="pipes">|</span>
       <a
         v-if="!this.$store.state.userIsAuthorized"
         id="qsLoginBtn"
         @click.prevent="login"
-      >
-        Login
-      </a>
-      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">
-        My Profile
-      </router-link>
-      <span v-if="this.$store.state.userIsAuthorized">&nbsp;|&nbsp;</span>
+      >Login</a>
+      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
+      <span class="pipes" v-if="this.$store.state.userIsAuthorized">|</span>
       <a
         v-if="this.$store.state.userIsAuthorized"
         id="qsLoginBtn"
         @click.prevent="logout"
-      >
-        Log Out
-      </a>
+      >Log Out</a>
     </div>
     <img
       alt="StaplePuck logo"
@@ -94,5 +89,8 @@ export default {
       text-decoration: none;
     }
   }
+}
+.pipes {
+  margin: 0.25em;
 }
 </style>

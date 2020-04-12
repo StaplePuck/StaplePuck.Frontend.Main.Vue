@@ -2,10 +2,10 @@
   <div class="container">
     <h4 v-if="loading">Loading...</h4>
     <b-form v-else @submit="updateUser">
+      <b>Handle:</b> {{ currentUser.name }}
+      <br />
+      Feel free to update your email preferences
       <div class="text-left">
-        <b>Handle:</b> {{ currentUser.name }}
-        <br />
-        Feel free to update your email preferences
         <b-form-group
           label-cols-sm="3"
           label="Email Address:"
