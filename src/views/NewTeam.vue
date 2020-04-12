@@ -109,7 +109,9 @@ export default {
         })
         .then(data => {
           const newTeamId = data.data.createFantasyTeam.id;
-          this.$router.push({ name: "editTeam", params: { id: newTeamId } });
+          this.$store.dispatch("auth0Refresh").then(() => {
+            this.$router.push({ name: "editTeam", params: { id: newTeamId } });
+          });
         })
         .catch(error => {
           this.graphError = error;
