@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container rules">
     <h5>League Rules</h5>
     <h4 v-if="loading">Loading Rules...</h4>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
@@ -13,7 +13,7 @@
           <b-card-header>
             {{ position.positionType.name }}
           </b-card-header>
-          <b-card-body>Players Per Position: {{ position.count }} </b-card-body>
+          <b-list-group-item>Players Per Position: {{ position.count }} </b-list-group-item>
           <b-list-group flush>
             <b-list-group-item
               v-for="(rule, idr) in getScoringRules(
@@ -22,7 +22,7 @@
               )"
               :key="idr"
             >
-              {{ rule.scoringType.name }}: {{ rule.pointsPerScore }}
+              {{ rule.scoringType.name }}: {{ rule.pointsPerScore }} points
             </b-list-group-item>
           </b-list-group>
         </b-card>
@@ -33,7 +33,7 @@
               v-for="(rule, idr) in getScoringRules(league.scoringRules, 1)"
               :key="idr"
             >
-              {{ rule.scoringType.name }}: {{ rule.pointsPerScore }}
+              {{ rule.scoringType.name }}: {{ rule.pointsPerScore }} points
             </b-list-group-item>
           </b-list-group>
         </b-card>
@@ -83,3 +83,13 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.rules {
+  margin-bottom: 1em;
+}
+
+.list-group-item {
+  border: 0;
+}
+</style>
