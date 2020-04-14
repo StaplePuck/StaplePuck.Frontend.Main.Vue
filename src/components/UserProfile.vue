@@ -85,6 +85,10 @@ export default {
             }
           }
         })
+        .then(() => {
+          this.graphError = null;
+          this.graphErrorKey += 1;
+        })
         .catch(error => {
           this.graphError = error;
           this.graphErrorKey += 1;
