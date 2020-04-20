@@ -4,7 +4,7 @@
       <div class="col-md text-center">
         <h2>StaplePuck Profile</h2>
       </div>
-      <UserProfile/>
+      <UserProfile />
     </div>
   </div>
 </template>

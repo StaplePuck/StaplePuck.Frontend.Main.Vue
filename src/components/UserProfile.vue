@@ -41,29 +41,20 @@
         </div>
       </div>
     </b-form>
-    <ServerInputErrors
-      :graphError="graphError"
-      :key="graphErrorKey"
-    ></ServerInputErrors>
   </div>
 </template>
 
 <script>
 import { QUERY_USER_PROFILE } from "../constants/graphQLqueries/graphQLqueries";
 import { UPDATE_USER_PROFILE } from "../constants/graphQLqueries/graphQLqueries";
-import ServerInputErrors from "./ServerInputErrors";
+import { DisplayErrors } from "../serverInputErrors";
 
 export default {
   name: "UserProfile",
-  components: {
-    ServerInputErrors
-  },
   data() {
     return {
       currentUser: { name: "", email: "", receiveEmails: true },
-      graphError: Object,
       newUser: false,
-      graphErrorKey: 0,
       loading: 0
     };
   },
@@ -86,12 +77,16 @@ export default {
           }
         })
         .then(() => {
-          this.graphError = null;
-          this.graphErrorKey += 1;
+          this.$bvToast.toast("User information saved", {
+            title: "Success",
+            autoHideDelay: 5000,
+            variant: "success",
+            toaster: "b-toaster-top-center",
+            appendToast: true
+          });
         })
         .catch(error => {
-          this.graphError = error;
-          this.graphErrorKey += 1;
+          DisplayErrors(this.$bvToast, error);
         });
     }
   }

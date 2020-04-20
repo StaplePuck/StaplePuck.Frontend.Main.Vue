@@ -10,6 +10,7 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 import {
   BCardGroup,
   BCard,
@@ -27,7 +28,8 @@ import {
   BFormRadio,
   BButton,
   BTable,
-  BFormSelect
+  BFormSelect,
+  ToastPlugin
 } from "bootstrap-vue";
 
 Vue.config.productionTip = false;
@@ -48,6 +50,7 @@ Vue.component("b-form-radio", BFormRadio);
 Vue.component("b-form-select", BFormSelect);
 Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
+Vue.use(ToastPlugin);
 Vue.use(VueApollo);
 
 const httpLink = new HttpLink({
