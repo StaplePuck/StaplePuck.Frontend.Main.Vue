@@ -33,10 +33,6 @@
             </div>
           </div>
         </b-form>
-        <ServerInputErrors
-          :graphError="graphError"
-          :key="graphErrorKey"
-        ></ServerInputErrors>
       </div>
     </div>
   </div>
@@ -45,13 +41,10 @@
 <script>
 import { QUERY_TEAMS_IN_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import { CREATE_TEAM } from "../constants/graphQLqueries/graphQLqueries";
-import ServerInputErrors from "../components/ServerInputErrors";
+import { DisplayErrors } from "../serverInputErrors";
 
 export default {
   name: "newTeam",
-  components: {
-    ServerInputErrors
-  },
   props: ["id"],
   computed: {
     leagueIsLocked: function() {
@@ -62,7 +55,6 @@ export default {
         return true;
       }
       if (!this.leagues[0].fantasyTeams) {
-        console.log("not sure");
         return false;
       }
       const sub = localStorage.getItem("user_sub");
@@ -89,8 +81,6 @@ export default {
     return {
       leagues: {},
       newTeam: { name: "" },
-      graphError: null,
-      graphErrorKey: 0,
       loading: 0
     };
   },
@@ -114,8 +104,7 @@ export default {
           });
         })
         .catch(error => {
-          this.graphError = error;
-          this.graphErrorKey += 1;
+          DisplayErrors(this.$bvToast, error);
         });
     }
   }

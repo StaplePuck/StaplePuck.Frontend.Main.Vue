@@ -28,10 +28,6 @@
             </div>
           </div>
         </b-form>
-        <ServerInputErrors
-          :graphError="graphError"
-          :key="graphErrorKey"
-        ></ServerInputErrors>
       </div>
     </div>
   </div>
@@ -40,23 +36,20 @@
 <script>
 import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
-import ServerInputErrors from "../components/ServerInputErrors";
 import LeagueRules from "../components/LeagueRules";
 import { UserIsLeagueOwner } from "../userAuthorization";
 import { UserIsTeamOwner } from "../userAuthorization";
+import { DisplayErrors } from "../serverInputErrors";
 
 export default {
   name: "editTeam",
   components: {
-    ServerInputErrors,
     LeagueRules
   },
   data() {
     return {
       selected: {},
       teamOptions: {},
-      graphError: null,
-      graphErrorKey: 0,
       loading: 0
     };
   },
@@ -139,12 +132,23 @@ export default {
           }
         })
         .then(() => {
-          this.graphError = null;
-          this.graphErrorKey += 1;
+          this.$bvToast.toast("Team saved", {
+            title: "Success",
+            autoHideDelay: 5000,
+            variant: "success",
+            toaster: "b-toaster-top-center",
+            appendToast: true
+          });
         })
         .catch(error => {
-          this.graphError = error;
-          this.graphErrorKey += 1;
+          this.$bvToast.toast("Team saved but is not valid", {
+            title: "Warning",
+            autoHideDelay: 5000,
+            variant: "warning",
+            toaster: "b-toaster-top-center",
+            appendToast: true
+          });
+          DisplayErrors(this.$bvToast, error);
         });
     }
   }
