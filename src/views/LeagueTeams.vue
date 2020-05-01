@@ -101,7 +101,7 @@ export default {
   },
   props: ["id"],
   computed: {
-    canJoin: function() {
+    canJoin: function () {
       if (this.leagues[0].allowMultipleTeams) {
         return true;
       }
@@ -116,7 +116,7 @@ export default {
     }
   },
   methods: {
-    canEditTeam: function(teamId) {
+    canEditTeam: function (teamId) {
       const scope = localStorage.getItem("user_scope");
       return (
         UserIsLeagueOwner(this.leagues[0].id, scope) ||

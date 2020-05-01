@@ -8,7 +8,6 @@ import { ApolloClient } from "apollo-client";
 import { ApolloLink } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import {
@@ -29,7 +28,8 @@ import {
   BButton,
   BTable,
   BFormSelect,
-  ToastPlugin
+  ToastPlugin,
+  BFormCheckbox
 } from "bootstrap-vue";
 
 Vue.config.productionTip = false;
@@ -48,6 +48,7 @@ Vue.component("b-input", BFormInput);
 Vue.component("b-form-radio-group", BFormRadioGroup);
 Vue.component("b-form-radio", BFormRadio);
 Vue.component("b-form-select", BFormSelect);
+Vue.component("b-form-checkbox", BFormCheckbox);
 Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
 Vue.use(ToastPlugin);
@@ -87,5 +88,5 @@ new Vue({
   apolloProvider,
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount("#app");

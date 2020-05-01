@@ -45,6 +45,29 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
   }
 `;
 
+export const QUERY_TEAMS_FOR_MANAGE = gql`
+  query getleagues($leagueid: ID) {
+    leagues(id: $leagueid) {
+      id
+      name
+      description
+      announcement
+      isLocked
+      fantasyTeams {
+        id
+        name
+        gM {
+          id
+          name
+          email
+        }
+        isPaid
+        isValid
+      }
+    }
+  }
+`;
+
 export const QUERY_TEAM = gql`
   query getFantasty($teamid: ID) {
     fantasyTeams(id: $teamid) {
