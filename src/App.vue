@@ -1,28 +1,33 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <span class="pipes">|</span>
-      <a
-        v-if="!this.$store.state.userIsAuthorized"
-        id="qsLoginBtn"
-        @click.prevent="login"
-      >Login</a>
-      <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
-      <span class="pipes" v-if="this.$store.state.userIsAuthorized">|</span>
-      <a
-        v-if="this.$store.state.userIsAuthorized"
-        id="qsLoginBtn"
-        @click.prevent="logout"
-      >Log Out</a>
+    <div class="main-content">
+      <div id="nav">
+        <router-link to="/">Home</router-link>
+        <span class="pipes">|</span>
+        <a
+          v-if="!this.$store.state.userIsAuthorized"
+          id="qsLoginBtn"
+          @click.prevent="login"
+        >Login</a>
+        <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
+        <span class="pipes" v-if="this.$store.state.userIsAuthorized">|</span>
+        <a
+          v-if="this.$store.state.userIsAuthorized"
+          id="qsLoginBtn"
+          @click.prevent="logout"
+        >Log Out</a>
+      </div>
+      <img
+        alt="StaplePuck logo"
+        src="./assets/StaplePuck-Logo.png"
+        width="200"
+        height="200"
+      />
+      <router-view />
     </div>
-    <img
-      alt="StaplePuck logo"
-      src="./assets/StaplePuck-Logo.png"
-      width="200"
-      height="200"
-    />
-    <router-view />
+    <footer>
+      <a target="_blank" href="https://www.termsfeed.com/privacy-policy/1d035b59d3dcbf692dbce4eead4ec7d8">Privacy Policy</a>
+    </footer>
   </div>
 </template>
 
@@ -75,6 +80,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #30303c;
+  position: relative;
+  min-height: 100vh;
 }
 #nav {
   padding-top: 15px;
@@ -92,5 +99,16 @@ export default {
 }
 .pipes {
   margin: 0.25em;
+}
+
+.main-content {
+  padding-bottom: 2.5rem;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem; 
 }
 </style>
