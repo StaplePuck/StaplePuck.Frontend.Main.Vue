@@ -24,6 +24,13 @@
           <div v-else>
             League is locked
           </div>
+          <div v-if="canManageLeague">
+            <b-button
+              class="join"
+              :to="{ name: 'leagueManage', params: { id: id } }"
+              >Manage</b-button
+            >
+          </div>
         </div>
         <b-table
           striped
@@ -101,7 +108,11 @@ export default {
   },
   props: ["id"],
   computed: {
-    canJoin: function() {
+    canManageLeague: function () {
+      const scope = localStorage.getItem("user_scope");
+      return UserIsLeagueOwner(this.leagues[0].id, scope);
+    },
+    canJoin: function () {
       if (this.leagues[0].allowMultipleTeams) {
         return true;
       }
@@ -116,7 +127,7 @@ export default {
     }
   },
   methods: {
-    canEditTeam: function(teamId) {
+    canEditTeam: function (teamId) {
       const scope = localStorage.getItem("user_scope");
       return (
         UserIsLeagueOwner(this.leagues[0].id, scope) ||

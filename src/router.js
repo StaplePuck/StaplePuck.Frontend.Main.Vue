@@ -5,6 +5,7 @@ import User from "./views/UserProfile.vue";
 import NewTeam from "./views/NewTeam.vue";
 import EditTeam from "./views/EditTeam.vue";
 import NewUser from "./views/NewUser.vue";
+import LeagueManage from "./views/LeagueManage.vue";
 import League from "./views/LeagueTeams.vue";
 import Team from "./views/Team.vue";
 import AuthCallback from "./views/AuthCallback.vue";
@@ -53,6 +54,13 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
+      path: "/league/:id/manage",
+      name: "leagueManage",
+      component: LeagueManage,
+      props: true,
+      meta: { requiresAuth: true }
+    },
+    {
       path: "/team/:id/edit",
       name: "editTeam",
       component: EditTeam,
@@ -75,7 +83,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // Allow finishing callback url for logging in
-  if (to.matched.some(record => record.path == "/authcallback")) {
+  if (to.matched.some((record) => record.path == "/authcallback")) {
     Store.dispatch("auth0HandleAuthentication");
     next(false);
   }
@@ -98,7 +106,7 @@ router.beforeEach((to, from, next) => {
   Store.commit("setUserIsAuthenticated", routerAuthCheck);
 
   // check if the route to be accessed requires authorizaton
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     // Check if user is Authenticated
     if (routerAuthCheck) {
       // user is Authenticated - allow access

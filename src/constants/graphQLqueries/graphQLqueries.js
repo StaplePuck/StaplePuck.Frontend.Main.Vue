@@ -45,6 +45,31 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
   }
 `;
 
+export const QUERY_TEAMS_FOR_MANAGE = gql`
+  query getleagues($leagueid: ID) {
+    leagues(id: $leagueid) {
+      id
+      name
+      description
+      announcement
+      isLocked
+      allowMultipleTeams
+      paymentInfo
+      fantasyTeams {
+        id
+        name
+        gM {
+          id
+          name
+          email
+        }
+        isPaid
+        isValid
+      }
+    }
+  }
+`;
+
 export const QUERY_TEAM = gql`
   query getFantasty($teamid: ID) {
     fantasyTeams(id: $teamid) {
@@ -127,6 +152,16 @@ export const UPDATE_USER_PROFILE = gql`
 export const CREATE_TEAM = gql`
   mutation($fantasyTeam: FantasyTeamInput!) {
     createFantasyTeam(fantasyTeam: $fantasyTeam) {
+      id
+      message
+      success
+    }
+  }
+`;
+
+export const UPDATE_LEAGUE_INFO = gql`
+  mutation($league: LeagueUpdateInput!) {
+    updateLeague(league: $league) {
       id
       message
       success
