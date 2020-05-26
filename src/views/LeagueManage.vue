@@ -32,7 +32,6 @@
             <b-input
               id="description"
               v-model="league.description"
-              required
               trim
             ></b-input>
           </b-form-group>
@@ -48,6 +47,27 @@
               trim
             ></b-input>
           </b-form-group>
+          <b-form-group
+            label-cols-sm="3"
+            label="Payment Info:"
+            label-align-sm="right"
+            label-for="paymentInfo"
+          >
+            <b-input
+              id="paymentInfo"
+              v-model="league.paymentInfo"
+              trim
+            ></b-input>
+          </b-form-group>
+          <b-form-checkbox
+            id="allowMultipleTeams"
+            v-model="league.allowMultipleTeams"
+            name="allowMultipleTeams"
+            value="true"
+            unchecked-value="false"
+          >
+            Allow Multiple Teams
+          </b-form-checkbox>
           <b-form-checkbox
             id="locked"
             v-model="league.isLocked"
@@ -79,7 +99,7 @@
             <template v-slot:cell(isValid)="{ item }">
               <b-form-checkbox
                 v-model="validCollection[item.id]"
-                name="locked"
+                name="valid"
                 value="true"
                 unchecked-value="false"
                 disabled
@@ -89,7 +109,7 @@
             <template v-slot:cell(isPaid)="{ item }">
               <b-form-checkbox
                 v-model="paidCollection[item.id]"
-                name="locked"
+                name="paid"
                 value="true"
                 unchecked-value="false"
               >
@@ -112,8 +132,12 @@
 </style>
 
 <script>
-import { QUERY_TEAMS_FOR_MANAGE } from "../constants/graphQLqueries/graphQLqueries";
+import {
+  QUERY_TEAMS_FOR_MANAGE,
+  UPDATE_LEAGUE_INFO
+} from "../constants/graphQLqueries/graphQLqueries";
 import { UserIsLeagueOwner } from "../userAuthorization";
+import { DisplayErrors } from "../serverInputErrors";
 
 export default {
   name: "leagueManage",
@@ -180,21 +204,23 @@ export default {
       evt.preventDefault();
 
       var fantasyTeams = [];
+      for (let [id, value] of Object.entries(this.paidCollection)) {
+        fantasyTeams.push({ id: id, isPaid: value });
+      }
       this.$apollo
         .mutate({
-          mutation: CREATE_TEAM,
+          mutation: UPDATE_LEAGUE_INFO,
           variables: {
-            fantasyTeam: {
-              name: this.newTeam.name,
-              leagueId: this.id
+            league: {
+              id: this.id,
+              description: this.leagues[0].description,
+              announcement: this.leagues[0].announcement,
+              paymentInfo: this.leagues[0].paymentInfo,
+              allowMultipleTeams: this.leagues[0].allowMultipleTeams,
+              isLocked: this.leagues[0].isLocked,
+              fantasyTeams: fantasyTeams
             }
           }
-        })
-        .then((data) => {
-          const newTeamId = data.data.createFantasyTeam.id;
-          this.$store.dispatch("auth0Refresh").then(() => {
-            this.$router.push({ name: "editTeam", params: { id: newTeamId } });
-          });
         })
         .catch((error) => {
           DisplayErrors(this.$bvToast, error);

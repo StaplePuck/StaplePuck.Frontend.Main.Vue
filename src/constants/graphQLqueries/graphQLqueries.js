@@ -53,6 +53,8 @@ export const QUERY_TEAMS_FOR_MANAGE = gql`
       description
       announcement
       isLocked
+      allowMultipleTeams
+      paymentInfo
       fantasyTeams {
         id
         name
@@ -150,6 +152,16 @@ export const UPDATE_USER_PROFILE = gql`
 export const CREATE_TEAM = gql`
   mutation($fantasyTeam: FantasyTeamInput!) {
     createFantasyTeam(fantasyTeam: $fantasyTeam) {
+      id
+      message
+      success
+    }
+  }
+`;
+
+export const UPDATE_LEAGUE_INFO = gql`
+  mutation($league: LeagueUpdateInput!) {
+    updateLeague(league: $league) {
       id
       message
       success
