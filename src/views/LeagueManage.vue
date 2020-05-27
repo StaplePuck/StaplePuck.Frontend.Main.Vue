@@ -4,12 +4,6 @@
     <div v-else v-for="(league, idx) in leagues" :key="idx">
       <div class="container">
         <b-form @submit="updateLeague">
-          <!-- <div class="col-md text-center">
-              <h2>{{ league.name }}</h2>
-              <p>{{ league.description }}</p>
-              <p>{{ league.announcement }}</p>
-              <p>{{ league.isLocked }}</p>
-            </div> -->
           <b-form-group
             label-cols-sm="3"
             label="Name:"
@@ -190,6 +184,10 @@ export default {
         var i;
         if (this.leagues == null || this.leagues[0] == null) {
           return;
+        }
+        const scope = localStorage.getItem("user_scope");
+        if (!UserIsLeagueOwner(this.leagues[0].id, scope)) {
+          this.$router.push({ name: "unauthorized" });
         }
         for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
           var ft = this.leagues[0].fantasyTeams[i];
