@@ -1,18 +1,18 @@
 <template>
   <div class="container">
     <h4 v-if="loading">Loading...</h4>
-    <div v-else v-for="(league, idx) in leagues" :key="idx">
+    <div v-else>
       <div class="row align-items-center profile-header">
         <div class="col-md text-center">
-          <h2>{{ league.name }}</h2>
-          <p>{{ league.announcement }}</p>
+          <h2>{{ leagueScores.name }}</h2>
+          <p>{{ leagueScores.announcement }}</p>
         </div>
         <div class="container">
-          <div v-if="league.isLocked == false">
+          <div v-if="leagueScores.isLocked == false">
             <div v-if="!$store.state.userIsAuthorized">
               Log in to join this league or edit your team.
             </div>
-            <div v-else-if="league.allowMultipleTeams">
+            <div v-else-if="leagueScores.allowMultipleTeams">
               <b-button
                 class="join"
                 :to="{ name: 'newTeam', params: { id: id } }"
@@ -34,16 +34,19 @@
         </div>
         <b-table
           striped
-          :items="league.fantasyTeams"
+          :items="leagueScores.fantasyTeams"
           :fields="fields"
           :sort-by.sync="sortBy"
           :small="true"
         >
           <template v-slot:cell(name)="{ item, value }">
-            <div v-if="league.isLocked == true">
-              <router-link :to="{ name: 'team', params: { id: item.id } }">{{
-                value
-              }}</router-link>
+            <div v-if="leagueScores.isLocked == true">
+              <div v-if="!item.isPaid">Team Not Paid For</div>
+              <router-link
+                v-else
+                :to="{ name: 'team', params: { id: item.id } }"
+                >{{ value }}</router-link
+              >
             </div>
             <div v-else-if="canEditTeam(item.id)">
               <router-link :to="{ name: 'editTeam', params: { id: item.id } }"
@@ -54,6 +57,32 @@
               {{ value }}
             </div>
           </template>
+          <template v-slot:cell(score)="{ item, value }">
+            <div v-if="item.isPaid || !leagueScores.isLocked">
+              {{ value }}
+            </div>
+          </template>
+          <template v-slot:cell(todaysScore)="{ item, value }">
+            <div v-if="item.isPaid || !leagueScores.isLocked">
+              {{ value }}
+            </div>
+          </template>
+          <template v-slot:cell(gM.name)="{ item, value }">
+            <div v-if="item.isPaid || !leagueScores.isLocked">
+              {{ value }}
+            </div>
+          </template>
+        </b-table>
+      </div>
+      <div v-if="fantasyTeamsNotPaid">
+        <h4>Teams Not Paid For</h4>
+        <b-table
+          striped
+          :items="fantasyTeamsNotPaid"
+          :fields="notPaidFields"
+          :sort-by.sync="sortBy"
+          :small="true"
+        >
         </b-table>
       </div>
     </div>
@@ -67,7 +96,10 @@
 </style>
 
 <script>
-import { QUERY_TEAMS_IN_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
+import {
+  QUERY_SCORES_IN_LEAGUE,
+  QUERY_NOT_PAID
+} from "../constants/graphQLqueries/graphQLqueries";
 import { UserIsLeagueOwner } from "../userAuthorization";
 import { UserIsTeamOwner } from "../userAuthorization";
 
@@ -102,6 +134,18 @@ export default {
           sortable: true
         }
       ],
+      notPaidFields: [
+        {
+          key: "name",
+          label: "Team",
+          sortable: true
+        },
+        {
+          key: "gM.name",
+          label: "Team GM",
+          sortable: true
+        }
+      ],
       leagues: {},
       loading: 0
     };
@@ -110,16 +154,19 @@ export default {
   computed: {
     canManageLeague: function () {
       const scope = localStorage.getItem("user_scope");
-      return UserIsLeagueOwner(this.leagues[0].id, scope);
+      return UserIsLeagueOwner(this.leagueScores.id, scope);
     },
     canJoin: function () {
-      if (this.leagues[0].allowMultipleTeams) {
+      if (this.leagueScores.allowMultipleTeams) {
         return true;
       }
       const sub = localStorage.getItem("user_sub");
       var i;
-      for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
-        if (this.leagues[0].fantasyTeams[i].gM.externalId == sub) {
+      for (i = 0; i < this.leagueScores.fantasyTeams.length; i++) {
+        if (
+          this.leagueScores.fantasyTeams[i].gM != null &&
+          this.leagueScores.fantasyTeams[i].gM.externalId == sub
+        ) {
           return false;
         }
       }
@@ -130,14 +177,22 @@ export default {
     canEditTeam: function (teamId) {
       const scope = localStorage.getItem("user_scope");
       return (
-        UserIsLeagueOwner(this.leagues[0].id, scope) ||
+        UserIsLeagueOwner(this.leagueScores.id, scope) ||
         UserIsTeamOwner(teamId, scope)
       );
     }
   },
   apollo: {
-    leagues: {
-      query: QUERY_TEAMS_IN_LEAGUE,
+    leagueScores: {
+      query: QUERY_SCORES_IN_LEAGUE,
+      variables() {
+        return {
+          leagueid: this.id
+        };
+      }
+    },
+    fantasyTeamsNotPaid: {
+      query: QUERY_NOT_PAID,
       variables() {
         return {
           leagueid: this.id

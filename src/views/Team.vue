@@ -2,7 +2,10 @@
   <div class="container">
     <h4 v-if="loading">Loading...</h4>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
-      <div class="row align-items-center profile-header">
+      <div v-if="!team.isPaid">
+        Team Not Paid For
+      </div>
+      <div v-else class="row align-items-center profile-header">
         <div class="col-md text-center">
           <h2>{{ team.name }}</h2>
           League Ranking: {{ team.rank }}<br />
@@ -26,7 +29,7 @@
 import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 
-var getScoringData = function(scoring, id) {
+var getScoringData = function (scoring, id) {
   var i;
   for (i = 0; i < scoring.length; i++) {
     if (scoring[i].scoringType.id == id) {
@@ -64,7 +67,7 @@ export default {
         label: "Position",
         sortable: true
       });
-      this.scoringTypeHeadersForTeam.forEach(x => {
+      this.scoringTypeHeadersForTeam.forEach((x) => {
         field.push({
           key: "score" + x.id,
           label: x.shortName
@@ -84,7 +87,7 @@ export default {
     },
     computedData() {
       const data = [];
-      this.fantasyTeams[0].fantasyTeamPlayers.forEach(x => {
+      this.fantasyTeams[0].fantasyTeamPlayers.forEach((x) => {
         var row = {};
         row.fullName = x.player.fullName;
         row.teamName = x.playerSeason.team.name;
@@ -93,7 +96,7 @@ export default {
         row.score = x.playerCalculatedScore.score;
         row.todaysScore = x.playerCalculatedScore.todaysScore;
 
-        this.scoringTypeHeadersForTeam.forEach(s => {
+        this.scoringTypeHeadersForTeam.forEach((s) => {
           var text = "0";
           var scoringData = getScoringData(
             x.playerCalculatedScore.scoring,
