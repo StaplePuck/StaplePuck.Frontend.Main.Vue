@@ -77,6 +77,7 @@ export const QUERY_NOT_PAID = gql`
       id
       name
       gM {
+        id
         name
       }
     }
