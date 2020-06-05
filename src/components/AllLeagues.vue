@@ -3,27 +3,21 @@
     <h4 v-if="loading">Loading...</h4>
     <div v-else>
       <h2>{{ msg }}</h2>
-      <b-card-group>
-        <b-card no-body deck v-for="(league, idx) in leagues" :key="idx">
-          <b-card-header>
-            <router-link
-              :to="{ name: 'league', params: { id: league.id } }"
-              class="card-link"
-              >{{ league.name }}</router-link
-            >
-          </b-card-header>
-          <b-list-group flush>
-            <b-list-group-item>{{
-              league.season.sport.name
-            }}</b-list-group-item>
-            <b-list-group-item>{{ league.season.fullName }}</b-list-group-item>
-            <b-list-group-item>{{ league.description }}</b-list-group-item>
-          </b-list-group>
-          <p style="color:red;">
-            {{ league.announcement }}
-          </p>
-        </b-card>
-      </b-card-group>
+      <div class="card-deck">
+        <div class="card" v-for="(league, idx) in leagues" :key="idx">
+          <div class="card-header">
+            <router-link :to="{ name: 'league', params: { id: league.id } }"
+              >{{ league.name }}
+            </router-link>
+          </div>
+          <div class="card-body">
+            <p>{{ league.season.sport.name }}</p>
+            <p>{{ league.season.fullName }}</p>
+            <p>{{ league.description }}</p>
+            <p style="color: red;">{{ league.announcement }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -50,11 +44,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
 a {
   color: darkblue;
   font-weight: 700;

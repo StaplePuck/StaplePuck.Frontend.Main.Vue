@@ -1,23 +1,23 @@
 <template>
-  <div class="container">
+  <div class="container text-center">
     <h4 v-if="loading">Loading...</h4>
-    <div v-else>
-      <div class="row align-items-center profile-header">
-        <div class="col-md text-center">
-          <h2>{{ leagueScores.name }}</h2>
-          <p>{{ leagueScores.announcement }}</p>
+    <div v-else v-for="(league, idx) in leagues" :key="idx">
+      <div class="row profile-header">
+        <div class="col-md">
+          <h2>{{ league.name }}</h2>
+          <p>{{ league.announcement }}</p>
         </div>
         <div class="container">
           <div v-if="leagueScores.isLocked == false">
             <div v-if="!$store.state.userIsAuthorized">
               Log in to join this league or edit your team.
             </div>
-            <div v-else-if="leagueScores.allowMultipleTeams">
-              <b-button
-                class="join"
-                :to="{ name: 'newTeam', params: { id: id } }"
-                >Join League</b-button
-              >
+            <div v-else-if="league.allowMultipleTeams">
+              <router-link
+                class="btn btn-secondary a-button"
+                :to="{ name: 'newTeam', params: { id: league.id } }"
+                >Join League
+              </router-link>
             </div>
             <div v-else-if="canJoin">Join</div>
           </div>
@@ -25,11 +25,11 @@
             League is locked
           </div>
           <div v-if="canManageLeague">
-            <b-button
-              class="join"
+            <router-link
+              class="btn btn-secondary a-button"
               :to="{ name: 'leagueManage', params: { id: id } }"
-              >Manage</b-button
-            >
+              >Manage
+            </router-link>
           </div>
         </div>
         <b-table
@@ -88,12 +88,6 @@
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.join {
-  margin: 0.5em;
-}
-</style>
 
 <script>
 import {
