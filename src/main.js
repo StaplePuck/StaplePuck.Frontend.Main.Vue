@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import { Auth0Plugin } from "./auth";
 import "./registerServiceWorker";
 import VueApollo from "vue-apollo";
 import { ApolloClient } from "apollo-client";
@@ -31,6 +32,7 @@ import {
   ToastPlugin,
   BFormCheckbox
 } from "bootstrap-vue";
+import { domain, clientId, audience } from "../auth_config.json";
 
 Vue.config.productionTip = false;
 Vue.component("b-card-group", BCardGroup);
@@ -53,6 +55,19 @@ Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
 Vue.use(ToastPlugin);
 Vue.use(VueApollo);
+
+Vue.use(Auth0Plugin, {
+  domain,
+  clientId,
+  audience,
+  onRedirectCallback: (appState) => {
+    router.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname
+    );
+  }
+});
 
 const httpLink = new HttpLink({
   uri: process.env.VUE_APP_GRAPHQL_CLIENT

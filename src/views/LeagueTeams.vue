@@ -153,12 +153,18 @@ export default {
   props: ["id"],
   computed: {
     canManageLeague: function () {
+      if (!this.$store.state.userIsAuthorized) {
+        return false;
+      }
       const scope = localStorage.getItem("user_scope");
       return UserIsLeagueOwner(this.leagueScores.id, scope);
     },
     canJoin: function () {
       if (this.leagueScores.allowMultipleTeams) {
         return true;
+      }
+      if (!this.$store.state.userIsAuthorized) {
+        return false;
       }
       const sub = localStorage.getItem("user_sub");
       var i;
@@ -175,6 +181,9 @@ export default {
   },
   methods: {
     canEditTeam: function (teamId) {
+      if (!this.$store.state.userIsAuthorized) {
+        return false;
+      }
       const scope = localStorage.getItem("user_scope");
       return (
         UserIsLeagueOwner(this.leagueScores.id, scope) ||

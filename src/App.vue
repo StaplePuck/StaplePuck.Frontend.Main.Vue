@@ -5,17 +5,22 @@
         <router-link to="/">Home</router-link>
         <span class="pipes">|</span>
         <a
-          v-if="!this.$store.state.userIsAuthorized"
+          v-if="!$auth.isAuthenticated && !$auth.loading"
           id="qsLoginBtn"
           @click.prevent="login"
         >Login</a>
-        <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
-        <span class="pipes" v-if="this.$store.state.userIsAuthorized">|</span>
+        <router-link v-if="$auth.isAuthenticated" to="/user">My Profile</router-link>
+        <span class="pipes" v-if="$auth.isAuthenticated">|</span>
         <a
-          v-if="this.$store.state.userIsAuthorized"
+          v-if="$auth.isAuthenticated"
           id="qsLoginBtn"
           @click.prevent="logout"
         >Log Out</a>
+        <span class="pipes">|</span>
+        <a
+          id="qsLoginBtn"
+          @click.prevent="test"
+        >Test</a>
       </div>
       <img
         alt="StaplePuck logo"
@@ -63,11 +68,23 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("auth0Login");
+      this.$auth.loginWithRedirect();
+      //this.$store.dispatch("auth0Login");
     },
     logout() {
-      this.$store.dispatch("auth0Logout");
-      this.$router.push({ path: "/" });
+      //console.log(this.$auth.token);
+      this.$auth.logout();
+      //this.$store.dispatch("auth0Logout");
+      //this.$router.push({ path: "/" });
+    },
+    async test() {
+      const accessToken = await this.$auth.getTokenSilently();
+      const claims = await this.$auth.getIdTokenClaims();
+      console.log(accessToken);
+      console.log(claims);
+      console.log(this.$auth.user);
+      const decodedThing = await this.$auth.getDecodedToken();
+      console.log(decodedThing.scope);
     }
   }
 };
