@@ -45,6 +45,45 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
   }
 `;
 
+export const QUERY_SCORES_IN_LEAGUE = gql`
+  query leagueScores($leagueid: Int) {
+    leagueScores(id: $leagueid) {
+      id
+      name
+      isLocked
+      paymentInfo
+      announcement
+      allowMultipleTeams
+      fantasyTeams {
+        name
+        id
+        rank
+        score
+        todaysScore
+        isPaid
+        gM {
+          id
+          externalId
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_NOT_PAID = gql`
+  query fantasyTeamsNotPaid($leagueid: Int) {
+    fantasyTeamsNotPaid(id: $leagueid) {
+      id
+      name
+      gM {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const QUERY_TEAMS_FOR_MANAGE = gql`
   query getleagues($leagueid: ID) {
     leagues(id: $leagueid) {
@@ -78,6 +117,7 @@ export const QUERY_TEAM = gql`
       score
       todaysScore
       rank
+      isPaid
       league {
         id
         isLocked
