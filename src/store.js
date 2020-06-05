@@ -42,6 +42,7 @@ export default new Vuex.Store({
         } else if (err) {
           alert("login failed");
           router.replace("/");
+          //eslint-disable-next-line
           console.log(err);
         }
       });
@@ -56,7 +57,7 @@ export default new Vuex.Store({
     },
     auth0Refresh(context) {
       return new Promise((resolve, reject) => {
-        context.state.auth0.checkSession({}, function(err, authResult) {
+        context.state.auth0.checkSession({}, function (err, authResult) {
           if (authResult && authResult.accessToken && authResult.idToken) {
             let expiresAt = JSON.stringify(
               authResult.expiresIn * 1000 + new Date().getTime()
@@ -69,6 +70,7 @@ export default new Vuex.Store({
             resolve(authResult.accessToken);
           } else if (err) {
             alert("login failed");
+            //eslint-disable-next-line
             console.log(err);
             reject(err);
           }

@@ -1,38 +1,33 @@
 <template>
-  <div class="container">
+  <div class="container justify-content-center">
     <h4 v-if="loading">Loading...</h4>
-    <div v-else class="row align-items-center profile-header">
-      <div class="col-md text-center">
-        <h2>Create a team for the {{ leagues[0].name }}</h2>
-      </div>
+    <div v-else>
+      <h2>Create a team for the {{ leagues[0].name }}</h2>
       <div v-if="leagues[0].isLocked" class="container">
         League is Locked!
       </div>
       <div v-else-if="!canJoin" class="container">
         You already have a team in this league.
       </div>
-      <div v-else class="container">
-        <b-form @submit="createTeam">
-          <div class="text-left">
-            <b-form-group
-              label-cols-sm="3"
-              label="Team Name:"
-              label-align-sm="right"
-              label-for="teamName"
-            >
-              <b-input
-                id="teamName"
-                v-model="newTeam.name"
-                required
-                trim
-              ></b-input>
-            </b-form-group>
-
-            <div class="text-center">
-              <b-button type="submit">Next &gt;</b-button>
-            </div>
+      <div v-else class="form-width">
+        <form @submit="createTeam">
+          <div class="form-group">
+            <label label-for="teamName">Team Name:</label>
+            <input
+              type="text"
+              id="teamName"
+              class="form-control"
+              required
+              trim
+              v-model="newTeam.name"
+            />
+            <input
+              class="btn btn-secondary a-button"
+              type="submit"
+              value="Next >"
+            />
           </div>
-        </b-form>
+        </form>
       </div>
     </div>
   </div>
@@ -47,10 +42,10 @@ export default {
   name: "newTeam",
   props: ["id"],
   computed: {
-    leagueIsLocked: function() {
+    leagueIsLocked: function () {
       return this.leagues[0].isLocked;
     },
-    canJoin: function() {
+    canJoin: function () {
       if (this.leagues[0].allowMultipleTeams) {
         return true;
       }
@@ -97,13 +92,13 @@ export default {
             }
           }
         })
-        .then(data => {
+        .then((data) => {
           const newTeamId = data.data.createFantasyTeam.id;
           this.$store.dispatch("auth0Refresh").then(() => {
             this.$router.push({ name: "editTeam", params: { id: newTeamId } });
           });
         })
-        .catch(error => {
+        .catch((error) => {
           DisplayErrors(this.$bvToast, error);
         });
     }
