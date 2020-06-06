@@ -1,8 +1,5 @@
 import Vue from "vue";
-//import Vuex from "vuex";
 import createAuth0Client from "@auth0/auth0-spa-js";
-
-//Vue.use(Vuex);
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -41,7 +38,6 @@ export const useAuth0 = ({
           this.popupOpen = false;
         }
 
-        alert("popup");
         this.user = await this.auth0Client.getUser();
         this.isAuthenticated = true;
       },
@@ -51,12 +47,6 @@ export const useAuth0 = ({
           await this.auth0Client.handleRedirectCallback();
           this.user = await this.auth0Client.getUser();
           this.isAuthenticated = true;
-          // localStorage.setItem("access_token", authResult.accessToken);
-          // localStorage.setItem("id_token", authResult.idToken);
-          // localStorage.setItem("expires_at", expiresAt);
-          // localStorage.setItem("user_sub", authResult.idTokenPayload.sub);
-          // localStorage.setItem("user_scope", authResult.scope);
-          alert("callback");
         } catch (e) {
           this.error = e;
         } finally {
@@ -84,13 +74,16 @@ export const useAuth0 = ({
       },
       logout(o) {
         return this.auth0Client.logout(o);
+      },
+      checkSession(o) {
+        return this.auth0Client.checkSession(0);
       }
     },
     async created() {
       this.auth0Client = await createAuth0Client({
-        domain: options.domain,
-        client_id: options.clientId,
-        audience: options.audience,
+        domain: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN,
+        client_id: process.env.VUE_APP_AUTH0_CONFIG_CLIENTID,
+        audience: process.env.VUE_APP_AUTH0_CONFIG_AUD,
         redirect_uri
       });
 
@@ -100,14 +93,6 @@ export const useAuth0 = ({
           window.location.search.includes("state=")
         ) {
           const { appState } = await this.auth0Client.handleRedirectCallback();
-          const token = await this.getDecodedToken();
-          console.log(token.scope);
-          const accessToken = await this.$auth.getTokenSilently();
-
-          localStorage.setItem("access_token", accessToken);
-          //localStorage.setItem("id_token", authResult.idToken);
-          //localStorage.setItem("expires_at", expiresAt);
-          localStorage.setItem("user_scope", token.scope);
           onRedirectCallback(appState);
         }
       } catch (e) {

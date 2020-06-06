@@ -16,11 +16,6 @@
           id="qsLoginBtn"
           @click.prevent="logout"
         >Log Out</a>
-        <span class="pipes">|</span>
-        <a
-          id="qsLoginBtn"
-          @click.prevent="test"
-        >Test</a>
       </div>
       <img
         alt="StaplePuck logo"
@@ -69,22 +64,9 @@ export default {
   methods: {
     login() {
       this.$auth.loginWithRedirect();
-      //this.$store.dispatch("auth0Login");
     },
     logout() {
-      //console.log(this.$auth.token);
       this.$auth.logout();
-      //this.$store.dispatch("auth0Logout");
-      //this.$router.push({ path: "/" });
-    },
-    async test() {
-      const accessToken = await this.$auth.getTokenSilently();
-      const claims = await this.$auth.getIdTokenClaims();
-      console.log(accessToken);
-      console.log(claims);
-      console.log(this.$auth.user);
-      const decodedThing = await this.$auth.getDecodedToken();
-      console.log(decodedThing.scope);
     }
   }
 };

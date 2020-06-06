@@ -8,8 +8,6 @@ import NewUser from "./views/NewUser.vue";
 import LeagueManage from "./views/LeagueManage.vue";
 import League from "./views/LeagueTeams.vue";
 import Team from "./views/Team.vue";
-import AuthCallback from "./views/AuthCallback.vue";
-import Store from "./store";
 import Unauthorized from "./views/Unauthorized.vue";
 import { authGuard } from "./auth";
 
