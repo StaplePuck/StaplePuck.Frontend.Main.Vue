@@ -7,7 +7,7 @@ import { setToken } from "./plugins/apollo";
 import { Auth0Plugin, getInstance } from "./auth";
 import "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+
 import {
   BCardGroup,
   BCard,
