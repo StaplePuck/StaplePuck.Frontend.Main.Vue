@@ -1,83 +1,85 @@
 <template>
   <div class="container text-center">
     <h4 v-if="loading">Loading...</h4>
-    <div class="col-md">
-      <h2>{{ leagueScores.name }}</h2>
-      <p>{{ leagueScores.announcement }}</p>
-    </div>
-    <div class="container">
-      <div v-if="!leagueScores.isLocked">
-        <div v-if="!$store.state.userIsAuthorized">
-          Log in to join this league or edit your team.
-        </div>
-        <div v-else-if="canJoin">
-          <router-link
-            class="btn btn-secondary a-button"
-            :to="{ name: 'newTeam', params: { id: id } }"
-            >Join League
-          </router-link>
-        </div>
+    <div v-else>
+      <div class="col-md">
+        <h2>{{ leagueScores.name }}</h2>
+        <p>{{ leagueScores.announcement }}</p>
       </div>
-      <div v-else>
-        League is locked
-      </div>
-      <div v-if="canManageLeague">
-        <router-link
-          class="btn btn-secondary a-button"
-          :to="{ name: 'leagueManage', params: { id: id } }"
-          >Manage
-        </router-link>
-      </div>
-    </div>
-    <b-table
-      striped
-      :items="leagueScores.fantasyTeams"
-      :fields="fields"
-      :sort-by.sync="sortBy"
-      :small="true"
-    >
-      <template v-slot:cell(name)="{ item, value }">
-        <div v-if="leagueScores.isLocked">
-          <div v-if="!item.isPaid">Team Not Paid For</div>
-          <router-link v-else :to="{ name: 'team', params: { id: item.id } }"
-            >{{ value }}
-          </router-link>
-        </div>
-        <div v-else-if="canEditTeam(item.id)">
-          <router-link :to="{ name: 'editTeam', params: { id: item.id } }"
-            >{{ value }}
-          </router-link>
+      <div class="container">
+        <div v-if="!leagueScores.isLocked">
+          <div v-if="!$store.state.userIsAuthorized">
+            Log in to join this league or edit your team.
+          </div>
+          <div v-else-if="canJoin">
+            <router-link
+              class="btn btn-secondary a-button"
+              :to="{ name: 'newTeam', params: { id: id } }"
+              >Join League
+            </router-link>
+          </div>
         </div>
         <div v-else>
-          {{ value }}
+          League is locked
         </div>
-      </template>
-      <template v-slot:cell(score)="{ item, value }">
-        <div v-if="item.isPaid || !leagueScores.isLocked">
-          {{ value }}
+        <div v-if="canManageLeague">
+          <router-link
+            class="btn btn-secondary a-button"
+            :to="{ name: 'leagueManage', params: { id: id } }"
+            >Manage
+          </router-link>
         </div>
-      </template>
-      <template v-slot:cell(todaysScore)="{ item, value }">
-        <div v-if="item.isPaid || !leagueScores.isLocked">
-          {{ value }}
-        </div>
-      </template>
-      <template v-slot:cell(gM.name)="{ item, value }">
-        <div v-if="item.isPaid || !leagueScores.isLocked">
-          {{ value }}
-        </div>
-      </template>
-    </b-table>
-    <div v-if="fantasyTeamsNotPaid">
-      <h4>Teams Not Paid For</h4>
+      </div>
       <b-table
         striped
-        :items="fantasyTeamsNotPaid"
-        :fields="notPaidFields"
+        :items="leagueScores.fantasyTeams"
+        :fields="fields"
         :sort-by.sync="sortBy"
         :small="true"
       >
+        <template v-slot:cell(name)="{ item, value }">
+          <div v-if="leagueScores.isLocked">
+            <div v-if="!item.isPaid">Team Not Paid For</div>
+            <router-link v-else :to="{ name: 'team', params: { id: item.id } }"
+              >{{ value }}
+            </router-link>
+          </div>
+          <div v-else-if="canEditTeam(item.id)">
+            <router-link :to="{ name: 'editTeam', params: { id: item.id } }"
+              >{{ value }}
+            </router-link>
+          </div>
+          <div v-else>
+            {{ value }}
+          </div>
+        </template>
+        <template v-slot:cell(score)="{ item, value }">
+          <div v-if="item.isPaid || !leagueScores.isLocked">
+            {{ value }}
+          </div>
+        </template>
+        <template v-slot:cell(todaysScore)="{ item, value }">
+          <div v-if="item.isPaid || !leagueScores.isLocked">
+            {{ value }}
+          </div>
+        </template>
+        <template v-slot:cell(gM.name)="{ item, value }">
+          <div v-if="item.isPaid || !leagueScores.isLocked">
+            {{ value }}
+          </div>
+        </template>
       </b-table>
+      <div v-if="fantasyTeamsNotPaid">
+        <h4>Teams Not Paid For</h4>
+        <b-table
+          striped
+          :items="fantasyTeamsNotPaid"
+          :fields="notPaidFields"
+          :sort-by.sync="sortBy"
+          :small="true"
+        >
+        </b-table>
+      </div>
     </div>
   </div>
 </template>
