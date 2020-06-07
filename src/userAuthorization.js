@@ -1,7 +1,3 @@
-export const A = () => {
-  // your code
-};
-
 export function UserIsLeagueOwner(leagueId, scope) {
   if (scope == null) {
     return false;

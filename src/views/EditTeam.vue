@@ -54,7 +54,7 @@ export default {
     };
   },
   computed: {
-    proTeams: function() {
+    proTeams: function () {
       var list = this.fantasyTeams[0].league.season.teamSeasons;
       return list.sort((a, b) =>
         a.team.fullName.localeCompare(b.team.fullName)
@@ -70,7 +70,7 @@ export default {
           teamid: this.id
         };
       },
-      result() {
+      async result() {
         const list = [];
         var i;
         if (this.fantasyTeams == null) {
@@ -79,7 +79,7 @@ export default {
         if (this.fantasyTeams[0].league.isLocked) {
           this.$router.push({ name: "unauthorized" });
         }
-        const scope = localStorage.getItem("user_scope");
+        const scope = await this.$auth.getDecodedToken().scope; //localStorage.getItem("user_scope");
         if (
           !UserIsLeagueOwner(this.fantasyTeams[0].league.id, scope) &&
           !UserIsTeamOwner(this.fantasyTeams[0].id, scope)

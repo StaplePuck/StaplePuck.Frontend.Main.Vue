@@ -53,9 +53,7 @@ export default {
     currentUser: {
       query: QUERY_USER_PROFILE,
       skip() {
-        return (
-          !this.$store.state.userIsAuthorized || this.$route.name == "newUser"
-        );
+        return !this.$auth.isAuthenticated || this.$route.name == "newUser";
       },
       result({ data }) {
         if (

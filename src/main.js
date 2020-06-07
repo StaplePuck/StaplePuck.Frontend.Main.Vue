@@ -1,4 +1,5 @@
 import Vue from "vue";
+import AsyncComputed from "vue-async-computed";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -50,6 +51,7 @@ Vue.component("b-form-checkbox", BFormCheckbox);
 Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
 Vue.use(ToastPlugin);
+Vue.use(AsyncComputed);
 
 Vue.use(Auth0Plugin, {
   onRedirectCallback: (appState) => {
