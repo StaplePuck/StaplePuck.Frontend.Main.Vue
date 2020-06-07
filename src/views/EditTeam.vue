@@ -79,10 +79,10 @@ export default {
         if (this.fantasyTeams[0].league.isLocked) {
           this.$router.push({ name: "unauthorized" });
         }
-        const scope = await this.$auth.getDecodedToken().scope; //localStorage.getItem("user_scope");
+        const token = await this.$auth.getDecodedToken();
         if (
-          !UserIsLeagueOwner(this.fantasyTeams[0].league.id, scope) &&
-          !UserIsTeamOwner(this.fantasyTeams[0].id, scope)
+          !UserIsLeagueOwner(this.fantasyTeams[0].league.id, token.scope) &&
+          !UserIsTeamOwner(this.fantasyTeams[0].id, token.scope)
         ) {
           this.$router.push({ name: "unauthorized" });
         }

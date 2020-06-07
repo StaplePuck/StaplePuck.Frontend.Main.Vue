@@ -17,6 +17,10 @@ export function setToken(token) {
   _authToken = token;
 }
 
+export function hasToken() {
+  return _authToken != undefined;
+}
+
 const authLink = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {

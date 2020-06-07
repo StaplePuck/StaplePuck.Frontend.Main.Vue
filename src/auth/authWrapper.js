@@ -60,6 +60,18 @@ export const useAuth0 = ({
         let decodedJwtData = JSON.parse(decodedJwtJsonData);
         return decodedJwtData;
       },
+      async refreshToken() {
+        console.log("Refreshing token");
+        this.loading = true;
+        try {
+          await this.auth0Client.checkSession();
+          this.isAuthenticated = true;
+        } catch (e) {
+          this.error = e;
+        } finally {
+          this.loading = false;
+        }
+      },
       loginWithRedirect(o) {
         return this.auth0Client.loginWithRedirect(o);
       },
@@ -74,9 +86,6 @@ export const useAuth0 = ({
       },
       logout(o) {
         return this.auth0Client.logout(o);
-      },
-      checkSession(o) {
-        return this.auth0Client.checkSession(0);
       }
     },
     async created() {

@@ -180,13 +180,13 @@ export default {
           leagueid: this.id
         };
       },
-      result() {
+      async result() {
         var i;
         if (this.leagues == null || this.leagues[0] == null) {
           return;
         }
-        const scope = localStorage.getItem("user_scope");
-        if (!UserIsLeagueOwner(this.leagues[0].id, scope)) {
+        const token = await this.$auth.getDecodedToken();
+        if (!UserIsLeagueOwner(this.leagues[0].id, token.scope)) {
           this.$router.push({ name: "unauthorized" });
         }
         for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {

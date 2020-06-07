@@ -54,7 +54,11 @@ Vue.use(ToastPlugin);
 Vue.use(AsyncComputed);
 
 Vue.use(Auth0Plugin, {
-  onRedirectCallback: (appState) => {
+  onRedirectCallback: async (appState) => {
+    console.log("yoooo. i am back");
+    const authToken = await instance.getTokenSilently();
+    setToken(authToken);
+    console.log("set that token: " + authToken);
     router.push(
       appState && appState.targetUrl
         ? appState.targetUrl
@@ -66,6 +70,7 @@ Vue.use(Auth0Plugin, {
 const instance = getInstance();
 instance.$watch("loading", async (loading) => {
   if (!loading && instance.isAuthenticated) {
+    console.log("new token again!!!");
     const authToken = await instance.getTokenSilently();
     setToken(authToken);
   }

@@ -9,15 +9,17 @@
             v-if="!$auth.isAuthenticated && !$auth.loading"
             id="qsLoginBtn"
             @click.prevent="login"
-          >Login
+            >Login
           </a>
-          <router-link v-if="$auth.isAuthenticated" to="/user">My Profile</router-link>
+          <router-link v-if="$auth.isAuthenticated" to="/user"
+            >My Profile</router-link
+          >
           <span class="pipes" v-if="$auth.isAuthenticated">|</span>
           <a
             v-if="$auth.isAuthenticated"
             id="qsLoginBtn"
             @click.prevent="logout"
-          >Log Out
+            >Log Out
           </a>
         </div>
         <img
@@ -42,6 +44,7 @@
 
 <script>
 import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
+import { hasToken } from "./plugins/apollo";
 
 export default {
   data() {
@@ -53,7 +56,8 @@ export default {
     currentUser: {
       query: QUERY_USER_PROFILE,
       skip() {
-        return !this.$auth.isAuthenticated || this.$route.name == "newUser";
+        //return true;
+        return !hasToken() || this.$route.name == "newUser";
       },
       result({ data }) {
         if (

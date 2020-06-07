@@ -8,7 +8,7 @@
       </div>
       <div class="container">
         <div v-if="!leagueScores.isLocked">
-          <div v-if="!$store.state.userIsAuthorized">
+          <div v-if="!$auth.isAuthenticated">
             Log in to join this league or edit your team.
           </div>
           <div v-else-if="canJoin">
@@ -158,7 +158,7 @@ export default {
       if (this.$auth.isAuthenticated) {
         return false;
       }
-      const sub = localStorage.getItem("user_sub");
+      const sub = this.$auth.user.sub;
       var i;
       for (i = 0; i < this.leagueScores.fantasyTeams.length; i++) {
         if (
@@ -172,13 +172,14 @@ export default {
     }
   },
   methods: {
-    canEditTeam: function (teamId) {
-      if (!this.$store.state.userIsAuthorized) {
+    canEditTeam: async function (teamId) {
+      if (!this.$auth.isAuthenticated) {
         return false;
       }
-      const scope = localStorage.getItem("user_scope");
+      const token = await this.$auth.getDecodedToken();
       return (
-        UserIsLeagueOwner(this.id, scope) || UserIsTeamOwner(teamId, scope)
+        UserIsLeagueOwner(this.id, token.scope) ||
+        UserIsTeamOwner(teamId, token.scope)
       );
     }
   },
