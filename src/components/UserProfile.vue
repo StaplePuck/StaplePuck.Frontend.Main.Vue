@@ -1,46 +1,46 @@
 <template>
   <div class="container">
     <h4 v-if="loading">Loading...</h4>
-    <b-form v-else @submit="updateUser">
-      <b>Handle:</b> {{ currentUser.name }}
-      <br />
-      Feel free to update your email preferences
-      <div class="text-left">
-        <b-form-group
-          label-cols-sm="3"
-          label="Email Address:"
-          label-align-sm="right"
-          label-for="userEmail"
-        >
-          <b-input
+    <div v-else>
+      <div class="text-center">
+        <p><b>Handle:</b> {{ currentUser.name }}</p>
+        <p>Feel free to update your email preferences</p>
+      </div>
+      <form @submit="updateUser" class="form-width">
+        <div class="form-group">
+          <label label-for="userEmail">Email Adress:</label>
+          <input
+            type="text"
             id="userEmail"
-            v-model="currentUser.email"
+            class="form-control"
             required
             trim
-          ></b-input>
-        </b-form-group>
-        <b-form-group
-          label-cols-sm="3"
-          label="Receive Emails:"
-          label-align-sm="right"
-          class="mb-0"
-          label-for="userReceiveEmails"
-        >
-          <b-form-radio-group
-            class="pt-2"
-            id="userReceiveEmails"
-            name="receiveEmails"
-            v-model="currentUser.receiveEmails"
-          >
-            <b-form-radio value="true">Yes</b-form-radio>
-            <b-form-radio value="false">No</b-form-radio>
-          </b-form-radio-group>
-        </b-form-group>
-        <div class="text-center">
-          <b-button type="submit">Save</b-button>
+            v-model="currentUser.email"
+          />
         </div>
-      </div>
-    </b-form>
+        <label>Receive Emails:</label>
+        <div role="radiogroup" tabindex="-1">
+          <div
+            class="form-check form-check-inline"
+            v-for="(emailOption, key) in emailOptions"
+            :key="key"
+          >
+            <input
+              type="radio"
+              class="form-check-input"
+              name="receiveEmails"
+              :id="'userReceiveEmails_' + key"
+              :value="key"
+              v-model="currentUser.receiveEmails"
+            />
+            <label class="form-check-label" for="'userReceiveEmails_' + key">
+              {{ emailOption }}
+            </label>
+          </div>
+        </div>
+        <input class="btn btn-secondary a-button" type="submit" value="Save" />
+      </form>
+    </div>
   </div>
 </template>
 
@@ -55,7 +55,8 @@ export default {
     return {
       currentUser: { name: "", email: "", receiveEmails: true },
       newUser: false,
-      loading: 0
+      loading: 0,
+      emailOptions: { true: "Yes", false: "No" }
     };
   },
   apollo: {
@@ -85,7 +86,7 @@ export default {
             appendToast: true
           });
         })
-        .catch(error => {
+        .catch((error) => {
           DisplayErrors(this.$bvToast, error);
         });
     }

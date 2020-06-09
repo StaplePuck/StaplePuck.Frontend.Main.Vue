@@ -8,7 +8,7 @@
       </div>
       <div class="container">
         <div v-if="!leagueScores.isLocked">
-          <div v-if="!$auth.isAuthenticated">
+          <div v-if="!$store.state.userIsAuthorized">
             Log in to join this league or edit your team.
           </div>
           <div v-else-if="canJoin">
