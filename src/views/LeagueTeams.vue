@@ -8,7 +8,7 @@
       </div>
       <div class="container">
         <div v-if="!leagueScores.isLocked">
-          <div v-if="!$store.state.userIsAuthorized">
+          <div v-if="!$auth.isAuthenticated">
             Log in to join this league or edit your team.
           </div>
           <div v-else-if="canJoin">
@@ -140,17 +140,14 @@ export default {
     };
   },
   props: ["id"],
-  asyncComputed: {
-    canManageLeague: async function () {
+  computed: {
+    canManageLeague: function () {
       if (!this.$auth.isAuthenticated) {
         return false;
       }
-      const token = await this.$auth.getDecodedToken();
-      console.log(token.scope);
-      return UserIsLeagueOwner(this.id, token.scope);
-    }
-  },
-  computed: {
+      const scope = this.$store.state.userScope;
+      return UserIsLeagueOwner(this.id, scope);
+    },
     canJoin: function () {
       if (this.leagueScores.allowMultipleTeams) {
         return true;
@@ -158,7 +155,7 @@ export default {
       if (this.$auth.isAuthenticated) {
         return false;
       }
-      const sub = this.$auth.user.sub;
+      const sub = this.$store.state.userSub;
       var i;
       for (i = 0; i < this.leagueScores.fantasyTeams.length; i++) {
         if (
@@ -172,14 +169,13 @@ export default {
     }
   },
   methods: {
-    canEditTeam: async function (teamId) {
+    canEditTeam: function (teamId) {
       if (!this.$auth.isAuthenticated) {
         return false;
       }
-      const token = await this.$auth.getDecodedToken();
+      const scope = this.$store.state.userScope;
       return (
-        UserIsLeagueOwner(this.id, token.scope) ||
-        UserIsTeamOwner(teamId, token.scope)
+        UserIsLeagueOwner(this.id, scope) || UserIsTeamOwner(teamId, scope)
       );
     }
   },

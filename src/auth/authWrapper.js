@@ -10,7 +10,7 @@ export const getInstance = () => instance;
 
 export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
-  redirect_uri = window.location.origin,
+  redirectUri = window.location.origin,
   ...options
 }) => {
   if (instance) return instance;
@@ -61,7 +61,6 @@ export const useAuth0 = ({
         return decodedJwtData;
       },
       async refreshToken() {
-        console.log("Refreshing token");
         this.loading = true;
         try {
           await this.auth0Client.checkSession();
@@ -71,6 +70,9 @@ export const useAuth0 = ({
         } finally {
           this.loading = false;
         }
+      },
+      checkSession(o) {
+        return this.auth0Client.checkSession(o);
       },
       loginWithRedirect(o) {
         return this.auth0Client.loginWithRedirect(o);
@@ -93,7 +95,7 @@ export const useAuth0 = ({
         domain: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN,
         client_id: process.env.VUE_APP_AUTH0_CONFIG_CLIENTID,
         audience: process.env.VUE_APP_AUTH0_CONFIG_AUD,
-        redirect_uri
+        redirect_uri: redirectUri
       });
 
       try {
@@ -102,6 +104,7 @@ export const useAuth0 = ({
           window.location.search.includes("state=")
         ) {
           const { appState } = await this.auth0Client.handleRedirectCallback();
+          this.error = null;
           onRedirectCallback(appState);
         }
       } catch (e) {

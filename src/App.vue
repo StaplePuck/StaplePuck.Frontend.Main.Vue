@@ -44,7 +44,6 @@
 
 <script>
 import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
-import { hasToken } from "./plugins/apollo";
 
 export default {
   data() {
@@ -56,8 +55,9 @@ export default {
     currentUser: {
       query: QUERY_USER_PROFILE,
       skip() {
-        //return true;
-        return !hasToken() || this.$route.name == "newUser";
+        return (
+          !this.$store.getters.hasUserToken || this.$route.name == "newUser"
+        );
       },
       result({ data }) {
         if (
@@ -74,10 +74,10 @@ export default {
   },
   methods: {
     login() {
-      this.$auth.loginWithRedirect();
+      this.$store.dispatch("auth0Login");
     },
     logout() {
-      this.$auth.logout();
+      this.$store.dispatch("auth0Logout");
     }
   }
 };

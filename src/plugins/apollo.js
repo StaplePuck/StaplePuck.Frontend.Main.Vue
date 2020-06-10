@@ -13,18 +13,11 @@ const httpLink = new HttpLink({
 
 var _authToken;
 
-export function setToken(token) {
-  _authToken = token;
-}
-
-export function hasToken() {
-  return _authToken != undefined;
-}
-
 const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("access_token");
   operation.setContext({
     headers: {
-      authorization: _authToken ? `Bearer ${_authToken}` : null
+      authorization: token ? `Bearer ${token}` : null
     }
   });
   return forward(operation);

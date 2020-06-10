@@ -4,7 +4,6 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import apolloProvider from "./plugins/apollo";
-import { setToken } from "./plugins/apollo";
 import { Auth0Plugin, getInstance } from "./auth";
 import "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.css";
@@ -30,6 +29,7 @@ import {
   ToastPlugin,
   BFormCheckbox
 } from "bootstrap-vue";
+import { Store } from "vuex";
 
 Vue.config.productionTip = false;
 Vue.component("b-card-group", BCardGroup);
@@ -55,24 +55,13 @@ Vue.use(AsyncComputed);
 
 Vue.use(Auth0Plugin, {
   onRedirectCallback: async (appState) => {
-    console.log("yoooo. i am back");
-    const authToken = await instance.getTokenSilently();
-    setToken(authToken);
-    console.log("set that token: " + authToken);
-    router.push(
-      appState && appState.targetUrl
-        ? appState.targetUrl
-        : window.location.pathname
-    );
-  }
-});
-
-const instance = getInstance();
-instance.$watch("loading", async (loading) => {
-  if (!loading && instance.isAuthenticated) {
-    console.log("new token again!!!");
-    const authToken = await instance.getTokenSilently();
-    setToken(authToken);
+    store.dispatch("auth0HandleAuthentication").then(() => {
+      router.push(
+        appState && appState.targetUrl
+          ? appState.targetUrl
+          : window.location.pathname
+      );
+    });
   }
 });
 

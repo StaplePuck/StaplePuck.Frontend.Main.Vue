@@ -70,7 +70,7 @@ export default {
           teamid: this.id
         };
       },
-      async result() {
+      result() {
         const list = [];
         var i;
         if (this.fantasyTeams == null) {
@@ -79,10 +79,10 @@ export default {
         if (this.fantasyTeams[0].league.isLocked) {
           this.$router.push({ name: "unauthorized" });
         }
-        const token = await this.$auth.getDecodedToken();
+        const scope = this.$store.state.userScope;
         if (
-          !UserIsLeagueOwner(this.fantasyTeams[0].league.id, token.scope) &&
-          !UserIsTeamOwner(this.fantasyTeams[0].id, token.scope)
+          !UserIsLeagueOwner(this.fantasyTeams[0].league.id, scope) &&
+          !UserIsTeamOwner(this.fantasyTeams[0].id, scope)
         ) {
           this.$router.push({ name: "unauthorized" });
         }
