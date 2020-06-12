@@ -3,7 +3,7 @@
     <h4 v-if="loading">Loading...</h4>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div class="row align-items-center profile-header">
-        <div class="col-md text-center">
+        <div class="col-md">
           <h2>{{ team.name }}</h2>
           <LeagueRules :leagueId="team.league.id"></LeagueRules>
         </div>
@@ -54,7 +54,7 @@ export default {
     };
   },
   computed: {
-    proTeams: function() {
+    proTeams: function () {
       var list = this.fantasyTeams[0].league.season.teamSeasons;
       return list.sort((a, b) =>
         a.team.fullName.localeCompare(b.team.fullName)
@@ -140,7 +140,7 @@ export default {
             appendToast: true
           });
         })
-        .catch(error => {
+        .catch((error) => {
           this.$bvToast.toast("Team saved but is not valid", {
             title: "Warning",
             autoHideDelay: 5000,
