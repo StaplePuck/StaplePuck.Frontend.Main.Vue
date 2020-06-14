@@ -8,7 +8,7 @@
       </div>
       <form @submit="updateUser" class="form-width">
         <div class="form-group">
-          <label label-for="userEmail">Email Adress:</label>
+          <label label-for="userEmail">Email Address:</label>
           <input
             type="text"
             id="userEmail"

@@ -2,26 +2,28 @@
   <div id="app">
     <div class="main-content">
       <div class="nav-logo">
-        <div id="nav">
-          <router-link to="/">Home</router-link>
-          <span class="pipes">|</span>
-          <a
-            v-if="!$auth.isAuthenticated && !$auth.loading"
-            id="qsLoginBtn"
-            @click.prevent="login"
-            >Login
-          </a>
-          <router-link v-if="$auth.isAuthenticated" to="/user"
-            >My Profile</router-link
-          >
-          <span class="pipes" v-if="$auth.isAuthenticated">|</span>
-          <a
-            v-if="$auth.isAuthenticated"
-            id="qsLoginBtn"
-            @click.prevent="logout"
-            >Log Out
-          </a>
-        </div>
+        <header>
+          <div id="nav">
+            <router-link to="/">Home</router-link>
+            <span class="pipes">|</span>
+            <a
+              v-if="!$auth.isAuthenticated && !$auth.loading"
+              id="qsLoginBtn"
+              @click.prevent="login"
+              >Login
+            </a>
+            <router-link v-if="$auth.isAuthenticated" to="/user"
+              >My Profile</router-link
+            >
+            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
+            <a
+              v-if="$auth.isAuthenticated"
+              id="qsLoginBtn"
+              @click.prevent="logout"
+              >Log Out
+            </a>
+          </div>
+        </header>
         <img
           alt="StaplePuck logo"
           src="./assets/StaplePuck-Logo.png"
@@ -85,8 +87,15 @@ export default {
 </script>
 
 <style>
+h1 {
+  text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+}
 h2 {
   text-align: center;
+  font-size: 2em;
+  font-weight: 700;
 }
 .a-button {
   margin: 0.5em 0;

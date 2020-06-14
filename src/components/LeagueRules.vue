@@ -96,4 +96,14 @@ export default {
 .list-group-item {
   border: 0;
 }
+
+.card-body {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 </style>
