@@ -99,9 +99,6 @@ const actions = {
 
 // mutations
 const mutations = {
-  setUserIsAuthenticated(state, replacement) {
-    state.userIsAuthorized = replacement;
-  },
   auth_success(state, payload) {
     state.userIsAuthorized = true;
     state.userToken = payload.token;
