@@ -82,10 +82,8 @@ const actions = {
       scope: "Team:"
     };
     var token = await instance.getTokenSilently(options);
-    var token = await instance.getTokenSilently(options);
     const user = instance.user;
     var decodedToken = await instance.getDecodedToken(options);
-    var scope = decodedToken.scope;
 
     localStorage.setItem("user_sub", user.sub);
     localStorage.setItem("user_scope", decodedToken.scope);

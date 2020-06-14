@@ -4,6 +4,7 @@ import { ApolloClient } from "apollo-client";
 import { ApolloLink } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import store from "../store";
 
 Vue.use(VueApollo);
 
@@ -14,7 +15,7 @@ const httpLink = new HttpLink({
 var _authToken;
 
 const authLink = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem("access_token");
+  const token = store.state.auth.userToken;
   operation.setContext({
     headers: {
       authorization: token ? `Bearer ${token}` : null

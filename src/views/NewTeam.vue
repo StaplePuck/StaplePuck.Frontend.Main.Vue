@@ -52,7 +52,7 @@ export default {
       if (!this.leagues[0].fantasyTeams) {
         return false;
       }
-      const sub = localStorage.getItem("user_sub");
+      const sub = this.$store.state.auth.userSub;
       var i;
       for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
         if (this.leagues[0].fantasyTeams[i].gM.externalId == sub) {
