@@ -38,6 +38,18 @@
             </label>
           </div>
         </div>
+        <div v-show="saveSuccess" class="alert alert-success">
+          Save Successful
+        </div>
+        <div v-show="saveFailed" class="alert alert-danger">
+          <p>Save Complete but Not Valid:</p>
+          <p
+            v-for="(thisError, index) in saveErrors"
+            :key="`saveErrors-${index}`"
+          >
+            {{ thisError }}
+          </p>
+        </div>
         <input class="btn btn-secondary a-button" type="submit" value="Save" />
       </form>
     </div>
@@ -56,7 +68,10 @@ export default {
       currentUser: { name: "", email: "", receiveEmails: true },
       newUser: false,
       loading: 0,
-      emailOptions: { true: "Yes", false: "No" }
+      emailOptions: { true: "Yes", false: "No" },
+      saveSuccess: false,
+      saveFailed: false,
+      saveErrors: {}
     };
   },
   apollo: {
@@ -67,6 +82,8 @@ export default {
   methods: {
     updateUser(evt) {
       evt.preventDefault();
+      this.saveSuccess = false;
+      this.saveFailed = false;
       this.$apollo
         .mutate({
           mutation: UPDATE_USER_PROFILE,
@@ -78,16 +95,13 @@ export default {
           }
         })
         .then(() => {
-          this.$bvToast.toast("User information saved", {
-            title: "Success",
-            autoHideDelay: 5000,
-            variant: "success",
-            toaster: "b-toaster-top-center",
-            appendToast: true
-          });
+          this.saveFailed = false;
+          this.saveSuccess = true;
         })
         .catch((error) => {
-          DisplayErrors(this.$bvToast, error);
+          this.saveSuccess = false;
+          this.saveFailed = true;
+          this.saveErrors = DisplayErrors(this.$bvToast, error);
         });
     }
   }

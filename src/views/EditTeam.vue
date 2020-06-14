@@ -129,7 +129,8 @@ export default {
   methods: {
     saveTeam(evt) {
       evt.preventDefault();
-
+      this.saveSuccess = false;
+      this.saveFailed = false;
       var fantasyTeamPlayers = [];
 
       for (let [, value] of Object.entries(this.selected)) {
