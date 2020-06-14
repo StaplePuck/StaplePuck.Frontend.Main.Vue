@@ -130,7 +130,6 @@ import {
   QUERY_TEAMS_FOR_MANAGE,
   UPDATE_LEAGUE_INFO
 } from "../constants/graphQLqueries/graphQLqueries";
-import { UserIsLeagueOwner } from "../userAuthorization";
 import { DisplayErrors } from "../serverInputErrors";
 
 export default {
@@ -185,8 +184,7 @@ export default {
         if (this.leagues == null || this.leagues[0] == null) {
           return;
         }
-        const scope = localStorage.getItem("user_scope");
-        if (!UserIsLeagueOwner(this.leagues[0].id, scope)) {
+        if (!this.$store.getters["auth/userIsLeagueOwner"](this.id)) {
           this.$router.push({ name: "unauthorized" });
         }
         for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {

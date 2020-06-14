@@ -1,13 +1,11 @@
 import Vue from "vue";
+import AsyncComputed from "vue-async-computed";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import apolloProvider from "./plugins/apollo";
+import { Auth0Plugin, getInstance } from "./auth";
 import "./registerServiceWorker";
-import VueApollo from "vue-apollo";
-import { ApolloClient } from "apollo-client";
-import { ApolloLink } from "apollo-link";
-import { HttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
 import "bootstrap/dist/css/bootstrap.css";
 
 import {
@@ -52,35 +50,17 @@ Vue.component("b-form-checkbox", BFormCheckbox);
 Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
 Vue.use(ToastPlugin);
-Vue.use(VueApollo);
+Vue.use(AsyncComputed);
 
-const httpLink = new HttpLink({
-  uri: process.env.VUE_APP_GRAPHQL_CLIENT
-});
-
-const authLink = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem("access_token");
-  operation.setContext({
-    headers: {
-      authorization: token ? `Bearer ${token}` : null
-    }
-  });
-  return forward(operation);
-});
-
-const apolloClient = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-  connectToDevTools: true
-});
-
-const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
-  defaultOptions: {
-    $query: {
-      loadingKey: "loading",
-      fetchPolicy: "cache-and-network"
-    }
+Vue.use(Auth0Plugin, {
+  onRedirectCallback: async (appState) => {
+    store.dispatch("auth/auth0HandleAuthentication").then(() => {
+      router.push(
+        appState && appState.targetUrl
+          ? appState.targetUrl
+          : window.location.pathname
+      );
+    });
   }
 });
 

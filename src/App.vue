@@ -7,18 +7,20 @@
             <router-link to="/">Home</router-link>
             <span class="pipes">|</span>
             <a
-              v-if="!this.$store.state.userIsAuthorized"
+              v-if="!$auth.isAuthenticated && !$auth.loading"
               id="qsLoginBtn"
               @click.prevent="login"
-            >Login
+              >Login
             </a>
-            <router-link v-if="this.$store.state.userIsAuthorized" to="/user">My Profile</router-link>
-            <span class="pipes" v-if="this.$store.state.userIsAuthorized">|</span>
+            <router-link v-if="$auth.isAuthenticated" to="/user"
+              >My Profile</router-link
+            >
+            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
             <a
-              v-if="this.$store.state.userIsAuthorized"
+              v-if="$auth.isAuthenticated"
               id="qsLoginBtn"
               @click.prevent="logout"
-            >Log Out
+              >Log Out
             </a>
           </div>
         </header>
@@ -56,7 +58,8 @@ export default {
       query: QUERY_USER_PROFILE,
       skip() {
         return (
-          !this.$store.state.userIsAuthorized || this.$route.name == "newUser"
+          !this.$store.getters["auth/hasUserToken"] ||
+          this.$route.name == "newUser"
         );
       },
       result({ data }) {
@@ -74,11 +77,10 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("auth0Login");
+      this.$store.dispatch("auth/auth0Login");
     },
     logout() {
-      this.$store.dispatch("auth0Logout");
-      this.$router.push({ path: "/" });
+      this.$store.dispatch("auth/auth0Logout");
     }
   }
 };

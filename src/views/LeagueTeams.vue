@@ -8,7 +8,7 @@
       </div>
       <div class="container">
         <div v-if="!leagueScores.isLocked">
-          <div v-if="!$store.state.userIsAuthorized">
+          <div v-if="!$auth.isAuthenticated">
             Log in to join this league or edit your team.
           </div>
           <div v-else-if="canJoin">
@@ -22,7 +22,7 @@
         <div v-else>
           League is locked
         </div>
-        <div v-if="canManageLeague">
+        <div v-if="$store.getters['auth/userIsLeagueOwner'](id)">
           <router-link
             class="btn btn-secondary a-button"
             :to="{ name: 'leagueManage', params: { id: id } }"
@@ -44,7 +44,7 @@
               >{{ value }}
             </router-link>
           </div>
-          <div v-else-if="canEditTeam(item.id)">
+          <div v-else-if="$store.getters['auth/canEditTeam'](item.id, id)">
             <router-link :to="{ name: 'editTeam', params: { id: item.id } }"
               >{{ value }}
             </router-link>
@@ -89,8 +89,6 @@ import {
   QUERY_SCORES_IN_LEAGUE,
   QUERY_NOT_PAID
 } from "../constants/graphQLqueries/graphQLqueries";
-import { UserIsLeagueOwner } from "../userAuthorization";
-import { UserIsTeamOwner } from "../userAuthorization";
 
 export default {
   name: "leagueTeams",
@@ -141,15 +139,14 @@ export default {
   },
   props: ["id"],
   computed: {
-    canManageLeague: function () {
-      const scope = localStorage.getItem("user_scope");
-      return UserIsLeagueOwner(this.leagueScores.id, scope);
-    },
     canJoin: function () {
       if (this.leagueScores.allowMultipleTeams) {
         return true;
       }
-      const sub = localStorage.getItem("user_sub");
+      if (this.$auth.isAuthenticated) {
+        return false;
+      }
+      const sub = this.$store.state.auth.userSub;
       var i;
       for (i = 0; i < this.leagueScores.fantasyTeams.length; i++) {
         if (
@@ -160,15 +157,6 @@ export default {
         }
       }
       return true;
-    }
-  },
-  methods: {
-    canEditTeam: function (teamId) {
-      const scope = localStorage.getItem("user_scope");
-      return (
-        UserIsLeagueOwner(this.leagueScores.id, scope) ||
-        UserIsTeamOwner(teamId, scope)
-      );
     }
   },
   apollo: {
