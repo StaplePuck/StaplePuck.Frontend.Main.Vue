@@ -94,11 +94,7 @@ export default {
         })
         .then((data) => {
           const newTeamId = data.data.createFantasyTeam.id;
-          console.log("get new token");
-          // this.$auth.refreshToken().then(() => {
-          //   this.$router.push({ name: "editTeam", params: { id: newTeamId } });
-          // });
-          this.$store.dispatch("auth0Refresh").then(() => {
+          this.$store.dispatch("auth/auth0Refresh").then(() => {
             this.$router.push({ name: "editTeam", params: { id: newTeamId } });
           });
         })

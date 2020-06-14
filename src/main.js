@@ -29,7 +29,6 @@ import {
   ToastPlugin,
   BFormCheckbox
 } from "bootstrap-vue";
-import { Store } from "vuex";
 
 Vue.config.productionTip = false;
 Vue.component("b-card-group", BCardGroup);
@@ -55,7 +54,7 @@ Vue.use(AsyncComputed);
 
 Vue.use(Auth0Plugin, {
   onRedirectCallback: async (appState) => {
-    store.dispatch("auth0HandleAuthentication").then(() => {
+    store.dispatch("auth/auth0HandleAuthentication").then(() => {
       router.push(
         appState && appState.targetUrl
           ? appState.targetUrl

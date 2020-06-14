@@ -56,7 +56,8 @@ export default {
       query: QUERY_USER_PROFILE,
       skip() {
         return (
-          !this.$store.getters.hasUserToken || this.$route.name == "newUser"
+          !this.$store.getters["auth/hasUserToken"] ||
+          this.$route.name == "newUser"
         );
       },
       result({ data }) {
@@ -74,10 +75,10 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("auth0Login");
+      this.$store.dispatch("auth/auth0Login");
     },
     logout() {
-      this.$store.dispatch("auth0Logout");
+      this.$store.dispatch("auth/auth0Logout");
     }
   }
 };

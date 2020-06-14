@@ -53,23 +53,12 @@ export const useAuth0 = ({
           this.loading = false;
         }
       },
-      async getDecodedToken() {
-        const jwtToken = await this.auth0Client.getTokenSilently();
+      async getDecodedToken(o) {
+        const jwtToken = await this.auth0Client.getTokenSilently(o);
         let jwtData = jwtToken.split(".")[1];
         let decodedJwtJsonData = window.atob(jwtData);
         let decodedJwtData = JSON.parse(decodedJwtJsonData);
         return decodedJwtData;
-      },
-      async refreshToken() {
-        this.loading = true;
-        try {
-          await this.auth0Client.checkSession();
-          this.isAuthenticated = true;
-        } catch (e) {
-          this.error = e;
-        } finally {
-          this.loading = false;
-        }
       },
       checkSession(o) {
         return this.auth0Client.checkSession(o);
