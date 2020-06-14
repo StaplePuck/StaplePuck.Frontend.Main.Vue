@@ -4,31 +4,43 @@
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div class="row align-items-center profile-header">
         <div class="col-md">
-          <h2>{{ team.name }}</h2>
+          <h1>{{ team.name }}</h1>
           <LeagueRules :leagueId="team.league.id"></LeagueRules>
         </div>
       </div>
-      <div class="container">
-        <b-form @submit="saveTeam">
-          <div class="text-left">
-            <div v-for="(pTeam, idy) in proTeams" :key="idy">
-              <b-form-group label-cols-sm="3" label-align-sm="right">
-                <template v-slot:label>
-                  {{ pTeam.team.fullName }}
-                </template>
-                <b-form-select
-                  :options="teamOptions[pTeam.team.id]"
-                  v-model="selected[pTeam.team.id]"
-                >
-                </b-form-select>
-              </b-form-group>
-            </div>
-            <div class="text-center">
-              <b-button type="submit">Save</b-button>
-            </div>
-          </div>
-        </b-form>
-      </div>
+      <form @submit="saveTeam" class="form-width">
+        <div class="form-group" v-for="(pTeam, idy) in proTeams" :key="idy">
+          <label label-for="'team_' + pTeam.team.id">
+            <b>{{ pTeam.team.fullName }}:</b>
+          </label>
+          <select
+            :id="'team_' + pTeam.team.id"
+            class="form-control"
+            v-model="selected[pTeam.team.id]"
+          >
+            <option
+              v-bind:value="team.value"
+              v-for="(team, idz) in teamOptions[pTeam.team.id]"
+              :key="idz"
+            >
+              {{ team.text }}
+            </option>
+          </select>
+        </div>
+        <div v-show="saveSuccess" class="alert alert-success">
+          Save Successful
+        </div>
+        <div v-show="saveFailed" class="alert alert-danger">
+          <p>Save Complete but Not Valid:</p>
+          <p
+            v-for="(thisError, index) in saveErrors"
+            :key="`saveErrors-${index}`"
+          >
+            {{ thisError }}
+          </p>
+        </div>
+        <input class="btn btn-secondary a-button" type="submit" value="Save" />
+      </form>
     </div>
   </div>
 </template>
@@ -50,7 +62,10 @@ export default {
     return {
       selected: {},
       teamOptions: {},
-      loading: 0
+      loading: 0,
+      saveSuccess: false,
+      saveFailed: false,
+      saveErrors: {}
     };
   },
   computed: {
@@ -132,23 +147,13 @@ export default {
           }
         })
         .then(() => {
-          this.$bvToast.toast("Team saved", {
-            title: "Success",
-            autoHideDelay: 5000,
-            variant: "success",
-            toaster: "b-toaster-top-center",
-            appendToast: true
-          });
+          this.saveFailed = false;
+          this.saveSuccess = true;
         })
         .catch((error) => {
-          this.$bvToast.toast("Team saved but is not valid", {
-            title: "Warning",
-            autoHideDelay: 5000,
-            variant: "warning",
-            toaster: "b-toaster-top-center",
-            appendToast: true
-          });
-          DisplayErrors(this.$bvToast, error);
+          this.saveSuccess = false;
+          this.saveFailed = true;
+          this.saveErrors = DisplayErrors(this.$bvToast, error);
         });
     }
   }
