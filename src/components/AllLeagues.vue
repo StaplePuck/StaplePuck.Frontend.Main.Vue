@@ -2,7 +2,7 @@
   <div class="container">
     <h4 v-if="loading">Loading...</h4>
     <div v-else>
-      <h2>{{ msg }}</h2>
+      <h1>{{ msg }}</h1>
       <div class="card-deck">
         <div class="card" v-for="(league, idx) in leagues" :key="idx">
           <div class="card-header">
