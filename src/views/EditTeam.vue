@@ -3,7 +3,7 @@
     <h4 v-if="loading">Loading...</h4>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div class="row align-items-center profile-header">
-        <div class="col-md text-center">
+        <div class="col-md">
           <h2>{{ team.name }}</h2>
           <LeagueRules :leagueId="team.league.id"></LeagueRules>
         </div>
