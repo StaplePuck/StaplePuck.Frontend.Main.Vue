@@ -7,8 +7,10 @@ export function DisplayErrors(bvToast, graphError) {
     return null;
   }
   var i;
+  let blah = [];
   for (i = 0; i < errors.length; i++) {
     if (errors.hasOwnProperty("functionError")) {
+      console.log(customErrors.errors[i]);
       bvToast.toast(customErrors.errors[i], {
         title: "Warning",
         autoHideDelay: 5000,
@@ -17,13 +19,8 @@ export function DisplayErrors(bvToast, graphError) {
         appendToast: true
       });
     } else {
-      bvToast.toast(errors[i].message.replace("GraphQL.ExecutionError: ", ""), {
-        title: "Warning",
-        autoHideDelay: 5000,
-        variant: "danger",
-        toaster: "b-toaster-top-center",
-        appendToast: true
-      });
+      blah.push(errors[i].message.replace("GraphQL.ExecutionError: ", ""));
     }
   }
+  return blah;
 }
