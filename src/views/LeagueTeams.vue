@@ -143,7 +143,7 @@ export default {
       if (this.leagueScores.allowMultipleTeams) {
         return true;
       }
-      if (this.$auth.isAuthenticated) {
+      if (!this.$auth.isAuthenticated) {
         return false;
       }
       const sub = this.$store.state.auth.userSub;
