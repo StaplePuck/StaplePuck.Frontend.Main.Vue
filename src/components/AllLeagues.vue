@@ -8,7 +8,7 @@
         track-by="id"
         :key="ids"
       >
-        <h1>{{ season.fullName }}</h1>
+        <h2>{{ season.fullName }}</h2>
         <div class="card-deck">
           <div class="card" v-for="(league, idx) in season.leagues" :key="idx">
             <div class="card-header">
