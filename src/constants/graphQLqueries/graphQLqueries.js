@@ -2,18 +2,22 @@ import gql from "graphql-tag";
 
 export const QUERY_ALL_LEAGUES = gql`
   {
-    leagues {
+    seasons {
       id
-      name
-      description
-      announcement
-      allowMultipleTeams
-      season {
+      fullName
+      leagues {
         id
-        fullName
-        sport {
-          name
+        name
+        description
+        announcement
+        allowMultipleTeams
+        season {
           id
+          fullName
+          sport {
+            name
+            id
+          }
         }
       }
     }
