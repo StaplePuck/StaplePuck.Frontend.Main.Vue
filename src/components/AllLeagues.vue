@@ -18,7 +18,6 @@
             </div>
             <div class="card-body">
               <p>{{ league.season.sport.name }}</p>
-              <p>{{ league.season.fullName }}</p>
               <p>{{ league.description }}</p>
               <p style="color: red;">{{ league.announcement }}</p>
             </div>
