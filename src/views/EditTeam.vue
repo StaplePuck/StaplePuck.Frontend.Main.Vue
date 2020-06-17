@@ -39,7 +39,19 @@
             {{ thisError }}
           </p>
         </div>
-        <input class="btn btn-secondary a-button" type="submit" value="Save" />
+        <button
+          class="btn btn-secondary a-button"
+          type="submit"
+          :disabled="saving == 1"
+        >
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            v-if="saving == 1"
+          ></span>
+          Save
+        </button>
       </form>
     </div>
   </div>
@@ -61,6 +73,7 @@ export default {
       selected: {},
       teamOptions: {},
       loading: 0,
+      saving: 0,
       saveSuccess: false,
       saveFailed: false,
       saveErrors: {}
@@ -129,6 +142,7 @@ export default {
   methods: {
     saveTeam(evt) {
       evt.preventDefault();
+      this.saving = 1;
       this.saveSuccess = false;
       this.saveFailed = false;
       var fantasyTeamPlayers = [];
@@ -149,11 +163,13 @@ export default {
         .then(() => {
           this.saveFailed = false;
           this.saveSuccess = true;
+          this.saving = 0;
         })
         .catch((error) => {
           this.saveSuccess = false;
           this.saveFailed = true;
           this.saveErrors = DisplayErrors(this.$bvToast, error);
+          this.saving = 0;
         });
     }
   }

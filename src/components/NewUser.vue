@@ -51,8 +51,32 @@
             <b-form-radio value="false">No</b-form-radio>
           </b-form-radio-group>
         </b-form-group>
+        <div v-show="saveSuccess" class="alert alert-success">
+          Save Successful
+        </div>
+        <div v-show="saveFailed" class="alert alert-danger">
+          <p>User data not saved:</p>
+          <p
+            v-for="(thisError, index) in saveErrors"
+            :key="`saveErrors-${index}`"
+          >
+            {{ thisError }}
+          </p>
+        </div>
         <div class="text-center">
-          <b-button type="submit">Save</b-button>
+          <button
+            class="btn btn-secondary a-button"
+            type="submit"
+            :disabled="saving == 1"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="saving == 1"
+            ></span>
+            Save
+          </button>
         </div>
       </div>
     </b-form>
@@ -69,12 +93,17 @@ export default {
     return {
       currentUser: { name: "", email: "", receiveEmails: true },
       newUser: false,
-      loading: 0
+      loading: 0,
+      saving: 0,
+      saveSuccess: false,
+      saveFailed: false,
+      saveErrors: {}
     };
   },
   methods: {
     updateUser(evt) {
       evt.preventDefault();
+      this.saving = 1;
       this.$apollo
         .mutate({
           mutation: UPDATE_USER_PROFILE,
@@ -87,16 +116,16 @@ export default {
           }
         })
         .then(() => {
-          this.$bvToast.toast("User information saved", {
-            title: "Success",
-            autoHideDelay: 5000,
-            variant: "success",
-            toaster: "b-toaster-top-center",
-            appendToast: true
-          });
+          this.saveFailed = false;
+          this.saveSuccess = true;
+          this.saving = 0;
+          this.$router.push("/");
         })
-        .catch(error => {
-          DisplayErrors(this.$bvToast, error);
+        .catch((error) => {
+          this.saveSuccess = false;
+          this.saveFailed = true;
+          this.saveErrors = DisplayErrors(this.$bvToast, error);
+          this.saving = 0;
         });
     }
   }

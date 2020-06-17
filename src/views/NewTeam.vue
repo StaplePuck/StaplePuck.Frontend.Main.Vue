@@ -21,11 +21,27 @@
               trim
               v-model="newTeam.name"
             />
-            <input
+            <div v-show="saveFailed" class="alert alert-danger">
+              <p
+                v-for="(thisError, index) in saveErrors"
+                :key="`saveErrors-${index}`"
+              >
+                {{ thisError }}
+              </p>
+            </div>
+            <button
               class="btn btn-secondary a-button"
               type="submit"
-              value="Next >"
-            />
+              :disabled="saving == 1"
+            >
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                v-if="saving == 1"
+              ></span>
+              Next &gt;
+            </button>
           </div>
         </form>
       </div>
@@ -76,12 +92,16 @@ export default {
     return {
       leagues: {},
       newTeam: { name: "" },
-      loading: 0
+      loading: 0,
+      saving: 0,
+      saveFailed: false,
+      saveErrors: {}
     };
   },
   methods: {
     createTeam(evt) {
       evt.preventDefault();
+      this.saving = 1;
       this.$apollo
         .mutate({
           mutation: CREATE_TEAM,
@@ -93,14 +113,18 @@ export default {
           }
         })
         .then((data) => {
+          this.saveFailed = false;
           const newTeamId = data.data.createFantasyTeam.id;
           this.$store.dispatch("auth/auth0Refresh").then(() => {
             this.$router.push({ name: "editTeam", params: { id: newTeamId } });
+            this.saving = 0;
           });
         })
         .catch((error) => {
           console.error(error);
-          DisplayErrors(this.$bvToast, error);
+          this.saveFailed = true;
+          this.saveErrors = DisplayErrors(this.$bvToast, error);
+          this.saving = 0;
         });
     }
   }
