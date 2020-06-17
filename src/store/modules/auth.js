@@ -2,9 +2,9 @@ import { getInstance } from "../../auth";
 
 // initial state
 const state = () => ({
-  userSub: localStorage.getItem("user_sub") || "",
-  userToken: localStorage.getItem("access_token") || "",
-  userScope: localStorage.getItem("user_scope") || "",
+  userSub: localStorage.getItem("auth_sub") || "",
+  userToken: localStorage.getItem("auth_token") || "",
+  userScope: localStorage.getItem("auth_scope") || "",
   siteName: process.env.VUE_APP_SITE_NAME
 });
 
@@ -55,9 +55,9 @@ const actions = {
     const user = instance.user;
     const decodedToken = await instance.getDecodedToken();
 
-    localStorage.setItem("user_sub", user.sub);
-    localStorage.setItem("user_scope", decodedToken.scope);
-    localStorage.setItem("access_token", token);
+    localStorage.setItem("auth_sub", user.sub);
+    localStorage.setItem("auth_scope", decodedToken.scope);
+    localStorage.setItem("auth_token", token);
 
     commit("auth_success", {
       token: token,
@@ -68,9 +68,9 @@ const actions = {
   auth0Logout({ commit }) {
     var instance = getInstance();
     instance.logout();
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user_sub");
-    localStorage.removeItem("user_scope");
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_sub");
+    localStorage.removeItem("auth_scope");
     commit("auth_logout");
   },
   async auth0Refresh({ commit }) {
@@ -85,9 +85,9 @@ const actions = {
     const user = instance.user;
     var decodedToken = await instance.getDecodedToken(options);
 
-    localStorage.setItem("user_sub", user.sub);
-    localStorage.setItem("user_scope", decodedToken.scope);
-    localStorage.setItem("access_token", token);
+    localStorage.setItem("auth_sub", user.sub);
+    localStorage.setItem("auth_scope", decodedToken.scope);
+    localStorage.setItem("auth_token", token);
 
     commit("auth_success", {
       token: token,
