@@ -3,74 +3,71 @@
     <h4 v-if="loading">Loading...</h4>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
       <div class="container">
-        <b-form @submit="updateLeague">
-          <b-form-group
-            label-cols-sm="3"
-            label="Name:"
-            label-align-sm="right"
-            label-for="leagueName"
-          >
-            <b-input
+        <form @submit="updateLeague" class="form-width">
+          <div class="form-group">
+            <label label-for="leagueName">League Name:</label>
+            <input
+              type="text"
               id="leagueName"
-              v-model="league.name"
+              class="form-control"
               required
               trim
-            ></b-input>
-          </b-form-group>
-          <b-form-group
-            label-cols-sm="3"
-            label="Description:"
-            label-align-sm="right"
-            label-for="description"
-          >
-            <b-input
+              v-model="league.name"
+            />
+          </div>
+          <div class="form-group">
+            <label label-for="description">Description:</label>
+            <input
+              type="text"
               id="description"
+              class="form-control"
+              trim
               v-model="league.description"
-              trim
-            ></b-input>
-          </b-form-group>
-          <b-form-group
-            label-cols-sm="3"
-            label="Announcement:"
-            label-align-sm="right"
-            label-for="announcement"
-          >
-            <b-input
+            />
+          </div>
+          <div class="form-group">
+            <label label-for="announcement">Announcement:</label>
+            <input
+              type="text"
               id="announcement"
+              class="form-control"
+              trim
               v-model="league.announcement"
-              trim
-            ></b-input>
-          </b-form-group>
-          <b-form-group
-            label-cols-sm="3"
-            label="Payment Info:"
-            label-align-sm="right"
-            label-for="paymentInfo"
-          >
-            <b-input
+            />
+          </div>
+          <div class="form-group">
+            <label label-for="paymentInfo">Payment Info:</label>
+            <input
+              type="text"
               id="paymentInfo"
-              v-model="league.paymentInfo"
+              class="form-control"
               trim
-            ></b-input>
-          </b-form-group>
-          <b-form-checkbox
-            id="allowMultipleTeams"
-            v-model="league.allowMultipleTeams"
-            name="allowMultipleTeams"
-            value="true"
-            unchecked-value="false"
-          >
-            Allow Multiple Teams
-          </b-form-checkbox>
-          <b-form-checkbox
-            id="locked"
-            v-model="league.isLocked"
-            name="locked"
-            value="true"
-            unchecked-value="false"
-          >
-            Locked
-          </b-form-checkbox>
+              v-model="league.paymentInfo"
+            />
+          </div>
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="allowMultipleTeams"
+              unchecked-value="false"
+              v-model="league.allowMultipleTeams"
+            />
+            <label class="form-check-label" for="allowMultipleTeams"
+              >Allow Multiple Teams</label
+            >
+          </div>
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="locked"
+              unchecked-value="false"
+              v-model="league.isLocked"
+            />
+            <label class="form-check-label" for="locked">Locked</label>
+          </div>
+          <div></div>
           <b-table
             striped
             :items="league.fantasyTeams"
@@ -91,29 +88,54 @@
               </div>
             </template>
             <template v-slot:cell(isValid)="{ item }">
-              <b-form-checkbox
-                v-model="validCollection[item.id]"
-                name="valid"
-                value="true"
-                unchecked-value="false"
-                disabled
-              >
-              </b-form-checkbox>
+              <div class="form-check">
+                <input
+                  class="form-check-input position-static"
+                  type="checkbox"
+                  unchecked-value="false"
+                  v-model="validCollection[item.id]"
+                  disabled
+                  aria-label="..."
+                />
+              </div>
             </template>
             <template v-slot:cell(isPaid)="{ item }">
-              <b-form-checkbox
-                v-model="paidCollection[item.id]"
-                name="paid"
-                value="true"
-                unchecked-value="false"
-              >
-              </b-form-checkbox>
+              <div class="form-check">
+                <input
+                  class="form-check-input position-static"
+                  type="checkbox"
+                  unchecked-value="false"
+                  v-model="paidCollection[item.id]"
+                  aria-label="..."
+                />
+              </div>
             </template>
           </b-table>
-          <div class="text-center">
-            <b-button type="submit">Save</b-button>
+          <div v-show="saveSuccess" class="alert alert-success">
+            Save Successful
           </div>
-        </b-form>
+          <div v-show="saveFailed" class="alert alert-danger">
+            <p
+              v-for="(thisError, index) in saveErrors"
+              :key="`saveErrors-${index}`"
+            >
+              {{ thisError }}
+            </p>
+          </div>
+          <button
+            class="btn btn-secondary a-button"
+            type="submit"
+            :disabled="saving == 1"
+          >
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              v-if="saving == 1"
+            ></span>
+            Save
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -167,7 +189,11 @@ export default {
         }
       ],
       leagues: {},
-      loading: 0
+      loading: 0,
+      saving: 0,
+      saveSuccess: false,
+      saveFailed: false,
+      saveErrors: {}
     };
   },
   props: ["id"],
@@ -198,6 +224,9 @@ export default {
   methods: {
     updateLeague(evt) {
       evt.preventDefault();
+      this.saving = 1;
+      this.saveSuccess = false;
+      this.saveFailed = false;
 
       var fantasyTeams = [];
       for (let [id, value] of Object.entries(this.paidCollection)) {
@@ -209,6 +238,7 @@ export default {
           variables: {
             league: {
               id: this.id,
+              name: this.leagues[0].name,
               description: this.leagues[0].description,
               announcement: this.leagues[0].announcement,
               paymentInfo: this.leagues[0].paymentInfo,
@@ -218,8 +248,16 @@ export default {
             }
           }
         })
+        .then(() => {
+          this.saveFailed = false;
+          this.saveSuccess = true;
+          this.saving = 0;
+        })
         .catch((error) => {
-          DisplayErrors(this.$bvToast, error);
+          this.saveSuccess = false;
+          this.saveFailed = true;
+          this.saveErrors = DisplayErrors(this.$bvToast, error);
+          this.saving = 0;
         });
     }
   }
