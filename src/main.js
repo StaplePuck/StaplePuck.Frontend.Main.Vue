@@ -6,22 +6,9 @@ import apolloProvider from "./plugins/apollo";
 import { Auth0Plugin, getInstance } from "./auth";
 import "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.css";
-
-import {
-  BForm,
-  BFormGroup,
-  BFormInput,
-  BButton,
-  BTable,
-  BFormCheckbox
-} from "bootstrap-vue";
+import { BTable } from "bootstrap-vue";
 
 Vue.config.productionTip = false;
-Vue.component("b-form", BForm);
-Vue.component("b-form-group", BFormGroup);
-Vue.component("b-input", BFormInput);
-Vue.component("b-form-checkbox", BFormCheckbox);
-Vue.component("b-button", BButton);
 Vue.component("b-table", BTable);
 
 Vue.use(Auth0Plugin, {
