@@ -30,8 +30,8 @@
                   {{ league.description }}
                 </li>
                 <li v-if="league.announcement != ''">
-                  <span style="color: red;">
-                    {{ league.announcement }}
+                  <span style="color: darkred;">
+                    <b>{{ league.announcement }}</b>
                   </span>
                 </li>
               </ul>
