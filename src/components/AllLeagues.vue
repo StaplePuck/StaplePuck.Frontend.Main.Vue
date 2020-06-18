@@ -4,22 +4,37 @@
     <div v-else>
       <h1>{{ msg }}</h1>
       <div
+        class="group-div"
         v-for="(season, ids) in seasons.slice().reverse()"
         track-by="id"
         :key="ids"
       >
-        <h2>{{ season.fullName }}</h2>
+        <h4 class="badge badge-warning text-center">{{ season.fullName }}</h4>
         <div class="card-deck">
-          <div class="card" v-for="(league, idx) in season.leagues" :key="idx">
+          <div
+            class="card text-left"
+            v-for="(league, idx) in season.leagues"
+            :key="idx"
+          >
             <div class="card-header">
               <router-link :to="{ name: 'league', params: { id: league.id } }"
                 >{{ league.name }}
               </router-link>
             </div>
             <div class="card-body">
-              <p>{{ league.season.sport.name }}</p>
-              <p>{{ league.description }}</p>
-              <p style="color: red;">{{ league.announcement }}</p>
+              <ul>
+                <li>
+                  {{ league.season.sport.name }}
+                </li>
+                <li>
+                  {{ league.description }}
+                </li>
+                <li v-if="league.announcement != ''">
+                  <span style="color: red;">
+                    {{ league.announcement }}
+                  </span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -58,5 +73,23 @@ a {
   &::after {
     content: " >";
   }
+}
+h4 {
+  margin-top: 0.5rem;
+}
+.card-body {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.badge {
+  font-size: large;
+  display: block;
+}
+.group-div {
+  padding-top: 1em;
 }
 </style>
