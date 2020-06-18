@@ -4,7 +4,8 @@
     <div v-else>
       <div class="col-md">
         <h2>{{ leagueScores.name }}</h2>
-        <p>{{ leagueScores.announcement }}</p>
+        <p v-html="leagueScores.announcement"></p>
+        <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
       </div>
       <div class="container">
         <div v-if="!leagueScores.isLocked">
@@ -157,6 +158,23 @@ export default {
         }
       }
       return true;
+    },
+    hasNotPaid: function () {
+      if (!this.$auth.isAuthenticated) {
+        return false;
+      }
+      const sub = this.$store.state.auth.userSub;
+      var i;
+      for (i = 0; i < this.leagueScores.fantasyTeams.length; i++) {
+        if (
+          !this.leagueScores.fantasyTeams[i].isPaid &&
+          this.leagueScores.fantasyTeams[i].gM != null &&
+          this.leagueScores.fantasyTeams[i].gM.externalId == sub
+        ) {
+          return true;
+        }
+      }
+      return false;
     }
   },
   apollo: {
