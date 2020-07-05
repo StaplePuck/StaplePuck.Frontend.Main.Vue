@@ -2,13 +2,13 @@
   <div class="container">
     <p>
       Welcome to StaplePuck. In order to continue you will need to define a
-      handle that you want to go by and your email address to receive updates.
-      Note that the handle is not the same as your team name.
+      Username that you want to go by and your email address to receive updates.
+      Note that the Username is not the same as your team name.
     </p>
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <form v-else @submit="updateUser">
       <div class="form-group">
-        <label label-for="userName">Handle:</label>
+        <label label-for="userName">Username:</label>
         <input
           type="text"
           id="userName"
@@ -77,6 +77,13 @@
     </form>
   </div>
 </template>
+
+<style scoped lang="scss">
+label {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+</style>
 
 <script>
 import { UPDATE_USER_PROFILE } from "../constants/graphQLqueries/graphQLqueries";

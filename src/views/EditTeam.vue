@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div class="row align-items-center profile-header">
         <div class="col-md">
@@ -11,7 +11,7 @@
       <form @submit="saveTeam" class="form-width">
         <div class="form-group" v-for="(pTeam, idy) in proTeams" :key="idy">
           <label label-for="'team_' + pTeam.team.id">
-            <b>{{ pTeam.team.fullName }}:</b>
+            {{ pTeam.team.fullName }}:
           </label>
           <select
             :id="'team_' + pTeam.team.id"
@@ -56,6 +56,13 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+label {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+</style>
 
 <script>
 import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
