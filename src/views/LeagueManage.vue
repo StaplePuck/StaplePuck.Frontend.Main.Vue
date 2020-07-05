@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
       <div class="container">
         <form @submit="updateLeague" class="form-width">
@@ -144,6 +144,11 @@
 <style scoped lang="scss">
 .join {
   margin: 0.5em;
+}
+
+label {
+  margin-bottom: 0;
+  font-weight: bold;
 }
 </style>
 

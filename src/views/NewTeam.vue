@@ -1,8 +1,8 @@
 <template>
   <div class="container justify-content-center">
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
-      <h2>Create a team for the {{ leagues[0].name }}</h2>
+      <h2>Create a team for the <i>{{ leagues[0].name }}</i></h2>
       <div v-if="leagues[0].isLocked" class="container">
         League is Locked!
       </div>
@@ -48,6 +48,13 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+label {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+</style>
 
 <script>
 import { QUERY_TEAMS_IN_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";

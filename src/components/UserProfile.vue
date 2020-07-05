@@ -1,12 +1,13 @@
 <template>
   <div class="container">
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
       <div class="text-center">
-        <p><b>Handle:</b> {{ currentUser.name }}</p>
+        
         <p>Feel free to update your email preferences</p>
       </div>
       <form @submit="updateUser" class="form-width">
+        <p><b>Username:</b> {{ currentUser.name }}</p>
         <div class="form-group">
           <label label-for="userEmail">Email Address:</label>
           <input
@@ -67,6 +68,13 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+label {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+</style>
 
 <script>
 import { QUERY_USER_PROFILE } from "../constants/graphQLqueries/graphQLqueries";

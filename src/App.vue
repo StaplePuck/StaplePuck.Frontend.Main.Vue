@@ -27,6 +27,8 @@
         <img
           alt="StaplePuck logo"
           src="./assets/StaplePuckLogo.png"
+          width="200"
+          height="200"
         />
       </div>
       <router-view />
@@ -119,8 +121,8 @@ h2 {
   a {
     font-weight: bold;
     color: #30303c;
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
     &.router-link-exact-active {
       background-color: #ffc107;
       text-decoration: none;
@@ -147,6 +149,7 @@ footer {
   text-align: center;
   a {
     color: darkblue;
+    text-decoration: underline;
   }
 }
 </style>
