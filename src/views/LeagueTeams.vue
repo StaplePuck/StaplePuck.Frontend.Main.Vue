@@ -11,6 +11,7 @@
               <span v-if="leagueScores.announcement != ''" style="color: darkred;">
                 <b>{{ leagueScores.announcement }}</b>
               </span>
+              <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
               <div v-if="!leagueScores.isLocked">
                 <div v-if="!$auth.isAuthenticated">
                   Log in to join this league or edit your team.
@@ -187,6 +188,23 @@ export default {
         }
       }
       return true;
+    },
+    hasNotPaid: function () {
+      if (!this.$auth.isAuthenticated) {
+        return false;
+      }
+      const sub = this.$store.state.auth.userSub;
+      var i;
+      for (i = 0; i < this.leagueScores.fantasyTeams.length; i++) {
+        if (
+          !this.leagueScores.fantasyTeams[i].isPaid &&
+          this.leagueScores.fantasyTeams[i].gM != null &&
+          this.leagueScores.fantasyTeams[i].gM.externalId == sub
+        ) {
+          return true;
+        }
+      }
+      return false;
     }
   },
   apollo: {

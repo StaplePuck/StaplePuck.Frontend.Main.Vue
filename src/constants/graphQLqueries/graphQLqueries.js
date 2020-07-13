@@ -39,6 +39,7 @@ export const QUERY_TEAMS_IN_LEAGUE = gql`
         rank
         score
         todaysScore
+        isPaid
         gM {
           id
           externalId
