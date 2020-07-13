@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
       <h1>{{ msg }}</h1>
       <div
@@ -30,8 +30,8 @@
                   {{ league.description }}
                 </li>
                 <li v-if="league.announcement != ''">
-                  <span style="color: red;">
-                    {{ league.announcement }}
+                  <span style="color: darkred;">
+                    <b>{{ league.announcement }}</b>
                   </span>
                 </li>
               </ul>

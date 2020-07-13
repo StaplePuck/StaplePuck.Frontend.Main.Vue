@@ -1,16 +1,30 @@
 <template>
   <div class="container">
-    <h4 v-if="loading">Loading...</h4>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div v-if="!team.isPaid">
         Team Not Paid For
       </div>
       <div v-else class="row align-items-center profile-header">
-        <div class="col-md text-center">
-          <h2>{{ team.name }}</h2>
-          League Ranking: {{ team.rank }}<br />
-          Total Score: {{ team.score }}<br />
-          Today's Score: {{ team.todaysScore }}<br />
+        <div class="col-md team-info">
+          <div class="card text-left">
+            <div class="card-header">
+              <h2>{{ team.name }}</h2>
+            </div>
+            <div class="card-body">
+               <ul>
+                <li>
+                  League Ranking: {{ team.rank }}
+                </li>
+                <li>
+                  Total Score: {{ team.score }}
+                </li>
+                <li>
+                  Today's Score: {{ team.todaysScore }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <b-table
           striped
@@ -24,6 +38,20 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+h2 {
+  margin-bottom: 0;
+  text-align: left;
+}
+.card-body {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.team-info {
+  margin: 1em;
+}
+</style>
 
 <script>
 import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";

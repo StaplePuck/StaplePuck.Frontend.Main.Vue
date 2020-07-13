@@ -1,34 +1,40 @@
 <template>
-  <div class="container text-center">
-    <h4 v-if="loading">Loading...</h4>
+  <div class="container">
+    <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
-      <div class="col-md">
-        <h2>{{ leagueScores.name }}</h2>
-        <p v-html="leagueScores.announcement"></p>
-        <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
-      </div>
-      <div class="container">
-        <div v-if="!leagueScores.isLocked">
-          <div v-if="!$auth.isAuthenticated">
-            Log in to join this league or edit your team.
+      <div class="col-md league-info">
+        <div class="card text-left">
+          <div class="card-header">
+            <h2>{{ leagueScores.name }}</h2>
           </div>
-          <div v-else-if="canJoin">
-            <router-link
-              class="btn btn-secondary a-button"
-              :to="{ name: 'newTeam', params: { id: id } }"
-              >Join League
-            </router-link>
+          <div class="card-body">
+              <span v-if="leagueScores.announcement != ''" style="color: darkred;">
+                <b>{{ leagueScores.announcement }}</b>
+              </span>
+              <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
+              <div v-if="!leagueScores.isLocked">
+                <div v-if="!$auth.isAuthenticated">
+                  Log in to join this league or edit your team.
+                </div>
+                <div v-else-if="canJoin" class="text-center">
+                  <router-link
+                    class="btn btn-secondary a-button text-center"
+                    :to="{ name: 'newTeam', params: { id: id } }"
+                    >Join This League
+                  </router-link>
+                </div>
+              </div>
+              <div v-else>
+                This leauge is locked
+              </div>
+              <div v-if="$store.getters['auth/userIsLeagueOwner'](id)" class="text-center">
+                <router-link
+                  class="btn btn-secondary a-button text-center"
+                  :to="{ name: 'leagueManage', params: { id: id } }"
+                  >Manage This League
+                </router-link>
+              </div>
           </div>
-        </div>
-        <div v-else>
-          League is locked
-        </div>
-        <div v-if="$store.getters['auth/userIsLeagueOwner'](id)">
-          <router-link
-            class="btn btn-secondary a-button"
-            :to="{ name: 'leagueManage', params: { id: id } }"
-            >Manage
-          </router-link>
         </div>
       </div>
       <b-table
@@ -85,6 +91,29 @@
   </div>
 </template>
 
+<style scoped lang="scss">
+h2 {
+  margin-bottom: 0;
+}
+.card-body {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.league-info {
+  margin: 1em;
+}
+.table th {
+  cursor: pointer;
+}
+td {
+  a {
+    text-align: left;
+    text-decoration: underline;
+  }
+}
+</style>
+
+
 <script>
 import {
   QUERY_SCORES_IN_LEAGUE,
@@ -109,6 +138,7 @@ export default {
         },
         {
           key: "score",
+          label: "Total Score",
           sortable: true
         },
         {

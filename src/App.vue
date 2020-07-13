@@ -26,7 +26,7 @@
         </header>
         <img
           alt="StaplePuck logo"
-          src="./assets/StaplePuck-Logo.png"
+          src="./assets/StaplePuckLogo.png"
           width="200"
           height="200"
         />
@@ -121,11 +121,14 @@ h2 {
   a {
     font-weight: bold;
     color: #30303c;
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
     &.router-link-exact-active {
-      color: rgb(255, 217, 0);
+      background-color: #ffc107;
       text-decoration: none;
+      padding-right: .6em;
+      padding-left: .6em;
+      border-radius: 10rem;
     }
   }
 }
@@ -144,5 +147,9 @@ footer {
   width: 100%;
   height: 2.5rem;
   text-align: center;
+  a {
+    color: darkblue;
+    text-decoration: underline;
+  }
 }
 </style>
