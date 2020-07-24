@@ -36,6 +36,7 @@
     <footer>
       <a
         target="_blank"
+        rel="noreferrer"
         href="https://www.termsfeed.com/privacy-policy/1d035b59d3dcbf692dbce4eead4ec7d8"
       >
         Privacy Policy
@@ -104,6 +105,9 @@ h2 {
   max-width: 720px;
   margin-right: auto;
   margin-left: auto;
+}
+ul {
+  margin-bottom: 0;
 }
 </style>
 <style scoped lang="scss">

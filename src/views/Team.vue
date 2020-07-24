@@ -5,7 +5,7 @@
       <div v-if="!team.isPaid">
         Team Not Paid For
       </div>
-      <div v-else class="row align-items-center profile-header">
+      <div v-else class="align-items-center profile-header">
         <div class="col-md team-info">
           <div class="card text-left">
             <div class="card-header">
@@ -26,14 +26,21 @@
             </div>
           </div>
         </div>
-        <b-table
-          striped
-          :items="computedData"
-          :fields="computedFields"
-          :sort-by.sync="sortBy"
-          :tbody-tr-class="rowClass"
-        >
-        </b-table>
+        <section id="scroll-table" class="col-md">
+          <table class="table table-bordered table-striped table-condensed cf" id="fifthTable">
+            <thead class="cf"> 
+              <tr>
+                <th v-for="(col, colID) in computedFields" :key="colID">{{col.label}}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.rowColor">
+                <td v-for="(col, colID) in computedFields" :key="colID">{{row[col.key]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
       </div>
     </div>
   </div>
@@ -49,7 +56,37 @@ h2 {
   padding-bottom: 0.25rem;
 }
 .team-info {
-  margin: 1em;
+  margin-bottom: 1em;
+}
+ul {
+  margin-bottom: 0;
+}
+@media only screen and (max-width: 800px) {
+	
+	#scroll-table.cf:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+	#scroll-table * html .cf { zoom: 1; }
+	#scroll-table *:first-child+html .cf { zoom: 1; }
+	
+	#scroll-table table { width: 100%; border-collapse: collapse; border-spacing: 0; }
+ 
+	#scroll-table th,
+	#scroll-table td { margin: 0; vertical-align: top; }
+	#scroll-table th { text-align: left; }
+	
+	#scroll-table table { display: block; position: relative; width: 100%; }
+	#scroll-table thead { display: block; float: left; }
+	#scroll-table tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
+	#scroll-table thead tr { display: block; }
+	#scroll-table th { display: block; text-align: right; }
+	#scroll-table tbody tr { display: inline-block; vertical-align: top; }
+	#scroll-table td { display: block; min-height: 1.25em; text-align: left; }
+
+	/* sort out borders */
+	#scroll-table th { border-bottom: 0; border-left: 0; }
+	#scroll-table td { border-left: 0; border-right: 0; border-bottom: 0; }
+	#scroll-table tbody tr { border-left: 1px solid #babcbf; }
+	#scroll-table th:last-child,
+	#scroll-table td:last-child { border-bottom: 1px solid #babcbf; }
 }
 </style>
 
@@ -85,6 +122,16 @@ export default {
         sortable: true
       });
       field.push({
+        key: "score",
+        label: "Total Points",
+        sortable: true
+      });
+      field.push({
+        key: "todaysScore",
+        label: "Today's Points",
+        sortable: true
+      });
+      field.push({
         key: "teamName",
         label: "Team",
         sortable: true,
@@ -101,16 +148,6 @@ export default {
           label: x.shortName
         });
       });
-      field.push({
-        key: "score",
-        label: "Total Points",
-        sortable: true
-      });
-      field.push({
-        key: "todaysScore",
-        label: "Today's Points",
-        sortable: true
-      });
       return field;
     },
     computedData() {
@@ -120,9 +157,10 @@ export default {
         row.fullName = x.player.fullName;
         row.teamName = x.playerSeason.team.name;
         row.position = x.playerSeason.positionType.shortName;
-        row.teamState = x.playerSeason.teamStateForSeason.gameState;
         row.score = x.playerCalculatedScore.score;
         row.todaysScore = x.playerCalculatedScore.todaysScore;
+        if (x.playerSeason.teamStateForSeason.gameState === 1) row.rowColor = "table-success";
+        if (x.playerSeason.teamStateForSeason.gameState === -1) row.rowColor = "table-danger";
 
         this.scoringTypeHeadersForTeam.forEach((s) => {
           var text = "0";
@@ -169,13 +207,6 @@ export default {
           teamid: this.id
         };
       }
-    }
-  },
-  methods: {
-    rowClass(item, type) {
-      if (!item || type !== "row") return;
-      if (item.teamState === 1) return "table-success";
-      if (item.teamState === -1) return "table-danger";
     }
   }
 };
