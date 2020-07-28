@@ -7,7 +7,7 @@
       </div>
       <div v-else class="align-items-center profile-header">
         <div class="col-md team-info">
-          <div class="card text-left">
+          <div class="card">
             <div class="card-header">
               <h2>{{ team.name }}</h2>
             </div>
@@ -26,15 +26,26 @@
             </div>
           </div>
         </div>
+        <div class="col-md team-info">
+          <span class="player-info table-danger">* = Team Eliminated</span>
+          <br/>
+          <span class="player-info table-success">+ = Team in Play Today</span>
+        </div>
         <section id="scroll-table" class="col-md">
-          <table class="table table-bordered table-striped table-condensed cf" id="fifthTable">
+          <table class="table table-bordered table-condensed cf">
             <thead class="cf"> 
               <tr>
-                <th v-for="(col, colID) in computedFields" :key="colID">{{col.label}}
+                <th v-for="(col, colID) in computedFields" :key="colID" v-on:click="sortTable(col.key)">
+                  {{col.label}}
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="players">
+              <tr v-for="(row, rowID) in players" :key="rowID" v-bind:class="row.rowColor">
+                <td v-for="(col, colID) in computedFields" :key="colID">{{row[col.key]}}</td>
+              </tr>
+            </tbody>
+            <tbody v-else>
               <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.rowColor">
                 <td v-for="(col, colID) in computedFields" :key="colID">{{row[col.key]}}</td>
               </tr>
@@ -49,7 +60,6 @@
 <style scoped lang="scss">
 h2 {
   margin-bottom: 0;
-  text-align: left;
 }
 .card-body {
   padding-top: 0.25rem;
@@ -60,6 +70,21 @@ h2 {
 }
 ul {
   margin-bottom: 0;
+}
+.player-info {
+    text-decoration: none;
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 10rem;
+}
+th {
+  cursor: pointer;
+}
+.sorted {
+  text-decoration: underline;
+}
+.unsorted {
+  text-decoration: none;
 }
 @media only screen and (max-width: 800px) {
 	
@@ -108,7 +133,9 @@ export default {
   name: "team",
   data() {
     return {
-      sortBy: "teamName",
+      ascending: false,
+      sortColumn: "teamName",
+      players: this.computedData, 
       fantasyTeams: null,
       loading: 0
     };
@@ -118,29 +145,23 @@ export default {
       const field = [];
       field.push({
         key: "fullName",
-        label: "Player",
-        sortable: true
+        label: "Player"
       });
       field.push({
         key: "score",
-        label: "Total Points",
-        sortable: true
+        label: "Total Points"
       });
       field.push({
         key: "todaysScore",
-        label: "Today's Points",
-        sortable: true
+        label: "Today's Points"
       });
       field.push({
         key: "teamName",
-        label: "Team",
-        sortable: true,
-        sortDirection: "asc"
+        label: "Team"
       });
       field.push({
         key: "position",
-        label: "Position",
-        sortable: true
+        label: "Position"
       });
       this.scoringTypeHeadersForTeam.forEach((x) => {
         field.push({
@@ -159,8 +180,14 @@ export default {
         row.position = x.playerSeason.positionType.shortName;
         row.score = x.playerCalculatedScore.score;
         row.todaysScore = x.playerCalculatedScore.todaysScore;
-        if (x.playerSeason.teamStateForSeason.gameState === 1) row.rowColor = "table-success";
-        if (x.playerSeason.teamStateForSeason.gameState === -1) row.rowColor = "table-danger";
+        if (x.playerSeason.teamStateForSeason.gameState === 1) {
+          row.rowColor = "table-success";
+          row.teamName = " + " + x.playerSeason.team.name;
+        }
+        if (x.playerSeason.teamStateForSeason.gameState === -1) {
+          row.rowColor = "table-danger";
+          row.teamName = " * " + x.playerSeason.team.name;
+        }
 
         this.scoringTypeHeadersForTeam.forEach((s) => {
           var text = "0";
@@ -178,8 +205,30 @@ export default {
         });
 
         data.push(row);
+        data.sort((a, b) => (a.teamName > b.teamName) ? 1 : -1)
+        this.players = data;
       });
       return data;
+    }
+  },
+  methods: {
+    sortTable(col) {
+      if (this.sortColumn === col) {
+        this.ascending = !this.ascending;
+      } else {
+        this.ascending = true;
+        this.sortColumn = col;
+      }
+
+      var ascending = this.ascending;
+      this.computedData.sort(function(a, b) {
+        if (a[col] > b[col]) {
+          return ascending ? 1 : -1
+        } else if (a[col] < b[col]) {
+          return ascending ? -1 : 1
+        }
+        return 0;
+      })
     }
   },
   props: ["id"],
