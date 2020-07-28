@@ -101,7 +101,7 @@
           <tbody>
             <tr v-for="(row, rowID) in fantasyTeamsNotPaid" :key="rowID">
               <td>{{row.name}}</td>
-              <td>{{row.gm.name}}</td>
+              <td>{{row.gM.name}}</td>
             </tr>
           </tbody>
         </table>
@@ -207,7 +207,8 @@ export default {
         }
       ],
       loading: 0,
-      leagueScores: {}
+      leagueScores: {},
+      fantasyTeamsNotPaid: []
     };
   },
   ascending: false,
