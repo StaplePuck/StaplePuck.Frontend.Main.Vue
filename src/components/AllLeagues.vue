@@ -85,6 +85,9 @@ p {
   margin-top: 0;
   margin-bottom: 0;
 }
+ul {
+  margin-bottom: 0;
+}
 .badge {
   font-size: large;
   display: block;

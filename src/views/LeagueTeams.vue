@@ -37,56 +37,75 @@
           </div>
         </div>
       </div>
-      <b-table
-        striped
-        :items="leagueScores.fantasyTeams"
-        :fields="fields"
-        :sort-by.sync="sortBy"
-        :small="true"
-      >
-        <template v-slot:cell(name)="{ item, value }">
-          <div v-if="leagueScores.isLocked">
-            <div v-if="!item.isPaid">Team Not Paid For</div>
-            <router-link v-else :to="{ name: 'team', params: { id: item.id } }"
-              >{{ value }}
-            </router-link>
-          </div>
-          <div v-else-if="$store.getters['auth/canEditTeam'](item.id, id)">
-            <router-link :to="{ name: 'editTeam', params: { id: item.id } }"
-              >{{ value }}
-            </router-link>
-          </div>
-          <div v-else>
-            {{ value }}
-          </div>
-        </template>
-        <template v-slot:cell(score)="{ item, value }">
-          <div v-if="item.isPaid || !leagueScores.isLocked">
-            {{ value }}
-          </div>
-        </template>
-        <template v-slot:cell(todaysScore)="{ item, value }">
-          <div v-if="item.isPaid || !leagueScores.isLocked">
-            {{ value }}
-          </div>
-        </template>
-        <template v-slot:cell(gM.name)="{ item, value }">
-          <div v-if="item.isPaid || !leagueScores.isLocked">
-            {{ value }}
-          </div>
-        </template>
-      </b-table>
-      <div v-if="fantasyTeamsNotPaid">
+      <section id="scroll-table" class="col-md scroll-table">
+        <table class="table table-bordered table-striped table-condensed cf">
+          <thead class="cf"> 
+            <tr>
+              <th v-for="(col, colID) in fields" :key="colID" v-on:click="sortTable(col.key)" v-on:load="sortTable(col.key)">{{col.label}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, rowID) in leagueScores.fantasyTeams" :key="rowID">
+              <td>
+                <div v-if="leagueScores.isLocked">
+                  <div v-if="!row.isPaid">Team Not Paid For</div>
+                  <router-link v-else :to="{ name: 'team', params: { id: row.id } }"
+                    >{{ row.name }}
+                  </router-link>
+                </div>
+                <div v-else-if="$store.getters['auth/canEditTeam'](row.id, id)">
+                  <router-link :to="{ name: 'editTeam', params: { id: row.id } }"
+                    >{{ row.name }}
+                  </router-link>
+                </div>
+                <div v-else>
+                  {{ row.name }}
+                </div>
+              </td>
+              <td>
+                {{row.rank}}
+                </td>
+              <td>
+                <div v-if="row.isPaid || !leagueScores.isLocked">
+                  {{ row.score }}
+                </div>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !leagueScores.isLocked">
+                  {{ row.todaysScore }}
+                </div>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !leagueScores.isLocked">
+                  {{ row.gM.name}}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section v-if="fantasyTeamsNotPaid" id="not-pad-table" class="col-md scroll-table">
         <h4>Teams Not Paid For</h4>
-        <b-table
-          striped
-          :items="fantasyTeamsNotPaid"
-          :fields="notPaidFields"
-          :sort-by.sync="sortBy"
-          :small="true"
-        >
-        </b-table>
-      </div>
+        <table class="table table-bordered table-condensed cf">
+            <thead class="cf"> 
+            <tr>
+              <th>
+                Team
+              </th>
+              <th>
+                Team GM
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, rowID) in fantasyTeamsNotPaid" :key="rowID">
+              <td>{{row.name}}</td>
+              <td>{{row.gm.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </div>
   </div>
 </template>
@@ -100,20 +119,51 @@ h2 {
   padding-bottom: 0.25rem;
 }
 .league-info {
-  margin: 1em;
+  margin-bottom: 1em;
 }
 .table th {
   cursor: pointer;
 }
 td {
   a {
+    color: darkblue;
     text-align: left;
     text-decoration: underline;
   }
 }
+
+@media only screen and (max-width: 800px) {
+
+  #not-pad-table.cf:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+	#not-pad-table * html .cf { zoom: 1; }
+	#not-pad-table *:first-child+html .cf { zoom: 1; }
+	
+	#scroll-table.cf:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+	#scroll-table * html .cf { zoom: 1; }
+	#scroll-table *:first-child+html .cf { zoom: 1; }
+	
+	.scroll-table table { width: 100%; border-collapse: collapse; border-spacing: 0; }
+ 
+	.scroll-table th,
+	.scroll-table td { margin: 0; vertical-align: top; }
+	.scroll-table th { text-align: left; }
+	
+	.scroll-table table { display: block; position: relative; width: 100%; }
+	.scroll-table thead { display: block; float: left; }
+	.scroll-table tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
+	.scroll-table thead tr { display: block; }
+	.scroll-table th { display: block; text-align: right; }
+	.scroll-table tbody tr { display: inline-block; vertical-align: top; }
+	.scroll-table td { display: block; min-height: 1.25em; text-align: left; }
+
+	/* sort out borders */
+	.scroll-table th { border-bottom: 0; border-left: 0; }
+	.scroll-table td { border-left: 0; border-right: 0; border-bottom: 0; }
+	.scroll-table tbody tr { border-left: 1px solid #babcbf; }
+	.scroll-table th:last-child,
+	.scroll-table td:last-child { border-bottom: 1px solid #babcbf; }
+}
 </style>
-
-
 <script>
 import {
   QUERY_SCORES_IN_LEAGUE,
@@ -124,49 +174,62 @@ export default {
   name: "leagueTeams",
   data() {
     return {
-      sortBy: "rank",
       fields: [
         {
           key: "name",
-          label: "Team",
-          sortable: true
+          label: "Team"
         },
         {
           key: "rank",
-          sortable: true,
-          sortDirection: "asc"
+          label: "Rank"
         },
         {
           key: "score",
-          label: "Total Score",
-          sortable: true
+          label: "Total Score"
         },
         {
           key: "todaysScore",
-          label: "Today's Score",
-          sortable: true
+          label: "Today's Score"
         },
         {
           key: "gM.name",
-          label: "Team GM",
-          sortable: true
+          label: "Team GM"
         }
       ],
       notPaidFields: [
         {
           key: "name",
-          label: "Team",
-          sortable: true
+          label: "Team"
         },
         {
           key: "gM.name",
-          label: "Team GM",
-          sortable: true
+          label: "Team GM"
         }
       ],
-      leagues: {},
-      loading: 0
+      loading: 0,
+      leagueScores: {}
     };
+  },
+  ascending: false,
+  sortColumn: "rank",
+  methods: {
+    sortTable(col) {
+      if (this.sortColumn === col) {
+        this.ascending = !this.ascending;
+      } else {
+        this.ascending = true;
+        this.sortColumn = col;
+      }
+
+      var ascending = this.ascending;
+      this.leagueScores.fantasyTeams.sort(function(a, b) {
+        if (a[col] > b[col]) {
+          return ascending ? 1 : -1
+        } else if (a[col] < b[col]) {
+          return ascending ? -1 : 1
+        }
+      })
+    }
   },
   props: ["id"],
   computed: {
@@ -214,7 +277,12 @@ export default {
         return {
           leagueid: this.id
         };
-      }
+      },
+      result ({data}) {
+        if(data){
+          data.leagueScores.fantasyTeams.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
+        }
+    }
     },
     fantasyTeamsNotPaid: {
       query: QUERY_NOT_PAID,
