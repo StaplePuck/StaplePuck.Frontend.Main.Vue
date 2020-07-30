@@ -47,6 +47,7 @@
 
 <script>
 import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
+import pushNotifications from "./plugins/pushNotifications";
 
 export default {
   data() {

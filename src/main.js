@@ -3,8 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import apolloProvider from "./plugins/apollo";
-import { Auth0Plugin, getInstance } from "./auth";
+import { PushNotificationsPlugin } from "./plugins/pushNotifications";
+import { Auth0Plugin } from "./auth";
 import "./registerServiceWorker";
+import("../firebase-messaging-sw.js");
 import "bootstrap/dist/css/bootstrap.css";
 import { BTable } from "bootstrap-vue";
 
@@ -22,6 +24,8 @@ Vue.use(Auth0Plugin, {
     });
   }
 });
+
+Vue.use(PushNotificationsPlugin);
 
 new Vue({
   apolloProvider,
