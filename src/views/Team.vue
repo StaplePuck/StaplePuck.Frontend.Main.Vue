@@ -77,8 +77,9 @@ ul {
     padding-left: 0.6em;
     border-radius: 10rem;
 }
-th {
+table th, table td {
   cursor: pointer;
+  padding: 0.25em;
 }
 .sorted {
   text-decoration: underline;
