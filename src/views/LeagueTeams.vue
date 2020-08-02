@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <section id="scroll-table" class="col-md scroll-table">
+      <div class="table-responsive-md col-md">
         <table class="table table-bordered table-striped table-condensed cf">
           <thead class="cf"> 
             <tr>
@@ -47,6 +47,9 @@
           </thead>
           <tbody>
             <tr v-for="(row, rowID) in leagueScores.fantasyTeams" :key="rowID">
+              <td>
+                {{row.rank}}
+                </td>
               <td>
                 <div v-if="leagueScores.isLocked">
                   <div v-if="!row.isPaid">Team Not Paid For</div>
@@ -64,16 +67,8 @@
                 </div>
               </td>
               <td>
-                {{row.rank}}
-                </td>
-              <td>
                 <div v-if="row.isPaid || !leagueScores.isLocked">
                   {{ row.score }}
-                </div>
-              </td>
-              <td>
-                <div v-if="row.isPaid || !leagueScores.isLocked">
-                  {{ row.todaysScore }}
                 </div>
               </td>
               <td>
@@ -84,8 +79,8 @@
             </tr>
           </tbody>
         </table>
-      </section>
-      <section v-if="fantasyTeamsNotPaid" id="not-pad-table" class="col-md scroll-table">
+      </div>
+      <div v-if="fantasyTeamsNotPaid" class="table-responsive-md col-md">
         <h4>Teams Not Paid For</h4>
         <table class="table table-bordered table-condensed cf">
             <thead class="cf"> 
@@ -105,7 +100,7 @@
             </tr>
           </tbody>
         </table>
-      </section>
+      </div>
     </div>
   </div>
 </template>
@@ -123,6 +118,11 @@ h2 {
 }
 .table th {
   cursor: pointer;
+  padding: 0.25em;
+}
+.table td {
+  cursor: pointer;
+  padding: 0.25em;
 }
 td {
   a {
@@ -130,38 +130,6 @@ td {
     text-align: left;
     text-decoration: underline;
   }
-}
-
-@media only screen and (max-width: 800px) {
-
-  #not-pad-table.cf:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
-	#not-pad-table * html .cf { zoom: 1; }
-	#not-pad-table *:first-child+html .cf { zoom: 1; }
-	
-	#scroll-table.cf:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
-	#scroll-table * html .cf { zoom: 1; }
-	#scroll-table *:first-child+html .cf { zoom: 1; }
-	
-	.scroll-table table { width: 100%; border-collapse: collapse; border-spacing: 0; }
- 
-	.scroll-table th,
-	.scroll-table td { margin: 0; vertical-align: top; }
-	.scroll-table th { text-align: left; }
-	
-	.scroll-table table { display: block; position: relative; width: 100%; }
-	.scroll-table thead { display: block; float: left; }
-	.scroll-table tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
-	.scroll-table thead tr { display: block; }
-	.scroll-table th { display: block; text-align: right; }
-	.scroll-table tbody tr { display: inline-block; vertical-align: top; }
-	.scroll-table td { display: block; min-height: 1.25em; text-align: left; }
-
-	/* sort out borders */
-	.scroll-table th { border-bottom: 0; border-left: 0; }
-	.scroll-table td { border-left: 0; border-right: 0; border-bottom: 0; }
-	.scroll-table tbody tr { border-left: 1px solid #babcbf; }
-	.scroll-table th:last-child,
-	.scroll-table td:last-child { border-bottom: 1px solid #babcbf; }
 }
 </style>
 <script>
@@ -176,20 +144,16 @@ export default {
     return {
       fields: [
         {
+          key: "rank",
+          label: "Pos."
+        },
+        {
           key: "name",
           label: "Team"
         },
         {
-          key: "rank",
-          label: "Rank"
-        },
-        {
           key: "score",
-          label: "Total Score"
-        },
-        {
-          key: "todaysScore",
-          label: "Today's Score"
+          label: "Score"
         },
         {
           key: "gM.name",
