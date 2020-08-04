@@ -37,11 +37,12 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive-md col-md">
+      <div class="table-responsive-md col-md hideGM">
         <table class="table table-bordered table-striped table-condensed cf">
           <thead class="cf"> 
             <tr>
-              <th v-for="(col, colID) in fields" :key="colID" v-on:click="sortTable(col.key)" v-on:load="sortTable(col.key)">{{col.label}}
+              <th v-for="(col, colID) in fields" :key="colID" v-on:click="sortTable(col.key)" v-on:load="sortTable(col.key)">
+                <span>{{col.label}}</span>
               </th>
             </tr>
           </thead>
@@ -69,6 +70,11 @@
               <td>
                 <div v-if="row.isPaid || !leagueScores.isLocked">
                   {{ row.score }}
+                </div>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !leagueScores.isLocked">
+                  {{ row.todaysScore }}
                 </div>
               </td>
               <td>
@@ -131,6 +137,29 @@ td {
     text-decoration: underline;
   }
 }
+
+@media only screen and (max-width: 576px) {
+  .hideGM {
+    table td:nth-child(5),
+    table th:nth-child(5) {display: none;}
+
+    table th:nth-child(4) {
+      span {
+        display: none;
+      }
+    }
+
+    table th:nth-child(4):after {content: 'PtsTdy'; }
+
+    table th:nth-child(3) {
+      span {
+        display: none;
+      }
+    }
+
+    table th:nth-child(3):after {content: 'Pts'; }
+  }
+}
 </style>
 <script>
 import {
@@ -145,7 +174,7 @@ export default {
       fields: [
         {
           key: "rank",
-          label: "Pos."
+          label: "#"
         },
         {
           key: "name",
@@ -153,7 +182,11 @@ export default {
         },
         {
           key: "score",
-          label: "Score"
+          label: "Points"
+        },
+        {		         
+           key: "todaysScore",
+           label: "Points Today"
         },
         {
           key: "gM.name",

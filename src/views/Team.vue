@@ -52,6 +52,11 @@
             </tbody>
           </table>
         </section>
+        <div class="row align-items-center profile-header">
+          <div class="col-md">
+            <LeagueRules :leagueId="team.league.id"></LeagueRules>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -119,6 +124,7 @@ table th, table td {
 <script>
 import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_TEAM } from "../constants/graphQLqueries/graphQLqueries";
+import LeagueRules from "../components/LeagueRules";
 
 var getScoringData = function (scoring, id) {
   var i;
@@ -132,6 +138,9 @@ var getScoringData = function (scoring, id) {
 
 export default {
   name: "team",
+  components: {
+    LeagueRules
+  },
   data() {
     return {
       ascending: false,
