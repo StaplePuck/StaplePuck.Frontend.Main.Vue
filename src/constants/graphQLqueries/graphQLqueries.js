@@ -126,6 +126,7 @@ export const QUERY_TEAM = gql`
       league {
         id
         isLocked
+        name
       }
       fantasyTeamPlayers {
         player {
