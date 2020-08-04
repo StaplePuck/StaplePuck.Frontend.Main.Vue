@@ -13,14 +13,20 @@
             </div>
             <div class="card-body">
                <ul>
-                <li>
-                  League Ranking: {{ team.rank }}
+                 <li>
+                  <span>League:</span>
+                  <router-link :to="{ name: 'league', params: { id: team.league.id } }">
+                    {{ team.league.name }}
+                  </router-link>
                 </li>
                 <li>
-                  Total Score: {{ team.score }}
+                  <span>League Ranking:</span> {{ team.rank }}
                 </li>
                 <li>
-                  Today's Score: {{ team.todaysScore }}
+                  <span>Total Points:</span> {{ team.score }}
+                </li>
+                <li>
+                  <span>Today's Points:</span> {{ team.todaysScore }}
                 </li>
               </ul>
             </div>
@@ -75,6 +81,14 @@ h2 {
 }
 ul {
   margin-bottom: 0;
+}
+li {
+  span {
+  font-weight: bold;
+  }
+}
+a {
+    color: darkblue;
 }
 .player-info {
     text-decoration: none;
