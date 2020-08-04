@@ -180,6 +180,11 @@ export const QUERY_USER_PROFILE = gql`
       name
       email
       receiveEmails
+      receiveNotifications
+      receiveNegativeNotifications
+      notificationTokens {
+        token
+      }
     }
   }
 `;
@@ -217,6 +222,16 @@ export const UPDATE_LEAGUE_INFO = gql`
 export const SET_TEAM_LINEUP = gql`
   mutation($fantasyTeam: FantasyTeamUpdateInput!) {
     updateFantasyTeam(fantasyTeam: $fantasyTeam) {
+      id
+      success
+      message
+    }
+  }
+`;
+
+export const ADD_NOTIFICATION_TOKEN = gql`
+  mutation($notificationToken: NotificationTokenInput!) {
+    addNotificationToken(notificationToken: $notificationToken) {
       id
       success
       message

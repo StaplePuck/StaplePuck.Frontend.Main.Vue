@@ -2,6 +2,8 @@ import Vue from "vue";
 import firebase from "firebase/app";
 import "firebase/app";
 import "firebase/messaging";
+import { ADD_NOTIFICATION_TOKEN } from "../constants/graphQLqueries/graphQLqueries";
+import { apolloClient } from "../plugins/apollo";
 
 let instance;
 
@@ -19,6 +21,23 @@ export const usePushNotifications = () => {
           registration_id: token,
           type: "web"
         };
+
+        apolloClient
+          .mutate({
+            mutation: ADD_NOTIFICATION_TOKEN,
+            variables: {
+              notificationToken: {
+                token: token
+              }
+            }
+          })
+          .then(() => {
+            console.log("Saved token: " + token);
+          })
+          .catch((error) => {
+            console.error("Failed to save token");
+            console.log(errror.message);
+          });
         console.log(payload);
         // axios
         //   .post(registerNotifTokenURL, payload)
@@ -50,7 +69,6 @@ export const usePushNotifications = () => {
       }
     },
     mounted() {
-      console.log("Test 1. 2. 3.");
       var config = {
         apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
         authDomain:
@@ -101,10 +119,8 @@ export const usePushNotifications = () => {
 
 export const PushNotificationsPlugin = {
   install(Vue, options) {
-    console.log("Yo its me time");
     Vue.prototype.$pushNotifications = usePushNotifications(options);
 
-    console.log("Test 1. 2. 3.");
     var config = {
       apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
       authDomain: process.env.VUE_APP_FIREBASE_PROJECT_ID + ".firebaseapp.com",

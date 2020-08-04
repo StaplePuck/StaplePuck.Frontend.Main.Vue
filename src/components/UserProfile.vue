@@ -3,7 +3,6 @@
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
       <div class="text-center">
-        
         <p>Feel free to update your email preferences</p>
       </div>
       <form @submit="updateUser" class="form-width">
@@ -37,6 +36,55 @@
             <label class="form-check-label" for="'userReceiveEmails_' + key">
               {{ emailOption }}
             </label>
+          </div>
+        </div>
+
+        <div v-if="this.canDoPushNotifications">
+          <label>Receive Notifications:</label>
+          <div role="radiogroup" tabindex="-1">
+            <div
+              class="form-check form-check-inline"
+              v-for="(emailOption, key) in emailOptions"
+              :key="key"
+            >
+              <input
+                type="radio"
+                class="form-check-input"
+                name="receiveNotifications"
+                :id="'userReceiveNotifications_' + key"
+                :value="key"
+                v-model="currentUser.receiveNotifications"
+              />
+              <label
+                class="form-check-label"
+                for="'userReceiveNotifications_' + key"
+              >
+                {{ emailOption }}
+              </label>
+            </div>
+          </div>
+          <label>Receive Negative Notifications:</label>
+          <div role="radiogroup" tabindex="-1">
+            <div
+              class="form-check form-check-inline"
+              v-for="(emailOption, key) in emailOptions"
+              :key="key"
+            >
+              <input
+                type="radio"
+                class="form-check-input"
+                name="receiveNegativeNotifications"
+                :id="'userReceiveNegativeNotifications_' + key"
+                :value="key"
+                v-model="currentUser.receiveNegativeNotifications"
+              />
+              <label
+                class="form-check-label"
+                for="'receiveNegativeNotifications_' + key"
+              >
+                {{ emailOption }}
+              </label>
+            </div>
           </div>
         </div>
         <div v-show="saveSuccess" class="alert alert-success">
@@ -85,7 +133,13 @@ export default {
   name: "UserProfile",
   data() {
     return {
-      currentUser: { name: "", email: "", receiveEmails: true },
+      currentUser: {
+        name: "",
+        email: "",
+        receiveEmails: true,
+        receiveNotifications: true,
+        receiveNegativeNotifications: true
+      },
       newUser: false,
       loading: 0,
       emailOptions: { true: "Yes", false: "No" },
@@ -100,6 +154,14 @@ export default {
       query: QUERY_USER_PROFILE
     }
   },
+  computed: {
+    canDoPushNotifications: function () {
+      if (this.currentUser.notificationTokens.length > 0) {
+        return true;
+      }
+      return true;
+    }
+  },
   methods: {
     updateUser(evt) {
       evt.preventDefault();
@@ -112,7 +174,10 @@ export default {
           variables: {
             user: {
               email: this.currentUser.email,
-              receiveEmails: this.currentUser.receiveEmails
+              receiveEmails: this.currentUser.receiveEmails,
+              receiveNotifications: this.currentUser.receiveNotifications,
+              receiveNegativeNotifications: this.currentUser
+                .receiveNegativeNotifications
             }
           }
         })
