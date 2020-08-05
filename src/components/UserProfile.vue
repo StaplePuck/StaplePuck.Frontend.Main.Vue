@@ -63,7 +63,7 @@
               </label>
             </div>
           </div>
-          <label>Receive Negative Notifications:</label>
+          <label>Receive Notifications for Dropping Rank:</label>
           <div role="radiogroup" tabindex="-1">
             <div
               class="form-check form-check-inline"

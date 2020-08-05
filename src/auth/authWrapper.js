@@ -10,6 +10,7 @@ export const getInstance = () => instance;
 
 export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
+  onAuthorized,
   redirectUri = window.location.origin,
   ...options
 }) => {
@@ -102,6 +103,7 @@ export const useAuth0 = ({
         this.isAuthenticated = await this.auth0Client.isAuthenticated();
         this.user = await this.auth0Client.getUser();
         this.loading = false;
+        onAuthorized();
       }
     }
   });
