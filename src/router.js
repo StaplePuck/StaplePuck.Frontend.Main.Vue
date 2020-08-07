@@ -9,6 +9,7 @@ import LeagueManage from "./views/LeagueManage.vue";
 import League from "./views/LeagueTeams.vue";
 import Team from "./views/Team.vue";
 import Unauthorized from "./views/Unauthorized.vue";
+import PushInfo from "./views/PushInfo.vue";
 import { authGuard } from "./auth";
 
 Vue.use(Router);
@@ -71,6 +72,16 @@ const router = new Router({
       path: "/unauthorized",
       name: "unauthorized",
       component: Unauthorized
+    },
+    {
+      path: "/pushInfo",
+      name: "pushInfo",
+      component: PushInfo
+    },
+    {
+      path: "/index.html",
+      name: "default",
+      component: Home
     }
   ]
 });
