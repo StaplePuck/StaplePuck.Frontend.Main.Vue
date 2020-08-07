@@ -24,9 +24,7 @@
                   </router-link>
                 </div>
               </div>
-              <div v-else>
-                This leauge is locked
-              </div>
+              <div v-else></div>
               <div v-if="$store.getters['auth/userIsLeagueOwner'](id)" class="text-center">
                 <router-link
                   class="btn btn-secondary a-button text-center"
