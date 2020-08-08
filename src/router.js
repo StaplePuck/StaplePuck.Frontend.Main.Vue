@@ -79,7 +79,7 @@ const router = new Router({
       component: PushInfo
     },
     {
-      path: "/index.html",
+      path: "*",
       name: "default",
       component: Home
     }

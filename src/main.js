@@ -9,7 +9,6 @@ import {
 } from "./plugins/pushNotifications";
 import { Auth0Plugin } from "./auth";
 import "./registerServiceWorker";
-// import("../firebase-messaging-sw.js");
 import "bootstrap/dist/css/bootstrap.css";
 import { BTable } from "bootstrap-vue";
 
