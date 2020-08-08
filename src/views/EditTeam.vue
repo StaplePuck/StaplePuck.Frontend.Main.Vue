@@ -112,11 +112,13 @@ export default {
         if (this.fantasyTeams[0].league.isLocked) {
           this.$router.push({ name: "unauthorized" });
         }
+        const sub = this.$store.state.auth.userSub;
         if (
           !this.$store.getters["auth/canEditTeam"](
             this.fantasyTeams[0].id,
             this.fantasyTeams[0].league.id
-          )
+          ) &&
+          this.fantasyTeams[0].gM.externalId != sub
         ) {
           this.$router.push({ name: "unauthorized" });
         }

@@ -56,7 +56,7 @@
                     >{{ row.name }}
                   </router-link>
                 </div>
-                <div v-else-if="$store.getters['auth/canEditTeam'](row.id, id)">
+                <div v-else-if="canEditTeam(row)">
                   <router-link :to="{ name: 'editTeam', params: { id: row.id } }"
                     >{{ row.name }}
                   </router-link>
@@ -182,9 +182,9 @@ export default {
           key: "score",
           label: "Points"
         },
-        {		         
-           key: "todaysScore",
-           label: "Points Today"
+        {
+          key: "todaysScore",
+          label: "Points Today"
         },
         {
           key: "gM.name",
@@ -224,7 +224,14 @@ export default {
         } else if (a[col] < b[col]) {
           return ascending ? -1 : 1
         }
-      })
+      });
+    },
+    canEditTeam(fantasyTeam) {
+      const sub = this.$store.state.auth.userSub;
+      return (
+        this.$store.getters["auth/canEditTeam"](fantasyTeam.id, this.id) ||
+        fantasyTeam.gM.externalId == sub
+      );
     }
   },
   props: ["id"],

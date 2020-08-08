@@ -45,21 +45,23 @@ export const usePushNotifications = () => {
 };
 
 export const requestNotificationPermission = () => {
-  const messaging = firebase.messaging();
+  if (firebase.messaging.isSupported()) {
+    const messaging = firebase.messaging();
 
-  messaging.usePublicVapidKey(process.env.VUE_APP_FIREBASE_PUBLIC_KEY);
+    messaging.usePublicVapidKey(process.env.VUE_APP_FIREBASE_PUBLIC_KEY);
 
-  messaging
-    .requestPermission()
-    .then(() => {
-      console.log("Notification permission granted.");
-      messaging.getToken().then((token) => {
-        instance.saveNotificationToken(token);
+    messaging
+      .requestPermission()
+      .then(() => {
+        console.log("Notification permission granted.");
+        messaging.getToken().then((token) => {
+          instance.saveNotificationToken(token);
+        });
+      })
+      .catch((err) => {
+        console.log("Unable to get permission to notify.", err);
       });
-    })
-    .catch((err) => {
-      console.log("Unable to get permission to notify.", err);
-    });
+  }
 };
 
 export const PushNotificationsPlugin = {
@@ -78,20 +80,23 @@ export const PushNotificationsPlugin = {
       appId: process.env.VUE_APP_FIREBASE_APP_ID,
       messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID
     };
+
     firebase.initializeApp(config);
 
-    const messaging = firebase.messaging();
+    if (firebase.messaging.isSupported()) {
+      const messaging = firebase.messaging();
 
-    messaging.onTokenRefresh(function () {
-      messaging
-        .getToken()
-        .then(function (newToken) {
-          console.log("Token refreshed: ", newToken);
-          instance.saveNotificationToken(newToken);
-        })
-        .catch(function (err) {
-          console.log("Unable to retrieve refreshed token ", err);
-        });
-    });
+      messaging.onTokenRefresh(function () {
+        messaging
+          .getToken()
+          .then(function (newToken) {
+            console.log("Token refreshed: ", newToken);
+            instance.saveNotificationToken(newToken);
+          })
+          .catch(function (err) {
+            console.log("Unable to retrieve refreshed token ", err);
+          });
+      });
+    }
   }
 };
