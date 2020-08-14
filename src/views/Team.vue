@@ -12,48 +12,60 @@
               <h2>{{ team.name }}</h2>
             </div>
             <div class="card-body">
-               <ul>
-                 <li>
+              <ul>
+                <li>
                   <span>League:</span>
-                  <router-link :to="{ name: 'league', params: { id: team.league.id } }">
+                  <router-link
+                    :to="{ name: 'league', params: { id: team.league.id } }"
+                  >
                     {{ team.league.name }}
                   </router-link>
                 </li>
-                <li>
-                  <span>League Ranking:</span> {{ team.rank }}
-                </li>
-                <li>
-                  <span>Total Points:</span> {{ team.score }}
-                </li>
-                <li>
-                  <span>Today's Points:</span> {{ team.todaysScore }}
-                </li>
+                <li><span>League Ranking:</span> {{ team.rank }}</li>
+                <li><span>Total Points:</span> {{ team.score }}y</li>
+                <li><span>Today's Points:</span> {{ team.todaysScore }}</li>
               </ul>
             </div>
           </div>
         </div>
         <div class="col-md team-info">
           <span class="player-info table-danger">* = Team Eliminated</span>
-          <br/>
+          <br />
           <span class="player-info table-success">+ = Team in Play Today</span>
         </div>
         <section id="scroll-table" class="col-md">
           <table class="table table-bordered table-condensed cf">
-            <thead class="cf"> 
+            <thead class="cf">
               <tr>
-                <th v-for="(col, colID) in computedFields" :key="colID" v-on:click="sortTable(col.key)">
-                  {{col.label}}
+                <th
+                  v-for="(col, colID) in computedFields"
+                  :key="colID"
+                  v-on:click="sortTable(col.key)"
+                >
+                  {{ col.label }}
                 </th>
               </tr>
             </thead>
             <tbody v-if="players">
-              <tr v-for="(row, rowID) in players" :key="rowID" v-bind:class="row.rowColor">
-                <td v-for="(col, colID) in computedFields" :key="colID">{{row[col.key]}}</td>
+              <tr
+                v-for="(row, rowID) in players"
+                :key="rowID"
+                v-bind:class="row.rowColor"
+              >
+                <td v-for="(col, colID) in computedFields" :key="colID">
+                  {{ row[col.key] }}
+                </td>
               </tr>
             </tbody>
             <tbody v-else>
-              <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.rowColor">
-                <td v-for="(col, colID) in computedFields" :key="colID">{{row[col.key]}}</td>
+              <tr
+                v-for="(row, rowID) in computedData"
+                :key="rowID"
+                v-bind:class="row.rowColor"
+              >
+                <td v-for="(col, colID) in computedFields" :key="colID">
+                  {{ row[col.key] }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -84,19 +96,20 @@ ul {
 }
 li {
   span {
-  font-weight: bold;
+    font-weight: bold;
   }
 }
 a {
-    color: darkblue;
+  color: darkblue;
 }
 .player-info {
-    text-decoration: none;
-    padding-right: 0.6em;
-    padding-left: 0.6em;
-    border-radius: 10rem;
+  text-decoration: none;
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
 }
-table th, table td {
+table th,
+table td {
   cursor: pointer;
   padding: 0.25em;
 }
@@ -107,31 +120,86 @@ table th, table td {
   text-decoration: none;
 }
 @media only screen and (max-width: 800px) {
-	
-	#scroll-table.cf:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
-	#scroll-table * html .cf { zoom: 1; }
-	#scroll-table *:first-child+html .cf { zoom: 1; }
-	
-	#scroll-table table { width: 100%; border-collapse: collapse; border-spacing: 0; }
- 
-	#scroll-table th,
-	#scroll-table td { margin: 0; vertical-align: top; }
-	#scroll-table th { text-align: left; }
-	
-	#scroll-table table { display: block; position: relative; width: 100%; }
-	#scroll-table thead { display: block; float: left; }
-	#scroll-table tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
-	#scroll-table thead tr { display: block; }
-	#scroll-table th { display: block; text-align: right; }
-	#scroll-table tbody tr { display: inline-block; vertical-align: top; }
-	#scroll-table td { display: block; min-height: 1.25em; text-align: left; }
+  #scroll-table.cf:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  #scroll-table * html .cf {
+    zoom: 1;
+  }
+  #scroll-table *:first-child + html .cf {
+    zoom: 1;
+  }
 
-	/* sort out borders */
-	#scroll-table th { border-bottom: 0; border-left: 0; }
-	#scroll-table td { border-left: 0; border-right: 0; border-bottom: 0; }
-	#scroll-table tbody tr { border-left: 1px solid #babcbf; }
-	#scroll-table th:last-child,
-	#scroll-table td:last-child { border-bottom: 1px solid #babcbf; }
+  #scroll-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  #scroll-table th,
+  #scroll-table td {
+    margin: 0;
+    vertical-align: top;
+  }
+  #scroll-table th {
+    text-align: left;
+  }
+
+  #scroll-table table {
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+  #scroll-table thead {
+    display: block;
+    float: left;
+  }
+  #scroll-table tbody {
+    display: block;
+    width: auto;
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  #scroll-table thead tr {
+    display: block;
+  }
+  #scroll-table th {
+    display: block;
+    text-align: right;
+  }
+  #scroll-table tbody tr {
+    display: inline-block;
+    vertical-align: top;
+  }
+  #scroll-table td {
+    display: block;
+    min-height: 1.25em;
+    text-align: left;
+  }
+
+  /* sort out borders */
+  #scroll-table th {
+    border-bottom: 0;
+    border-left: 0;
+  }
+  #scroll-table td {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  #scroll-table tbody tr {
+    border-left: 1px solid #babcbf;
+  }
+  #scroll-table th:last-child,
+  #scroll-table td:last-child {
+    border-bottom: 1px solid #babcbf;
+  }
 }
 </style>
 
@@ -159,7 +227,7 @@ export default {
     return {
       ascending: false,
       sortColumn: "teamName",
-      players: this.computedData, 
+      players: this.computedData,
       fantasyTeams: null,
       loading: 0
     };
@@ -229,7 +297,18 @@ export default {
         });
 
         data.push(row);
-        data.sort((a, b) => (a.teamName > b.teamName) ? 1 : -1)
+        data.sort((a, b) => {
+          if (a.teamName.startsWith(" * ")) {
+            if (b.teamName.startsWith(" * ")) {
+              return a.teamName > b.teamName ? 1 : -1;
+            }
+            return 1;
+          }
+          if (b.teamName.startsWith(" * ")) {
+            return -1;
+          }
+          return a.teamName > b.teamName ? 1 : -1;
+        });
         this.players = data;
       });
       return data;
@@ -243,16 +322,33 @@ export default {
         this.ascending = true;
         this.sortColumn = col;
       }
-
       var ascending = this.ascending;
-      this.computedData.sort(function(a, b) {
+      this.computedData.sort(function (a, b) {
+        let presort = 0;
+        if (typeof a[col] === "string" || a[col] instanceof String) {
+          const astr = a[col];
+          const bstr = b[col];
+          if (astr.startsWith(" * ")) {
+            if (bstr.startsWith(" * ")) {
+              presort = 0;
+            } else {
+              presort = 1;
+            }
+          } else if (bstr.startsWith(" * ")) {
+            presort = -1;
+          }
+        }
+
+        if (presort != 0) {
+          return ascending ? presort : presort * -1;
+        }
         if (a[col] > b[col]) {
-          return ascending ? 1 : -1
+          return ascending ? 1 : -1;
         } else if (a[col] < b[col]) {
-          return ascending ? -1 : 1
+          return ascending ? -1 : 1;
         }
         return 0;
-      })
+      });
     }
   },
   props: ["id"],
