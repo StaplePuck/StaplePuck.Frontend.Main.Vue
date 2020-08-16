@@ -1,37 +1,27 @@
 <template>
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
-    <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
-      <div v-if="!team.isPaid">
-        Team Not Paid For
-      </div>
-      <div v-else class="align-items-center profile-header">
+    <div v-else>
+      <div class="align-items-center profile-header">
         <div class="col-md team-info">
           <div class="card">
             <div class="card-header">
-              <h2>{{ team.name }}</h2>
+              <h2>
+                {{ teamInfo.name }}
+              </h2>
             </div>
             <div class="card-body">
               <ul>
                 <li>
-                  <span>League:</span>
-                  <router-link
-                    :to="{ name: 'league', params: { id: team.league.id } }"
-                  >
-                    {{ team.league.name }}
-                  </router-link>
+                  <span>League: </span>
+                  <router-link :to="{ name: 'league', params: { id: id } }">{{
+                    teamInfo.leagueName
+                  }}</router-link>
                 </li>
-                <li><span>League Ranking:</span> {{ team.rank }}</li>
-                <li><span>Total Points:</span> {{ team.score }}y</li>
-                <li><span>Today's Points:</span> {{ team.todaysScore }}</li>
+                <li><span>Team State:</span> {{ teamInfo.state }}</li>
               </ul>
             </div>
           </div>
-        </div>
-        <div class="col-md team-info">
-          <span class="player-info table-danger">* = Team Eliminated</span>
-          <br />
-          <span class="player-info table-success">+ = Team in Play Today</span>
         </div>
         <section id="scroll-table" class="col-md">
           <table class="table table-bordered table-condensed cf">
@@ -53,18 +43,7 @@
                 v-bind:class="row.rowColor"
               >
                 <td v-for="(col, colID) in computedFields" :key="colID">
-                  <div v-if="col.key == 'teamName'">
-                    <router-link
-                      :to="{
-                        name: 'teamStats',
-                        params: { id: team.league.id, teamId: row.teamId }
-                      }"
-                      >{{ row[col.key] }}</router-link
-                    >
-                  </div>
-                  <div v-else>
-                    {{ row[col.key] }}
-                  </div>
+                  {{ row[col.key] }}
                 </td>
               </tr>
             </tbody>
@@ -83,7 +62,7 @@
         </section>
         <div class="row align-items-center profile-header">
           <div class="col-md">
-            <LeagueRules :leagueId="team.league.id"></LeagueRules>
+            <LeagueRules :leagueId="id"></LeagueRules>
           </div>
         </div>
       </div>
@@ -215,7 +194,7 @@ table td {
 </style>
 
 <script>
-import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
+import { GET_TEAM_SCORE } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 
@@ -230,20 +209,36 @@ var getScoringData = function (scoring, id) {
 };
 
 export default {
-  name: "team",
+  name: "teamStats",
   components: {
     LeagueRules
   },
   data() {
     return {
       ascending: false,
-      sortColumn: "teamName",
+      sortColumn: "score",
       players: this.computedData,
       fantasyTeams: null,
       loading: 0
     };
   },
   computed: {
+    teamInfo() {
+      const info = {};
+      const player = this.playerCalculatedScoresForTeam[0];
+      info.name = player.playerSeason.team.name;
+      info.leagueName = player.league.name;
+      const state = player.playerSeason.teamStateForSeason.gameState;
+      if (state == 0) {
+        info.state = "Day off";
+      } else if (state == -1) {
+        info.state = "Eliminated";
+      } else {
+        info.state = "Playing";
+      }
+
+      return info;
+    },
     computedFields() {
       const field = [];
       field.push({
@@ -259,10 +254,6 @@ export default {
         label: "Today's Points"
       });
       field.push({
-        key: "teamName",
-        label: "Team"
-      });
-      field.push({
         key: "position",
         label: "Position"
       });
@@ -272,33 +263,25 @@ export default {
           label: x.shortName
         });
       });
+      field.push({
+        key: "numberPicked",
+        label: "Picked"
+      });
       return field;
     },
     computedData() {
       const data = [];
-      this.fantasyTeams[0].fantasyTeamPlayers.forEach((x) => {
+      this.playerCalculatedScoresForTeam.forEach((x) => {
         var row = {};
         row.fullName = x.player.fullName;
-        row.teamId = x.playerSeason.team.id;
-        row.teamName = x.playerSeason.team.name;
         row.position = x.playerSeason.positionType.shortName;
-        row.score = x.playerCalculatedScore.score;
-        row.todaysScore = x.playerCalculatedScore.todaysScore;
-        if (x.playerSeason.teamStateForSeason.gameState === 1) {
-          row.rowColor = "table-success";
-          row.teamName = " + " + x.playerSeason.team.name;
-        }
-        if (x.playerSeason.teamStateForSeason.gameState === -1) {
-          row.rowColor = "table-danger";
-          row.teamName = " * " + x.playerSeason.team.name;
-        }
+        row.score = x.score;
+        row.todaysScore = x.todaysScore;
+        row.numberPicked = x.numberOfSelectedByTeams;
 
         this.scoringTypeHeadersForTeam.forEach((s) => {
           var text = "0";
-          var scoringData = getScoringData(
-            x.playerCalculatedScore.scoring,
-            s.id
-          );
+          var scoringData = getScoringData(x.scoring, s.id);
           if (scoringData != null) {
             text = scoringData.score;
             if (scoringData.todaysScore > 0) {
@@ -310,16 +293,7 @@ export default {
 
         data.push(row);
         data.sort((a, b) => {
-          if (a.teamName.startsWith(" * ")) {
-            if (b.teamName.startsWith(" * ")) {
-              return a.teamName > b.teamName ? 1 : -1;
-            }
-            return 1;
-          }
-          if (b.teamName.startsWith(" * ")) {
-            return -1;
-          }
-          return a.teamName > b.teamName ? 1 : -1;
+          return a.score > b.score ? -1 : 1;
         });
         this.players = data;
       });
@@ -336,24 +310,6 @@ export default {
       }
       var ascending = this.ascending;
       this.computedData.sort(function (a, b) {
-        let presort = 0;
-        if (typeof a[col] === "string" || a[col] instanceof String) {
-          const astr = a[col];
-          const bstr = b[col];
-          if (astr.startsWith(" * ")) {
-            if (bstr.startsWith(" * ")) {
-              presort = 0;
-            } else {
-              presort = 1;
-            }
-          } else if (bstr.startsWith(" * ")) {
-            presort = -1;
-          }
-        }
-
-        if (presort != 0) {
-          return ascending ? presort : presort * -1;
-        }
         if (a[col] > b[col]) {
           return ascending ? 1 : -1;
         } else if (a[col] < b[col]) {
@@ -363,22 +319,15 @@ export default {
       });
     }
   },
-  props: ["id"],
+  props: ["id", "teamId"],
   apollo: {
-    fantasyTeams: {
-      query: QUERY_TEAM,
+    playerCalculatedScoresForTeam: {
+      query: GET_TEAM_SCORE,
       variables() {
         return {
-          teamid: this.id
+          teamId: this.teamId,
+          leagueId: this.id
         };
-      },
-      result() {
-        if (this.fantasyTeams == null) {
-          return;
-        }
-        if (this.fantasyTeams[0].league.isLocked == false) {
-          this.$router.push({ name: "unauthorized" });
-        }
       }
     },
     scoringTypeHeadersForTeam: {
