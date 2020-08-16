@@ -8,6 +8,7 @@ import NewUser from "./views/NewUser.vue";
 import LeagueManage from "./views/LeagueManage.vue";
 import League from "./views/LeagueTeams.vue";
 import Team from "./views/Team.vue";
+import TeamStats from "./views/TeamStats.vue";
 import Unauthorized from "./views/Unauthorized.vue";
 import PushInfo from "./views/PushInfo.vue";
 import { authGuard } from "./auth";
@@ -66,6 +67,12 @@ const router = new Router({
       path: "/team/:id",
       name: "team",
       component: Team,
+      props: true
+    },
+    {
+      path: "/league/:id/team/:teamId",
+      name: "teamStats",
+      component: TeamStats,
       props: true
     },
     {

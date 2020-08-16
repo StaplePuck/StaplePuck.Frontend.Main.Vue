@@ -135,6 +135,7 @@ export const QUERY_TEAM = gql`
         }
         playerSeason {
           team {
+            id
             name
           }
           teamStateForSeason {
@@ -307,6 +308,47 @@ export const GET_LEAGUE_RULES = gql`
           name
           shortName
         }
+      }
+    }
+  }
+`;
+
+export const GET_TEAM_SCORE = gql`
+  query getTeamScore($leagueId: ID, $teamId: ID) {
+    playerCalculatedScoresForTeam(leagueId: $leagueId, teamId: $teamId) {
+      player {
+        id
+        fullName
+      }
+      league {
+        name
+      }
+      playerSeason {
+        positionType {
+          name
+          shortName
+        }
+        team {
+          id
+          name
+        }
+        teamStateForSeason {
+          gameState
+        }
+      }
+      todaysScore
+      score
+      numberOfSelectedByTeams
+      scoring {
+        scoringType {
+          id
+          shortName
+          name
+        }
+        total
+        todaysScore
+        todaysTotal
+        score
       }
     }
   }
