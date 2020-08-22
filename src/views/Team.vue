@@ -22,7 +22,7 @@
                   </router-link>
                 </li>
                 <li><span>League Ranking:</span> {{ team.rank }}</li>
-                <li><span>Total Points:</span> {{ team.score }}y</li>
+                <li><span>Total Points:</span> {{ team.score }}</li>
                 <li><span>Today's Points:</span> {{ team.todaysScore }}</li>
               </ul>
             </div>
