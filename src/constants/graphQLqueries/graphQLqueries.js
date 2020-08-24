@@ -165,9 +165,9 @@ export const QUERY_TEAM = gql`
   }
 `;
 
-export const QUERY_SCORING_TYPES_FOR_TEAM = gql`
-  query scoringTypes($teamid: Int) {
-    scoringTypeHeadersForTeam(id: $teamid) {
+export const QUERY_SCORING_TYPES_FOR_LEAGUE = gql`
+  query scoringTypes($leagueId: Int) {
+    scoringTypeHeadersForTeam(id: $leagueId) {
       id
       name
       shortName
@@ -349,6 +349,16 @@ export const GET_TEAM_SCORE = gql`
         todaysScore
         todaysTotal
         score
+      }
+    }
+  }
+`;
+
+export const GET_FANTASY_PLAYERS_FOR_LEAGUE = gql`
+  query getMyFantasyTeams($leagueId: ID) {
+    myFantasyTeams(leagueId: $leagueId) {
+      fantasyTeamPlayers {
+        playerId
       }
     }
   }

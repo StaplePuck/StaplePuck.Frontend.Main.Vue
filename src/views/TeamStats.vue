@@ -23,6 +23,9 @@
             </div>
           </div>
         </div>
+        <div class="col-md team-info">
+          <span class="player-info table-success">+ = Player on your team</span>
+        </div>
         <section id="scroll-table" class="col-md">
           <table class="table table-bordered table-condensed cf">
             <thead class="cf">
@@ -195,7 +198,8 @@ table td {
 
 <script>
 import { GET_TEAM_SCORE } from "../constants/graphQLqueries/graphQLqueries";
-import { QUERY_SCORING_TYPES_FOR_TEAM } from "../constants/graphQLqueries/graphQLqueries";
+import { QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
+import { GET_FANTASY_PLAYERS_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 
 var getScoringData = function (scoring, id) {
@@ -278,6 +282,10 @@ export default {
         row.score = x.score;
         row.todaysScore = x.todaysScore;
         row.numberPicked = x.numberOfSelectedByTeams;
+        if (this.playerIsOnUsersTeam(x.player.id)) {
+          row.rowColor = "table-success";
+          row.fullName = " + " + x.player.fullName;
+        }
 
         this.scoringTypeHeadersForTeam.forEach((s) => {
           var text = "0";
@@ -317,6 +325,16 @@ export default {
         }
         return 0;
       });
+    },
+    playerIsOnUsersTeam(playerId) {
+      var i, j;
+      for (i = 0; i < this.myFantasyTeams.length; i++) {
+        for (j = 0; j < this.myFantasyTeams[i].fantasyTeamPlayers.length; j++) {
+          if (playerId == this.myFantasyTeams[i].fantasyTeamPlayers[j].playerId)
+            return true;
+        }
+      }
+      return false;
     }
   },
   props: ["id", "teamId"],
@@ -331,10 +349,18 @@ export default {
       }
     },
     scoringTypeHeadersForTeam: {
-      query: QUERY_SCORING_TYPES_FOR_TEAM,
+      query: QUERY_SCORING_TYPES_FOR_LEAGUE,
       variables() {
         return {
-          teamid: this.id
+          leagueId: this.id
+        };
+      }
+    },
+    myFantasyTeams: {
+      query: GET_FANTASY_PLAYERS_FOR_LEAGUE,
+      variables() {
+        return {
+          leagueId: this.id
         };
       }
     }
