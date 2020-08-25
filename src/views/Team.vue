@@ -216,7 +216,7 @@ table td {
 
 <script>
 import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
-import { QUERY_SCORING_TYPES_FOR_TEAM } from "../constants/graphQLqueries/graphQLqueries";
+import { QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 
 var getScoringData = function (scoring, id) {
@@ -382,10 +382,10 @@ export default {
       }
     },
     scoringTypeHeadersForTeam: {
-      query: QUERY_SCORING_TYPES_FOR_TEAM,
+      query: QUERY_SCORING_TYPES_FOR_LEAGUE,
       variables() {
         return {
-          teamid: this.id
+          leagueId: this.id
         };
       }
     }
