@@ -61,6 +61,16 @@
             <input
               type="checkbox"
               class="form-check-input"
+              id="active"
+              unchecked-value="false"
+              v-model="league.isActive"
+            />
+            <label class="form-check-label" for="active">Active</label>
+          </div>
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
               id="locked"
               unchecked-value="false"
               v-model="league.isLocked"
@@ -248,6 +258,7 @@ export default {
               announcement: this.leagues[0].announcement,
               paymentInfo: this.leagues[0].paymentInfo,
               allowMultipleTeams: this.leagues[0].allowMultipleTeams,
+              isActive: this.leagues[0].isActive,
               isLocked: this.leagues[0].isLocked,
               fantasyTeams: fantasyTeams
             }
