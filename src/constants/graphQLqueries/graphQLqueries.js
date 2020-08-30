@@ -363,3 +363,23 @@ export const GET_FANTASY_PLAYERS_FOR_LEAGUE = gql`
     }
   }
 `;
+
+export const GET_MY_FANTASY_TEAMS = gql`
+  query getMyFantasyTeams($leagueId: ID) {
+    myFantasyTeams(leagueId: $leagueId) {
+      id
+      name
+      leagueId
+      isPaid
+      league {
+        id
+        name
+        isActive
+        isLocked
+      }
+      rank
+      score
+      todaysScore
+    }
+  }
+`;

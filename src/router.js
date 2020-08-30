@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import User from "./views/UserProfile.vue";
+import MyTeams from "./views/MyTeams.vue";
 import NewTeam from "./views/NewTeam.vue";
 import EditTeam from "./views/EditTeam.vue";
 import NewUser from "./views/NewUser.vue";
@@ -74,6 +75,11 @@ const router = new Router({
       name: "teamStats",
       component: TeamStats,
       props: true
+    },
+    {
+      path: "/myTeams",
+      name: "myTeams",
+      component: MyTeams
     },
     {
       path: "/unauthorized",
