@@ -370,7 +370,9 @@ export const GET_MY_FANTASY_TEAMS = gql`
       id
       name
       leagueId
+      isPaid
       league {
+        id
         name
         isActive
         isLocked

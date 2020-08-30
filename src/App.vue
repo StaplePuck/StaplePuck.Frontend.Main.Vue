@@ -12,6 +12,10 @@
               @click.prevent="login"
               >Login
             </a>
+            <router-link v-if="$auth.isAuthenticated" to="/myTeams"
+              >My Teams</router-link
+            >
+            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
             <router-link v-if="$auth.isAuthenticated" to="/user"
               >My Profile</router-link
             >
