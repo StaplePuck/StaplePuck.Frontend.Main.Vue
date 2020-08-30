@@ -8,56 +8,74 @@
             <h2>{{ leagueScores.name }}</h2>
           </div>
           <div class="card-body">
-              <span v-if="leagueScores.announcement != ''" style="color: darkred;">
-                <b>{{ leagueScores.announcement }}</b>
-              </span>
-              <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
-              <div v-if="!leagueScores.isLocked">
-                <div v-if="!$auth.isAuthenticated">
-                  Log in to join this league or edit your team.
-                </div>
-                <div v-else-if="canJoin" class="text-center">
-                  <router-link
-                    class="btn btn-secondary a-button text-center"
-                    :to="{ name: 'newTeam', params: { id: id } }"
-                    >Join This League
-                  </router-link>
-                </div>
+            <span
+              v-if="leagueScores.announcement != ''"
+              style="color: darkred;"
+            >
+              <b>{{ leagueScores.announcement }}</b>
+            </span>
+            <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
+            <div v-if="!leagueScores.isLocked">
+              <div v-if="!$auth.isAuthenticated">
+                Log in to join this league or edit your team.
               </div>
-              <div v-else></div>
-              <div v-if="$store.getters['auth/userIsLeagueOwner'](id)" class="text-center">
+              <div v-else-if="canJoin" class="text-center">
                 <router-link
                   class="btn btn-secondary a-button text-center"
-                  :to="{ name: 'leagueManage', params: { id: id } }"
-                  >Manage This League
+                  :to="{ name: 'newTeam', params: { id: id } }"
+                  >Join This League
                 </router-link>
               </div>
+            </div>
+            <div v-else></div>
+            <div
+              v-if="$store.getters['auth/userIsLeagueOwner'](id)"
+              class="text-center"
+            >
+              <router-link
+                class="btn btn-secondary a-button text-center"
+                :to="{ name: 'leagueManage', params: { id: id } }"
+                >Manage This League
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
       <div class="table-responsive-md col-md hideGM">
         <table class="table table-bordered table-striped table-condensed cf">
-          <thead class="cf"> 
+          <thead class="cf">
             <tr>
-              <th v-for="(col, colID) in fields" :key="colID" v-on:click="sortTable(col.key)" v-on:load="sortTable(col.key)">
-                <span>{{col.label}}</span>
+              <th
+                v-for="(col, colID) in fields"
+                :key="colID"
+                v-on:click="sortTable(col.key)"
+                v-on:load="sortTable(col.key)"
+              >
+                <span>{{ col.label }}</span>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(row, rowID) in leagueScores.fantasyTeams" :key="rowID">
+            <tr
+              v-for="(row, rowID) in leagueScores.fantasyTeams"
+              :key="rowID"
+              v-bind:class="rowColor(row)"
+            >
               <td>
-                {{row.rank}}
-                </td>
+                {{ row.rank }}
+              </td>
               <td>
                 <div v-if="leagueScores.isLocked">
                   <div v-if="!row.isPaid">Team Not Paid For</div>
-                  <router-link v-else :to="{ name: 'team', params: { id: row.id } }"
+                  <router-link
+                    v-else
+                    :to="{ name: 'team', params: { id: row.id } }"
                     >{{ row.name }}
                   </router-link>
                 </div>
                 <div v-else-if="canEditTeam(row)">
-                  <router-link :to="{ name: 'editTeam', params: { id: row.id } }"
+                  <router-link
+                    :to="{ name: 'editTeam', params: { id: row.id } }"
                     >{{ row.name }}
                   </router-link>
                 </div>
@@ -77,7 +95,7 @@
               </td>
               <td>
                 <div v-if="row.isPaid || !leagueScores.isLocked">
-                  {{ row.gM.name}}
+                  {{ row.gM.name }}
                 </div>
               </td>
             </tr>
@@ -87,7 +105,7 @@
       <div v-if="fantasyTeamsNotPaid" class="table-responsive-md col-md">
         <h4>Teams Not Paid For</h4>
         <table class="table table-bordered table-condensed cf">
-            <thead class="cf"> 
+          <thead class="cf">
             <tr>
               <th>
                 Team
@@ -99,8 +117,8 @@
           </thead>
           <tbody>
             <tr v-for="(row, rowID) in fantasyTeamsNotPaid" :key="rowID">
-              <td>{{row.name}}</td>
-              <td>{{row.gM.name}}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.gM.name }}</td>
             </tr>
           </tbody>
         </table>
@@ -139,7 +157,9 @@ td {
 @media only screen and (max-width: 576px) {
   .hideGM {
     table td:nth-child(5),
-    table th:nth-child(5) {display: none;}
+    table th:nth-child(5) {
+      display: none;
+    }
 
     table th:nth-child(4) {
       span {
@@ -147,7 +167,9 @@ td {
       }
     }
 
-    table th:nth-child(4):after {content: 'PtsTdy'; }
+    table th:nth-child(4):after {
+      content: "PtsTdy";
+    }
 
     table th:nth-child(3) {
       span {
@@ -155,7 +177,9 @@ td {
       }
     }
 
-    table th:nth-child(3):after {content: 'Pts'; }
+    table th:nth-child(3):after {
+      content: "Pts";
+    }
   }
 }
 </style>
@@ -218,11 +242,11 @@ export default {
       }
 
       var ascending = this.ascending;
-      this.leagueScores.fantasyTeams.sort(function(a, b) {
+      this.leagueScores.fantasyTeams.sort(function (a, b) {
         if (a[col] > b[col]) {
-          return ascending ? 1 : -1
+          return ascending ? 1 : -1;
         } else if (a[col] < b[col]) {
-          return ascending ? -1 : 1
+          return ascending ? -1 : 1;
         }
       });
     },
@@ -232,6 +256,13 @@ export default {
         this.$store.getters["auth/canEditTeam"](fantasyTeam.id, this.id) ||
         fantasyTeam.gM.externalId == sub
       );
+    },
+    rowColor(fantasyTeam) {
+      const sub = this.$store.state.auth.userSub;
+      if (fantasyTeam.gM.externalId == sub) {
+        return "table-success";
+      }
+      return "";
     }
   },
   props: ["id"],
@@ -281,11 +312,13 @@ export default {
           leagueid: this.id
         };
       },
-      result ({data}) {
-        if(data){
-          data.leagueScores.fantasyTeams.sort((a, b) => (a.rank > b.rank) ? 1 : -1);
+      result({ data }) {
+        if (data) {
+          data.leagueScores.fantasyTeams.sort((a, b) =>
+            a.rank > b.rank ? 1 : -1
+          );
         }
-    }
+      }
     },
     fantasyTeamsNotPaid: {
       query: QUERY_NOT_PAID,
