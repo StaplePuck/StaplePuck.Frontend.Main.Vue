@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="col-md team-info">
-          <span class="player-info table-success">+ = Player on your team</span>
+          <span class="player-info table-success"># = Player on your team</span>
         </div>
         <section id="scroll-table" class="col-md">
           <table class="table table-bordered table-condensed cf">
@@ -284,7 +284,7 @@ export default {
         row.numberPicked = x.numberOfSelectedByTeams;
         if (this.playerIsOnUsersTeam(x.player.id)) {
           row.rowColor = "table-success";
-          row.fullName = " + " + x.player.fullName;
+          row.fullName = " # " + x.player.fullName;
         }
 
         this.scoringTypeHeadersForTeam.forEach((s) => {
