@@ -27,7 +27,11 @@
                 </router-link>
               </div>
             </div>
-            <div v-else></div>
+            <div v-else>
+              <router-link :to="{ name: 'players', params: { id: id } }"
+                >Player Stats
+              </router-link>
+            </div>
             <div
               v-if="$store.getters['auth/userIsLeagueOwner'](id)"
               class="text-center"

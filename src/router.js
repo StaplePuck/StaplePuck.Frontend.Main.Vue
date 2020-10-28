@@ -8,6 +8,7 @@ import EditTeam from "./views/EditTeam.vue";
 import NewUser from "./views/NewUser.vue";
 import LeagueManage from "./views/LeagueManage.vue";
 import League from "./views/LeagueTeams.vue";
+import Players from "./views/Players.vue";
 import Team from "./views/Team.vue";
 import TeamStats from "./views/TeamStats.vue";
 import Unauthorized from "./views/Unauthorized.vue";
@@ -74,6 +75,12 @@ const router = new Router({
       path: "/league/:id/team/:teamId",
       name: "teamStats",
       component: TeamStats,
+      props: true
+    },
+    {
+      path: "/league/:id/players",
+      name: "players",
+      component: Players,
       props: true
     },
     {

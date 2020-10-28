@@ -383,3 +383,84 @@ export const GET_MY_FANTASY_TEAMS = gql`
     }
   }
 `;
+
+export const QUERY_GET_CALCULATED_SCORES = gql`
+  query getTeamScore(
+    $leagueId: [String]
+    $orderBy: String!
+    $skip: Int
+    $take: Int
+    $descending: Boolean
+    $positionTypes: [String]
+  ) {
+    playerCalculatedScores(
+      where: [
+        { path: "league.id", comparison: "equal", value: $leagueId }
+        {
+          path: "playerSeason.positionTypeId"
+          comparison: "in"
+          value: $positionTypes
+        }
+      ]
+      skip: $skip
+      take: $take
+      orderBy: { path: $orderBy, descending: $descending }
+    ) {
+      player {
+        id
+        fullName
+      }
+      league {
+        id
+        name
+      }
+      playerSeason {
+        positionType {
+          name
+          shortName
+        }
+        team {
+          id
+          name
+        }
+        teamStateForSeason {
+          gameState
+        }
+      }
+      todaysScore
+      score
+      numberOfSelectedByTeams
+      scoring {
+        scoringType {
+          id
+          shortName
+          name
+        }
+        total
+        todaysScore
+        todaysTotal
+        score
+      }
+    }
+  }
+`;
+
+export const QUERY_GET_LEAGUEPOSITIONS = gql`
+  query getLeagueInfo($leaguId: ID) {
+    leagues(id: $leaguId) {
+      id
+      name
+      season {
+        id
+        sport {
+          id
+          positionTypes {
+            id
+            name
+            shortName
+          }
+        }
+      }
+    }
+  }
+`;
