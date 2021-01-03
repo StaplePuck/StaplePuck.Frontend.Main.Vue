@@ -10,10 +10,8 @@ import {
 import { Auth0Plugin } from "./auth";
 import "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.css";
-import { BTable } from "bootstrap-vue";
 
 Vue.config.productionTip = false;
-Vue.component("b-table", BTable);
 
 Vue.use(PushNotificationsPlugin);
 Vue.use(Auth0Plugin, {

@@ -77,50 +77,73 @@
             />
             <label class="form-check-label" for="locked">Locked</label>
           </div>
-          <div></div>
-          <b-table
-            striped
-            :items="league.fantasyTeams"
-            :fields="fields"
-            :sort-by.sync="sortBy"
-            :small="true"
-          >
-            <template v-slot:cell(name)="{ item, value }">
-              <div v-if="league.isLocked == true">
-                <router-link :to="{ name: 'team', params: { id: item.id } }">{{
-                  value
-                }}</router-link>
-              </div>
-              <div v-else>
-                <router-link :to="{ name: 'editTeam', params: { id: item.id } }"
-                  >{{ value }}
-                </router-link>
-              </div>
-            </template>
-            <template v-slot:cell(isValid)="{ item }">
-              <div class="form-check">
-                <input
-                  class="form-check-input position-static"
-                  type="checkbox"
-                  unchecked-value="false"
-                  v-model="validCollection[item.id]"
-                  disabled
-                  aria-label="..."
-                />
-              </div>
-            </template>
-            <template v-slot:cell(isPaid)="{ item }">
-              <div class="form-check">
-                <input
-                  class="form-check-input position-static"
-                  type="checkbox"
-                  unchecked-value="false"
-                  v-model="paidCollection[item.id]"
-                  aria-label="..."
-                />
-              </div>
-            </template>
-          </b-table>
+          <table class="table table-bordered table-striped table-condensed cf">
+            <thead class="cf">
+              <tr>
+                <th
+                  v-for="(col, colID) in fields"
+                  :key="colID"
+                  v-on:click="sortTable(col.key)"
+                >
+                  <span>{{ col.label }}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr
+              v-for="(row, rowID) in league.fantasyTeams"
+              :key="rowID"
+            >
+              <td>
+                <div v-if="league.isLocked">
+                  <router-link
+                    :to="{ name: 'team', params: { id: row.id } }"
+                    >{{ row.name }}
+                  </router-link>
+                </div>
+                <div v-else>
+                  <router-link
+                    :to="{ name: 'editTeam', params: { id: row.id } }"
+                    >{{ row.name }}
+                  </router-link>
+                </div>
+              </td>
+              <td>
+                <div>
+                  {{ row.gM.name }}
+                </div>
+              </td>
+              <td>
+                <div>
+                  {{ row.gM.email }}
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input position-static"
+                    unchecked-value="false"
+                    disabled
+                    v-model="row.isValid"
+                    aria-label="Checked if the team is valid"
+                  />
+                </div>
+              </td>
+              <td>
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input position-static"
+                    unchecked-value="false"
+                    v-model="row.isPaid"
+                    aria-label="Checked if the user has paid"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          </table>
           <div v-show="saveSuccess" class="alert alert-success">
             Save Successful
           </div>
@@ -135,13 +158,13 @@
           <button
             class="btn btn-secondary a-button"
             type="submit"
-            :disabled="saving == 1"
+            :disabled="saving === 1"
           >
             <span
               class="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
-              v-if="saving == 1"
+              v-if="saving === 1"
             ></span>
             Save
           </button>
@@ -155,10 +178,24 @@
 .join {
   margin: 0.5em;
 }
-
 label {
   margin-bottom: 0;
   font-weight: bold;
+}
+.table th {
+  cursor: pointer;
+  padding: 0.25em;
+}
+.table td {
+  cursor: pointer;
+  padding: 0.25em;
+}
+td {
+  a {
+    color: darkblue;
+    text-align: left;
+    text-decoration: underline;
+  }
 }
 </style>
 
@@ -173,34 +210,27 @@ export default {
   name: "leagueManage",
   data() {
     return {
-      sortBy: "name",
-      paidCollection: {},
       validCollection: {},
       fields: [
         {
           key: "name",
-          label: "Team",
-          sortable: true
+          label: "Team"
         },
         {
           key: "gM.name",
-          label: "Team GM",
-          sortable: true
+          label: "Team GM"
         },
         {
           key: "gM.email",
-          label: "Email",
-          sortable: true
+          label: "Email"
         },
         {
           key: "isValid",
-          label: "Valid",
-          sortable: true
+          label: "Valid"
         },
         {
           key: "isPaid",
-          label: "Paid",
-          sortable: true
+          label: "Paid"
         }
       ],
       leagues: {},
@@ -220,7 +250,7 @@ export default {
           leagueid: this.id
         };
       },
-      result() {
+      result({ data }) {
         var i;
         if (this.leagues == null || this.leagues[0] == null) {
           return;
@@ -228,15 +258,38 @@ export default {
         if (!this.$store.getters["auth/userIsLeagueOwner"](this.id)) {
           this.$router.push({ name: "unauthorized" });
         }
+        if (data) {
+          data.leagues[0].fantasyTeams.sort((a, b) =>
+            a.name > b.name ? 1 : -1
+          );
+        }
         for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
           var ft = this.leagues[0].fantasyTeams[i];
-          this.paidCollection[ft.id] = ft.isPaid;
           this.validCollection[ft.id] = ft.isValid;
         }
       }
     }
   },
+  ascending: true,
+  sortColumn: "name",
   methods: {
+    sortTable(col) {
+      if (this.sortColumn === col) {
+        this.ascending = !this.ascending;
+      } else {
+        this.ascending = true;
+        this.sortColumn = col;
+      }
+
+      var ascending = this.ascending;
+      this.leagues[0].fantasyTeams.sort(function (a, b) {
+        if (a[col] > b[col]) {
+          return ascending ? 1 : -1;
+        } else if (a[col] < b[col]) {
+          return ascending ? -1 : 1;
+        }
+      });
+    },
     updateLeague(evt) {
       evt.preventDefault();
       this.saving = 1;
@@ -244,9 +297,11 @@ export default {
       this.saveFailed = false;
 
       var fantasyTeams = [];
-      for (let [id, value] of Object.entries(this.paidCollection)) {
-        fantasyTeams.push({ id: id, isPaid: value });
-      }
+      var i;
+      for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
+          var ft = this.leagues[0].fantasyTeams[i];
+          fantasyTeams.push({ id: ft.id, isPaid: ft.isPaid });
+        }
       this.$apollo
         .mutate({
           mutation: UPDATE_LEAGUE_INFO,
