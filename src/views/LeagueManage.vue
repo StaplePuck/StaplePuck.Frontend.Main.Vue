@@ -90,59 +90,55 @@
               </tr>
             </thead>
             <tbody>
-            <tr
-              v-for="(row, rowID) in league.fantasyTeams"
-              :key="rowID"
-            >
-              <td>
-                <div v-if="league.isLocked">
-                  <router-link
-                    :to="{ name: 'team', params: { id: row.id } }"
-                    >{{ row.name }}
-                  </router-link>
-                </div>
-                <div v-else>
-                  <router-link
-                    :to="{ name: 'editTeam', params: { id: row.id } }"
-                    >{{ row.name }}
-                  </router-link>
-                </div>
-              </td>
-              <td>
-                <div>
-                  {{ row.gM.name }}
-                </div>
-              </td>
-              <td>
-                <div>
-                  {{ row.gM.email }}
-                </div>
-              </td>
-              <td>
-                <div class="form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input position-static"
-                    unchecked-value="false"
-                    disabled
-                    v-model="row.isValid"
-                    aria-label="Checked if the team is valid"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input position-static"
-                    unchecked-value="false"
-                    v-model="row.isPaid"
-                    aria-label="Checked if the user has paid"
-                  />
-                </div>
-              </td>
-            </tr>
-          </tbody>
+              <tr v-for="(row, rowID) in league.fantasyTeams" :key="rowID">
+                <td>
+                  <div v-if="league.isLocked">
+                    <router-link :to="{ name: 'team', params: { id: row.id } }"
+                      >{{ row.name }}
+                    </router-link>
+                  </div>
+                  <div v-else>
+                    <router-link
+                      :to="{ name: 'editTeam', params: { id: row.id } }"
+                      >{{ row.name }}
+                    </router-link>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ row.gM.name }}
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{ row.gM.email }}
+                  </div>
+                </td>
+                <td>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input position-static"
+                      unchecked-value="false"
+                      disabled
+                      v-model="row.isValid"
+                      aria-label="Checked if the team is valid"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input position-static"
+                      unchecked-value="false"
+                      v-model="row.isPaid"
+                      aria-label="Checked if the user has paid"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <div v-show="saveSuccess" class="alert alert-success">
             Save Successful
@@ -299,9 +295,9 @@ export default {
       var fantasyTeams = [];
       var i;
       for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
-          var ft = this.leagues[0].fantasyTeams[i];
-          fantasyTeams.push({ id: ft.id, isPaid: ft.isPaid });
-        }
+        var ft = this.leagues[0].fantasyTeams[i];
+        fantasyTeams.push({ id: ft.id, isPaid: ft.isPaid });
+      }
       this.$apollo
         .mutate({
           mutation: UPDATE_LEAGUE_INFO,

@@ -10,8 +10,8 @@ module.exports = {
     "prettier/prettier": [
       "warn",
       {
-        "endOfLine":"auto",
-        "trailingComma": "none"
+        endOfLine: "auto",
+        trailingComma: "none"
       }
     ]
   },

@@ -135,8 +135,8 @@ ul {
     &.router-link-exact-active {
       background-color: #ffc107;
       text-decoration: none;
-      padding-right: .6em;
-      padding-left: .6em;
+      padding-right: 0.6em;
+      padding-left: 0.6em;
       border-radius: 10rem;
     }
   }
