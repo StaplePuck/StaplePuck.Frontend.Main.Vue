@@ -21,7 +21,8 @@
                 )"
                 :key="idr"
               >
-                <b>{{ rule.scoringType.name }}</b>: {{ rule.pointsPerScore }} points
+                <b>{{ rule.scoringType.name }}</b
+                >: {{ rule.pointsPerScore }} points
               </p>
             </div>
           </div>
@@ -36,7 +37,8 @@
                 v-for="(rule, idr) in getScoringRules(league.scoringRules, 1)"
                 :key="idr"
               >
-                <b>{{ rule.scoringType.name }}</b>: {{ rule.pointsPerScore }} points
+                <b>{{ rule.scoringType.name }}</b
+                >: {{ rule.pointsPerScore }} points
               </p>
             </div>
           </div>
