@@ -1,6 +1,8 @@
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
+const DumpVueEnvVarsWebpackPlugin = require("./vue-config/DumpVueEnvVarsWebpackPlugin.js");
+
 module.exports = {
   pwa: {
     iconPaths: {
@@ -8,6 +10,9 @@ module.exports = {
     }
   },
   configureWebpack: {
-    plugins: [new BundleAnalyzerPlugin()]
+    plugins: [
+      new BundleAnalyzerPlugin(),
+      new DumpVueEnvVarsWebpackPlugin({ filename: "env-vars.js" })
+    ]
   }
 };
