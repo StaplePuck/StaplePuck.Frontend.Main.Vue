@@ -10,9 +10,6 @@ module.exports = {
     }
   },
   configureWebpack: {
-    plugins: [
-      new BundleAnalyzerPlugin(),
-      new DumpVueEnvVarsWebpackPlugin({ filename: "env-vars.js" })
-    ]
+    plugins: [new DumpVueEnvVarsWebpackPlugin({ filename: "env-vars.js" })]
   }
 };
