@@ -1,74 +1,109 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Profile from "./views/UserProfile.vue";
-import AuthCallback from './views/AuthCallback.vue'
-import Store from './store'
+import User from "./views/UserProfile.vue";
+import MyTeams from "./views/MyTeams.vue";
+import NewTeam from "./views/NewTeam.vue";
+import EditTeam from "./views/EditTeam.vue";
+import NewUser from "./views/NewUser.vue";
+import LeagueManage from "./views/LeagueManage.vue";
+import League from "./views/LeagueTeams.vue";
+import Players from "./views/Players.vue";
+import Team from "./views/Team.vue";
+import TeamStats from "./views/TeamStats.vue";
+import Unauthorized from "./views/Unauthorized.vue";
+import PushInfo from "./views/PushInfo.vue";
+import { authGuard } from "./auth";
 
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: "/",
   routes: [
-    {
-      path: '/authcallback',
-      name: 'authcallback',
-      component: AuthCallback,
-    },
     {
       path: "/",
       name: "home",
       component: Home
     },
     {
+      path: "/newUser",
+      name: "newUser",
+      component: NewUser,
+      beforeEnter: authGuard
+    },
+    {
       path: "/user",
       name: "user",
-      component: Profile,
-      meta: { requiresAuth: true }
+      component: User,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/league/:id",
+      name: "league",
+      component: League,
+      props: true
+    },
+    {
+      path: "/league/:id/newTeam",
+      name: "newTeam",
+      component: NewTeam,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/league/:id/manage",
+      name: "leagueManage",
+      component: LeagueManage,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/team/:id/edit",
+      name: "editTeam",
+      component: EditTeam,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/team/:id",
+      name: "team",
+      component: Team,
+      props: true
+    },
+    {
+      path: "/league/:id/team/:teamId",
+      name: "teamStats",
+      component: TeamStats,
+      props: true
+    },
+    {
+      path: "/league/:id/players",
+      name: "players",
+      component: Players,
+      props: true
+    },
+    {
+      path: "/myTeams",
+      name: "myTeams",
+      component: MyTeams
+    },
+    {
+      path: "/unauthorized",
+      name: "unauthorized",
+      component: Unauthorized
+    },
+    {
+      path: "/pushInfo",
+      name: "pushInfo",
+      component: PushInfo
+    },
+    {
+      path: "*",
+      name: "default",
+      component: Home
     }
   ]
 });
 
-router.beforeEach( (to,from,next)=>{
-  // Allow finishing callback url for logging in
-  if(to.matched.some(record=>record.path == "/authcallback")){
-   console.log("router.beforeEach found /authcallback url");
-   Store.dispatch('auth0HandleAuthentication');
-   next(false);
- }
- 
-  // check if user is logged in (start assuming the user is not logged in = false)
-  let routerAuthCheck = false;  
-  // Verify all the proper access variables are present for proper authorization
-  if( localStorage.getItem('access_token') && localStorage.getItem('id_token') && localStorage.getItem('expires_at') ){
-    console.log('found local storage tokens');
-    // Check whether the current time is past the Access Token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    // set localAuthTokenCheck true if unexpired / false if expired
-    routerAuthCheck = new Date().getTime() < expiresAt;  
-  }
- 
-   // set global ui understanding of authentication
-   Store.commit('setUserIsAuthenticated', routerAuthCheck); 
- 
-   // check if the route to be accessed requires authorizaton
-   if (to.matched.some(record => record.meta.requiresAuth)) {
-     // Check if user is Authenticated
-     if(routerAuthCheck){
-       // user is Authenticated - allow access
-       next();
-     }
-     else{
-       // user is not authenticated - redirect to login
-       router.replace('/');
-     }
-     
-   }
-   // Allow page to load 
-   else{
-     next();
-   }
- });
- 
- export default router;
+export default router;

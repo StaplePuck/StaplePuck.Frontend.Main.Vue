@@ -2,20 +2,20 @@
   <div class="container">
     <div class="row align-items-center profile-header">
       <div class="col-md text-center">
-        <h2>StaplePuck Profile</h2>
+        <h2>My Teams</h2>
       </div>
-      <UserProfile />
+      <MyTeams />
     </div>
   </div>
 </template>
 
 <script>
-import UserProfile from "@/components/UserProfile.vue";
+import MyTeams from "@/components/MyTeams.vue";
 
 export default {
-  name: "user",
+  name: "myTeams",
   components: {
-    UserProfile
+    MyTeams
   }
 };
 </script>

@@ -1,54 +1,71 @@
 <template>
   <div class="container">
-    <h2>{{ msg }}</h2>
-      <b-card-group>
-        <b-card no-body deck v-for="(league, idx) in leagues" :key="idx">
-          <b-card-header>
-            <a href="#" class="card-link">{{ league.name }}</a>
-          </b-card-header>
-          <b-list-group flush>
-            <b-list-group-item>{{ league.season.sport.name }}</b-list-group-item>
-            <b-list-group-item>{{ league.season.fullName }}</b-list-group-item>
-            <b-list-group-item>{{ league.description }}</b-list-group-item>
-          </b-list-group>
-          <p style="color:red;">
-            {{ league.announcement }}
-          </p>
-        </b-card>
-      </b-card-group>
+    <h4 v-if="loading" class="text-center">Loading...</h4>
+    <div v-else>
+      <h1>{{ msg }}</h1>
+      <div
+        class="group-div"
+        v-for="(season, ids) in seasons.slice().reverse()"
+        track-by="id"
+        :key="ids"
+      >
+        <h4 class="badge badge-warning text-center">{{ season.fullName }}</h4>
+        <div class="card-deck">
+          <div
+            class="card text-left"
+            v-for="(league, idx) in season.leagues"
+            :key="idx"
+          >
+            <div class="card-header">
+              <router-link :to="{ name: 'league', params: { id: league.id } }"
+                >{{ league.name }}
+              </router-link>
+            </div>
+            <div class="card-body">
+              <ul>
+                <li>
+                  {{ league.season.sport.name }}
+                </li>
+                <li>
+                  {{ league.description }}
+                </li>
+                <li v-if="league.announcement != ''">
+                  <span style="color: darkred;">
+                    <b>{{ league.announcement }}</b>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import LeagueItem from "./LeagueItem"
-import { QUERY_ALL_LEAGUES } from "../constants/graphQLqueries/graphQLqueries"
+import { QUERY_ALL_LEAGUES } from "../constants/graphQLqueries/graphQLqueries";
 
 export default {
   name: "AllLeagues",
   props: {
     msg: String
   },
-  data () {
+  data() {
     return {
-      leagues: []
-    }
-  },
-  components: {
-    LeagueItem
+      seasons: [],
+      loading: 0
+    };
   },
   apollo: {
-    leagues: {
+    seasons: {
       query: QUERY_ALL_LEAGUES
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
 a {
   color: darkblue;
   font-weight: 700;
@@ -56,5 +73,26 @@ a {
   &::after {
     content: " >";
   }
+}
+h4 {
+  margin-top: 0.5rem;
+}
+.card-body {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+ul {
+  margin-bottom: 0;
+}
+.badge {
+  font-size: large;
+  display: block;
+}
+.group-div {
+  padding-top: 1em;
 }
 </style>

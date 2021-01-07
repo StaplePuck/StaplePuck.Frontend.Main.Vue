@@ -4,18 +4,18 @@
       <div class="col-md text-center">
         <h2>StaplePuck Profile</h2>
       </div>
-      <UserProfile />
+      <NewUser />
     </div>
   </div>
 </template>
 
 <script>
-import UserProfile from "@/components/UserProfile.vue";
+import NewUser from "@/components/NewUser.vue";
 
 export default {
-  name: "user",
+  name: "newUser",
   components: {
-    UserProfile
+    NewUser
   }
 };
 </script>

@@ -1,6 +1,11 @@
 <template>
-  <div class="home">
-    <AllLeagues msg="Current StaplePuck Leagues" />
+  <div>
+    <AllLeagues msg="StaplePuck Leagues" />
+    <div class="container">
+      <div id="nav">
+        <router-link :to="{ name: 'pushInfo' }">Push Notifications</router-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,10 +19,3 @@ export default {
   }
 };
 </script>
-
-<style scoped lang="scss">
-img {
-  padding: 0;
-  margin: 0;
-}
-</style>
