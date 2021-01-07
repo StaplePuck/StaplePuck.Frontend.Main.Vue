@@ -27,7 +27,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: build
+      - name: Build
+        env:
+          VUE_APP_AUTH0_CONFIG_CALLBACKURL: ${{ secrets.VUE_APP_AUTH0_CONFIG_CALLBACKURL }}
+          VUE_APP_DOMAINURL: ${{ secrets.VUE_APP_DOMAINURL }}
+          VUE_APP_AUTH0_CONFIG_AUD: ${{ secrets.VUE_APP_AUTH0_CONFIG_AUD }}
+          VUE_APP_AUTH0_CONFIG_CLIENTID: ${{ secrets.VUE_APP_AUTH0_CONFIG_CLIENTID }}
+          VUE_APP_AUTH0_CONFIG_DOMAIN: ${{ secrets.VUE_APP_AUTH0_CONFIG_DOMAIN }}
+          VUE_APP_AUTH0_CONFIG_DOMAINURL: ${{ secrets.VUE_APP_AUTH0_CONFIG_DOMAINURL }}
+          VUE_APP_AUTH0_CONFIG_RESPONSETYPE: ${{ secrets.VUE_APP_AUTH0_CONFIG_RESPONSETYPE }}
+          VUE_APP_AUTH0_CONFIG_SCOPE: ${{ secrets.VUE_APP_AUTH0_CONFIG_SCOPE }}
+          VUE_APP_FIREBASE_API_KEY: ${{ secrets.VUE_APP_FIREBASE_API_KEY }}
+          VUE_APP_FIREBASE_APP_ID: ${{ secrets.VUE_APP_FIREBASE_APP_ID }}
+          VUE_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.VUE_APP_FIREBASE_MEASUREMENT_ID }}
+          VUE_APP_FIREBASE_PROJECT_ID: ${{ secrets.VUE_APP_FIREBASE_PROJECT_ID }}
+          VUE_APP_FIREBASE_PUBLIC_KEY: ${{ secrets.VUE_APP_FIREBASE_PUBLIC_KEY }}  
+          VUE_APP_FIREBASE_SENDER_ID: ${{ secrets.VUE_APP_FIREBASE_SENDER_ID }}  
+          VUE_APP_GRAPHQL_CLIENT: ${{ secrets.VUE_APP_GRAPHQL_CLIENT }}
         run: npm run build
 
       - name: Deploy
