@@ -13,3 +13,7 @@ module.exports = {
     plugins: [new DumpVueEnvVarsWebpackPlugin({ filename: "env-vars.js" })]
   }
 };
+
+if (process.env.NODE_ENV === "development") {
+  module.exports.configureWebpack.plugins.push(new BundleAnalyzerPlugin());
+}

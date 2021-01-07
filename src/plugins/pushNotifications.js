@@ -30,13 +30,8 @@ export const usePushNotifications = () => {
               }
             }
           })
-          .then(() => {
-            console.log("Saved token: " + token);
-          })
-          .catch((error) => {
-            console.error("Failed to save token");
-            console.log(errror.message);
-          });
+          .then(() => {})
+          .catch((error) => {});
       }
     }
   });
@@ -53,14 +48,11 @@ export const requestNotificationPermission = () => {
     messaging
       .requestPermission()
       .then(() => {
-        console.log("Notification permission granted.");
         messaging.getToken().then((token) => {
           instance.saveNotificationToken(token);
         });
       })
-      .catch((err) => {
-        console.log("Unable to get permission to notify.", err);
-      });
+      .catch((err) => {});
   }
 };
 
@@ -90,12 +82,9 @@ export const PushNotificationsPlugin = {
         messaging
           .getToken()
           .then(function (newToken) {
-            console.log("Token refreshed: ", newToken);
             instance.saveNotificationToken(newToken);
           })
-          .catch(function (err) {
-            console.log("Unable to retrieve refreshed token ", err);
-          });
+          .catch(function (err) {});
       });
     }
   }

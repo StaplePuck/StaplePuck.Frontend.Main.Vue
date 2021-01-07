@@ -34,7 +34,6 @@ export const useAuth0 = ({
         try {
           await this.auth0Client.loginWithPopup(o);
         } catch (e) {
-          console.error(e);
         } finally {
           this.popupOpen = false;
         }
