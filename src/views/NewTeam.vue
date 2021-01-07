@@ -130,7 +130,6 @@ export default {
           });
         })
         .catch((error) => {
-          console.error(error);
           this.saveFailed = true;
           this.saveErrors = DisplayErrors(this.$bvToast, error);
           this.saving = 0;

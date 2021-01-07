@@ -10,7 +10,6 @@ export function DisplayErrors(bvToast, graphError) {
   let blah = [];
   for (i = 0; i < errors.length; i++) {
     if (errors.hasOwnProperty("functionError")) {
-      console.log(customErrors.errors[i]);
       bvToast.toast(customErrors.errors[i], {
         title: "Warning",
         autoHideDelay: 5000,
