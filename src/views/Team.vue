@@ -15,7 +15,9 @@
               <ul>
                 <li>
                   <span>League:</span>
+                  &nbsp;
                   <router-link
+                    class="card-links"
                     :to="{ name: 'league', params: { id: team.league.id } }"
                   >
                     {{ team.league.name }}
@@ -109,9 +111,6 @@ li {
   span {
     font-weight: bold;
   }
-}
-a {
-  color: darkblue;
 }
 .player-info {
   text-decoration: none;

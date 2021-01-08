@@ -10,15 +10,12 @@
           <div class="card-body">
             <ul>
               <li>
-                <span>League:</span>
+                <span>League: </span>
                 <router-link
-                  :to="{
-                    name: 'league',
-                    params: { id: id }
-                  }"
+                  class="card-links"
+                  :to="{ name: 'league', params: { id: id } }"
+                  >{{ leagues[0].name }}</router-link
                 >
-                  {{ leagues[0].name }}
-                </router-link>
               </li>
               <li>
                 <span>Positions:</span>
@@ -35,15 +32,6 @@
                     ><strong>{{ option.name }}</strong></template
                   >
                 </multiselect>
-                <!-- <select v-model="positions" class="form-control" multiple>
-                  <option
-                    v-for="(type, typeId) in positionOptions"
-                    :key="typeId"
-                    :value="type.id"
-                  >
-                    {{ type.name }}
-                  </option>
-                </select> -->
               </li>
             </ul>
           </div>
@@ -150,9 +138,6 @@ li {
   span {
     font-weight: bold;
   }
-}
-a {
-  color: darkblue;
 }
 .player-info {
   text-decoration: none;

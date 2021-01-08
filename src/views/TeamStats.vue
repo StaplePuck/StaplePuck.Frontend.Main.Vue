@@ -14,9 +14,11 @@
               <ul>
                 <li>
                   <span>League: </span>
-                  <router-link :to="{ name: 'league', params: { id: id } }">{{
-                    teamInfo.leagueName
-                  }}</router-link>
+                  <router-link
+                    class="card-links"
+                    :to="{ name: 'league', params: { id: id } }"
+                    >{{ teamInfo.leagueName }}</router-link
+                  >
                 </li>
                 <li><span>Team State:</span> {{ teamInfo.state }}</li>
               </ul>
