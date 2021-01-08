@@ -92,7 +92,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 h1 {
   text-align: center;
   font-size: 2em;
@@ -102,9 +102,12 @@ h2 {
   text-align: center;
   font-size: 2em;
   font-weight: 700;
+  margin-bottom: 0;
 }
 .a-button {
   margin: 0.5em 0;
+  color: #fff;
+  text-decoration: none;
 }
 .form-width {
   max-width: 720px;
@@ -113,6 +116,19 @@ h2 {
 }
 ul {
   margin-bottom: 0;
+}
+.card-links {
+  color: darkblue;
+  font-weight: 700;
+  text-decoration: underline;
+  &::after {
+    content: " >";
+  }
+}
+.table {
+  a {
+    color: darkblue;
+  }
 }
 </style>
 <style scoped lang="scss">

@@ -28,7 +28,9 @@
               </div>
             </div>
             <div v-else>
-              <router-link :to="{ name: 'players', params: { id: id } }"
+              <router-link
+                class="card-links"
+                :to="{ name: 'players', params: { id: id } }"
                 >Player Stats
               </router-link>
             </div>
@@ -142,6 +144,7 @@ h2 {
 .league-info {
   margin-bottom: 1em;
 }
+
 .table th {
   cursor: pointer;
   padding: 0.25em;
@@ -149,13 +152,6 @@ h2 {
 .table td {
   cursor: pointer;
   padding: 0.25em;
-}
-td {
-  a {
-    color: darkblue;
-    text-align: left;
-    text-decoration: underline;
-  }
 }
 
 @media only screen and (max-width: 576px) {

@@ -3,6 +3,11 @@
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
       <h1>{{ msg }}</h1>
+      <div class="summary">
+        We offer
+        <router-link :to="{ name: 'pushInfo' }">push notifications</router-link>
+        to enhance your StaplePuck experience
+      </div>
       <div
         class="group-div"
         v-for="(season, ids) in seasons.slice().reverse()"
@@ -17,7 +22,9 @@
             :key="idx"
           >
             <div class="card-header">
-              <router-link :to="{ name: 'league', params: { id: league.id } }"
+              <router-link
+                class="card-links"
+                :to="{ name: 'league', params: { id: league.id } }"
                 >{{ league.name }}
               </router-link>
             </div>
@@ -66,12 +73,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a {
-  color: darkblue;
-  font-weight: 700;
-  text-decoration: underline;
-  &::after {
-    content: " >";
+.summary {
+  text-align: center;
+  a {
+    color: darkblue;
+    text-decoration: underline;
   }
 }
 h4 {
@@ -83,9 +89,6 @@ h4 {
 }
 p {
   margin-top: 0;
-  margin-bottom: 0;
-}
-ul {
   margin-bottom: 0;
 }
 .badge {
