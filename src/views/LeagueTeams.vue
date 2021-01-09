@@ -5,7 +5,7 @@
       <div class="col-md league-info">
         <div class="card text-left">
           <div class="card-header">
-            <h2>{{ leagueScores.name }}</h2>
+            <h1>{{ leagueScores.name }}</h1>
           </div>
           <div class="card-body">
             <span v-if="leagueScores.announcement != ''" class="alert-msg">
@@ -131,9 +131,6 @@
 </template>
 
 <style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
 .league-info {
   margin-bottom: 1em;
 }

@@ -6,9 +6,9 @@
         <div class="col-md team-info">
           <div class="card">
             <div class="card-header">
-              <h2>
+              <h1>
                 {{ teamInfo.name }}
-              </h2>
+              </h1>
             </div>
             <div class="card-body">
               <ul>
@@ -76,22 +76,13 @@
 </template>
 
 <style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
 .team-info {
   margin-bottom: 1em;
-}
-ul {
-  margin-bottom: 0;
 }
 li {
   span {
     font-weight: bold;
   }
-}
-a {
-  color: darkblue;
 }
 .player-info {
   text-decoration: none;

@@ -98,11 +98,9 @@ h1 {
   font-size: 2em;
   font-weight: 700;
 }
-h2 {
-  text-align: center;
-  font-size: 2em;
-  font-weight: 700;
-  margin-bottom: 0;
+a {
+  color: #000099 !important ;
+  font-weight: 700 !important ;
 }
 .a-button {
   margin: 0.5em 0;
@@ -116,25 +114,33 @@ h2 {
 }
 .card {
   border-radius: 0 !important;
+  .card-header {
+    padding: 0.5rem 1rem;
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin: 0;
+    }
+  }
   .card-body {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
   }
   ul {
     margin-bottom: 0;
+    padding-left: 1rem;
   }
 }
 .card-links {
   color: #000099;
   font-weight: 700;
 }
-.table {
-  a {
-    color: #000099;
-  }
-}
 .alert-msg {
   color: #e31c3d;
+}
+.summary {
+    text-align: center;
+    margin: 0.5rem;
 }
 </style>
 <style scoped lang="scss">
@@ -178,9 +184,5 @@ footer {
   width: 100%;
   height: 2.5rem;
   text-align: center;
-  a {
-    color: darkblue;
-    text-decoration: underline;
-  }
 }
 </style>

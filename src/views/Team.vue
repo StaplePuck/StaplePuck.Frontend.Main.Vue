@@ -9,7 +9,7 @@
         <div class="col-md team-info">
           <div class="card">
             <div class="card-header">
-              <h2>{{ team.name }}</h2>
+              <h1>{{ team.name }}</h1>
             </div>
             <div class="card-body">
               <ul>
@@ -94,14 +94,8 @@
 </template>
 
 <style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
 .team-info {
   margin-bottom: 1em;
-}
-ul {
-  margin-bottom: 0;
 }
 li {
   span {
