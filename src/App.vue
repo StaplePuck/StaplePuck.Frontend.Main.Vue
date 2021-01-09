@@ -114,21 +114,27 @@ h2 {
   margin-right: auto;
   margin-left: auto;
 }
-ul {
-  margin-bottom: 0;
+.card {
+  border-radius: 0 !important;
+  .card-body {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  ul {
+    margin-bottom: 0;
+  }
 }
 .card-links {
-  color: darkblue;
+  color: #000099;
   font-weight: 700;
-  text-decoration: underline;
-  &::after {
-    content: " >";
-  }
 }
 .table {
   a {
-    color: darkblue;
+    color: #000099;
   }
+}
+.alert-msg {
+  color: #e31c3d;
 }
 </style>
 <style scoped lang="scss">
