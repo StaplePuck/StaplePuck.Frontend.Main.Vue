@@ -3,18 +3,14 @@
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
       <h1>{{ msg }}</h1>
-      <div class="summary">
-        We offer
-        <router-link :to="{ name: 'pushInfo' }">push notifications</router-link>
-        to enhance your StaplePuck experience
-      </div>
+      
       <div
         class="group-div"
         v-for="(season, ids) in seasons.slice().reverse()"
         track-by="id"
         :key="ids"
       >
-        <h4 class="badge badge-warning text-center">{{ season.fullName }}</h4>
+        <span class="badge badge-warning text-center">{{ season.fullName }}</span>
         <div class="card-deck">
           <div
             class="card card-styles text-left"
@@ -73,23 +69,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.summary {
-  text-align: center;
-  a {
-    color: darkblue;
-    text-decoration: underline;
-  }
-}
-h4 {
-  margin-top: 0.5rem;
-}
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
 .badge {
-  font-size: large;
+  font-size: 1rem;
   display: block;
+  border-radius: 0;
+  margin: 0.25rem 0;
 }
 .group-div {
   padding-top: 1em;

@@ -186,13 +186,6 @@ label {
   cursor: pointer;
   padding: 0.25em;
 }
-td {
-  a {
-    color: darkblue;
-    text-align: left;
-    text-decoration: underline;
-  }
-}
 </style>
 
 <script>

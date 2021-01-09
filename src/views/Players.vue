@@ -5,7 +5,7 @@
       <div class="col-md team-info">
         <div class="card">
           <div class="card-header">
-            <h2>Overall Stats</h2>
+            <h1>Overall Stats</h1>
           </div>
           <div class="card-body">
             <ul>
@@ -121,14 +121,8 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
 .team-info {
   margin-bottom: 1em;
-}
-ul {
-  margin-bottom: 0;
 }
 li {
   span {
