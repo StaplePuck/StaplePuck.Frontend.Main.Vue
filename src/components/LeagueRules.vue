@@ -1,7 +1,7 @@
 <template>
   <div class="container rules">
-    <h5 class="text-center">League Rules</h5>
-    <h4 v-if="loading">Loading Rules...</h4>
+    <h2 class="text-center">League Rules</h2>
+    <span v-if="loading">Loading Rules...</span>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         <div
@@ -47,7 +47,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { GET_LEAGUE_RULES } from "../constants/graphQLqueries/graphQLqueries";
 
@@ -89,7 +88,6 @@ export default {
   }
 };
 </script>
-
 <style scoped lang="scss">
 .rules {
   margin-bottom: 1em;

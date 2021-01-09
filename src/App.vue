@@ -48,7 +48,6 @@
     </footer>
   </div>
 </template>
-
 <script>
 import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
 import pushNotifications from "./plugins/pushNotifications";
@@ -91,12 +90,11 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
-h1 {
+h2 {
   text-align: center;
-  font-size: 2em;
-  font-weight: 700;
+  font-size: 1.75em !important;
+  font-weight: 700 !important;
 }
 a {
   color: #000099 !important ;
@@ -118,7 +116,7 @@ a {
     padding: 0.5rem 1rem;
     h1 {
       text-align: center;
-      font-size: 2rem;
+      font-size: 1.5rem;
       margin: 0;
     }
   }
@@ -129,6 +127,11 @@ a {
   ul {
     margin-bottom: 0;
     padding-left: 1rem;
+    li {
+      span {
+        font-weight: bold;
+      }
+    }
   }
 }
 .card-links {
@@ -137,10 +140,6 @@ a {
 }
 .alert-msg {
   color: #e31c3d;
-}
-.summary {
-    text-align: center;
-    margin: 0.5rem;
 }
 </style>
 <style scoped lang="scss">

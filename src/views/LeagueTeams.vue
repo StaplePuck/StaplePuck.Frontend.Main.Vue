@@ -106,7 +106,7 @@
         </table>
       </div>
       <div v-if="fantasyTeamsNotPaid" class="table-responsive-md col-md">
-        <h4>Teams Not Paid For</h4>
+        <h2>Teams Not Paid For</h2>
         <table class="table table-bordered table-condensed cf">
           <thead class="cf">
             <tr>
@@ -134,7 +134,6 @@
 .league-info {
   margin-bottom: 1em;
 }
-
 .table th {
   cursor: pointer;
   padding: 0.25em;

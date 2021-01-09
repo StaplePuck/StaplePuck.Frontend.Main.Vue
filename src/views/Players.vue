@@ -10,7 +10,7 @@
           <div class="card-body">
             <ul>
               <li>
-                <span>League: </span>
+                <span>League:&nbsp;</span>
                 <router-link
                   class="card-links"
                   :to="{ name: 'league', params: { id: id } }"
@@ -28,9 +28,9 @@
                   :multiple="true"
                   :allow-empty="false"
                 >
-                  <template slot="singleLabel" slot-scope="{ option }"
-                    ><strong>{{ option.name }}</strong></template
-                  >
+                  <template slot="singleLabel" slot-scope="{ option }">
+                    <strong>{{ option.name }}</strong>
+                  </template>
                 </multiselect>
               </li>
             </ul>
@@ -76,9 +76,7 @@
                     >{{ row[col.key] }}</router-link
                   >
                 </div>
-                <div v-else>
-                  {{ row[col.key] }}
-                </div>
+                <div v-else>{{ row[col.key] }}</div>
               </td>
             </tr>
           </tbody>
@@ -117,119 +115,6 @@
     </div>
   </div>
 </template>
-
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-
-<style scoped lang="scss">
-.team-info {
-  margin-bottom: 1em;
-}
-li {
-  span {
-    font-weight: bold;
-  }
-}
-.player-info {
-  text-decoration: none;
-  padding-right: 0.6em;
-  padding-left: 0.6em;
-  border-radius: 10rem;
-}
-table th,
-table td {
-  cursor: pointer;
-  padding: 0.25em;
-}
-.sorted {
-  text-decoration: underline;
-}
-.unsorted {
-  text-decoration: none;
-}
-@media only screen and (max-width: 800px) {
-  #scroll-table.cf:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
-  #scroll-table * html .cf {
-    zoom: 1;
-  }
-  #scroll-table *:first-child + html .cf {
-    zoom: 1;
-  }
-
-  #scroll-table table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-
-  #scroll-table th,
-  #scroll-table td {
-    margin: 0;
-    vertical-align: top;
-  }
-  #scroll-table th {
-    text-align: left;
-  }
-
-  #scroll-table table {
-    display: block;
-    position: relative;
-    width: 100%;
-  }
-  #scroll-table thead {
-    display: block;
-    float: left;
-  }
-  #scroll-table tbody {
-    display: block;
-    width: auto;
-    position: relative;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  #scroll-table thead tr {
-    display: block;
-  }
-  #scroll-table th {
-    display: block;
-    text-align: right;
-  }
-  #scroll-table tbody tr {
-    display: inline-block;
-    vertical-align: top;
-  }
-  #scroll-table td {
-    display: block;
-    min-height: 1.25em;
-    text-align: left;
-  }
-
-  /* sort out borders */
-  #scroll-table th {
-    border-bottom: 0;
-    border-left: 0;
-  }
-  #scroll-table td {
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-  }
-  #scroll-table tbody tr {
-    border-left: 1px solid #babcbf;
-  }
-  #scroll-table th:last-child,
-  #scroll-table td:last-child {
-    border-bottom: 1px solid #babcbf;
-  }
-}
-</style>
-
 <script>
 import { QUERY_GET_CALCULATED_SCORES } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
@@ -450,3 +335,113 @@ export default {
   }
 };
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+.multiselect__tag {
+  background-color: #2e8540 !important;
+}
+</style>
+<style scoped lang="scss">
+.team-info {
+  margin-bottom: 1em;
+}
+.player-info {
+  text-decoration: none;
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+  border-radius: 10rem;
+}
+table th,
+table td {
+  cursor: pointer;
+  padding: 0.25em;
+}
+.sorted {
+  text-decoration: underline;
+}
+.unsorted {
+  text-decoration: none;
+}
+@media only screen and (max-width: 800px) {
+  #scroll-table.cf:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  #scroll-table * html .cf {
+    zoom: 1;
+  }
+  #scroll-table *:first-child + html .cf {
+    zoom: 1;
+  }
+
+  #scroll-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  #scroll-table th,
+  #scroll-table td {
+    margin: 0;
+    vertical-align: top;
+  }
+  #scroll-table th {
+    text-align: left;
+  }
+
+  #scroll-table table {
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+  #scroll-table thead {
+    display: block;
+    float: left;
+  }
+  #scroll-table tbody {
+    display: block;
+    width: auto;
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  #scroll-table thead tr {
+    display: block;
+  }
+  #scroll-table th {
+    display: block;
+    text-align: right;
+  }
+  #scroll-table tbody tr {
+    display: inline-block;
+    vertical-align: top;
+  }
+  #scroll-table td {
+    display: block;
+    min-height: 1.25em;
+    text-align: left;
+  }
+
+  /* sort out borders */
+  #scroll-table th {
+    border-bottom: 0;
+    border-left: 0;
+  }
+  #scroll-table td {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  #scroll-table tbody tr {
+    border-left: 1px solid #babcbf;
+  }
+  #scroll-table th:last-child,
+  #scroll-table td:last-child {
+    border-bottom: 1px solid #babcbf;
+  }
+}
+</style>

@@ -79,11 +79,6 @@
 .team-info {
   margin-bottom: 1em;
 }
-li {
-  span {
-    font-weight: bold;
-  }
-}
 .player-info {
   text-decoration: none;
   padding-right: 0.6em;

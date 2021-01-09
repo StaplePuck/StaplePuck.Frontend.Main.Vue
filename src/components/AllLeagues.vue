@@ -2,15 +2,16 @@
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
-      <h1>{{ msg }}</h1>
-      
+      <h2>Latest Leagues</h2>
       <div
         class="group-div"
         v-for="(season, ids) in seasons.slice().reverse()"
         track-by="id"
         :key="ids"
       >
-        <span class="badge badge-warning text-center">{{ season.fullName }}</span>
+        <span class="badge badge-warning text-center">{{
+          season.fullName
+        }}</span>
         <div class="card-deck">
           <div
             class="card card-styles text-left"
