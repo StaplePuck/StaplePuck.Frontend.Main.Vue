@@ -17,7 +17,7 @@
         <h4 class="badge badge-warning text-center">{{ season.fullName }}</h4>
         <div class="card-deck">
           <div
-            class="card text-left"
+            class="card card-styles text-left"
             v-for="(league, idx) in season.leagues"
             :key="idx"
           >
@@ -37,7 +37,7 @@
                   {{ league.description }}
                 </li>
                 <li v-if="league.announcement != ''">
-                  <span style="color: darkred;">
+                  <span class="alert-msg">
                     <b>{{ league.announcement }}</b>
                   </span>
                 </li>
@@ -82,10 +82,6 @@ export default {
 }
 h4 {
   margin-top: 0.5rem;
-}
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
 }
 p {
   margin-top: 0;

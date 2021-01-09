@@ -94,16 +94,9 @@ export default {
 .rules {
   margin-bottom: 1em;
 }
-
 .list-group-item {
   border: 0;
 }
-
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
 p {
   margin-top: 0;
   margin-bottom: 0;

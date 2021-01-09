@@ -124,10 +124,6 @@
 h2 {
   margin-bottom: 0;
 }
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
 .team-info {
   margin-bottom: 1em;
 }

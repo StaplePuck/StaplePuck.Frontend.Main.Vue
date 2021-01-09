@@ -8,10 +8,7 @@
             <h2>{{ leagueScores.name }}</h2>
           </div>
           <div class="card-body">
-            <span
-              v-if="leagueScores.announcement != ''"
-              style="color: darkred;"
-            >
+            <span v-if="leagueScores.announcement != ''" class="alert-msg">
               <b>{{ leagueScores.announcement }}</b>
             </span>
             <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
@@ -136,10 +133,6 @@
 <style scoped lang="scss">
 h2 {
   margin-bottom: 0;
-}
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
 }
 .league-info {
   margin-bottom: 1em;
