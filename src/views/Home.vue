@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <PageSummary headline="A new twist on fantasy sports" />
+    <PageSummary headline="A unique twist on fantasy sports" />
     <AllLeagues />
   </div>
 </template>

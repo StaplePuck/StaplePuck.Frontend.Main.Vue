@@ -2,32 +2,7 @@
   <div id="app">
     <div class="main-content">
       <div class="nav-logo">
-        <header>
-          <div id="nav">
-            <router-link to="/">Home</router-link>
-            <span class="pipes">|</span>
-            <a
-              v-if="!$auth.isAuthenticated && !$auth.loading"
-              id="qsLoginBtn"
-              @click.prevent="login"
-              >Login
-            </a>
-            <router-link v-if="$auth.isAuthenticated" to="/myTeams"
-              >My Teams</router-link
-            >
-            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
-            <router-link v-if="$auth.isAuthenticated" to="/user"
-              >My Profile</router-link
-            >
-            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
-            <a
-              v-if="$auth.isAuthenticated"
-              id="qsLoginBtn"
-              @click.prevent="logout"
-              >Log Out
-            </a>
-          </div>
-        </header>
+        <PageMainNav />
         <img
           alt="StaplePuck logo"
           src="./assets/StaplePuckLogo.png"
@@ -35,54 +10,21 @@
           height="200"
         />
       </div>
-      <router-view />
+      <main>
+        <router-view />
+      </main>
     </div>
     <PageFooter />
   </div>
 </template>
 <script>
-import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
-import pushNotifications from "./plugins/pushNotifications";
+import PageMainNav from "@/components/PageMainNav.vue";
 import PageFooter from "@/components/PageFooter.vue";
 
 export default {
-  data() {
-    return {
-      clientId: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN
-    };
-  },
-  apollo: {
-    currentUser: {
-      query: QUERY_USER_PROFILE,
-      skip() {
-        return (
-          !this.$store.getters["auth/hasUserToken"] ||
-          this.$route.name == "newUser"
-        );
-      },
-      result({ data }) {
-        if (
-          data != null &&
-          (data.currentUser == null ||
-            data.currentUser.name == null ||
-            data.currentUser.name == "")
-        ) {
-          this.$router.push("/newUser");
-        }
-      },
-      error() {}
-    }
-  },
-  methods: {
-    login() {
-      this.$store.dispatch("auth/auth0Login");
-    },
-    logout() {
-      this.$store.dispatch("auth/auth0Logout");
-    }
-  },
   components: {
-    PageFooter
+    PageFooter,
+    PageMainNav
   }
 };
 </script>
@@ -95,9 +37,12 @@ h2 {
   font-size: 1.75em !important;
   font-weight: 700 !important;
 }
-a {
-  color: #000099 !important ;
-  font-weight: 700 !important ;
+main,
+footer {
+  a {
+    color: #000099 !important ;
+    font-weight: 700 !important ;
+  }
 }
 .a-button {
   margin: 0.5em 0;
