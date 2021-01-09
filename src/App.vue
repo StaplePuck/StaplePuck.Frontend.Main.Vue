@@ -37,20 +37,13 @@
       </div>
       <router-view />
     </div>
-    <footer>
-      <a
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.termsfeed.com/privacy-policy/1d035b59d3dcbf692dbce4eead4ec7d8"
-      >
-        Privacy Policy
-      </a>
-    </footer>
+    <PageFooter />
   </div>
 </template>
 <script>
 import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
 import pushNotifications from "./plugins/pushNotifications";
+import PageFooter from "@/components/PageFooter.vue";
 
 export default {
   data() {
@@ -87,10 +80,16 @@ export default {
     logout() {
       this.$store.dispatch("auth/auth0Logout");
     }
+  },
+  components: {
+    PageFooter
   }
 };
 </script>
 <style lang="scss">
+.main-content {
+  margin-bottom: 1rem;
+}
 h2 {
   text-align: center;
   font-size: 1.75em !important;
@@ -173,15 +172,5 @@ a {
 }
 .pipes {
   margin: 0.25em;
-}
-.main-content {
-  padding-bottom: 2.5rem;
-}
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;
-  text-align: center;
 }
 </style>
