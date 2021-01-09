@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
       <h2>Latest Leagues</h2>
