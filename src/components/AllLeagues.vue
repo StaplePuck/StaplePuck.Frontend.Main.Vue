@@ -70,11 +70,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h2 {
+  margin-bottom: 0;
+}
 .badge {
   font-size: 1rem;
   display: block;
   border-radius: 0;
   margin: 0.25rem 0;
+}
+.badge-warning {
+  background-color: #000;
+  color: #ffc107;
 }
 .group-div {
   padding-top: 1em;
