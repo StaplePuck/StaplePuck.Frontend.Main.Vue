@@ -101,7 +101,7 @@ nav a {
   }
 }
 nav a:hover {
-    color: #000;
+  color: #000;
 }
 nav a:not([href]):hover {
   text-decoration: underline;
