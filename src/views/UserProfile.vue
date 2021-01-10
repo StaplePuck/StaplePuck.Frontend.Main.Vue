@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row align-items-center profile-header">
       <div class="col-md text-center">
-        <h2>StaplePuck Profile</h2>
+        <h1>StaplePuck Profile</h1>
       </div>
       <UserProfile />
     </div>

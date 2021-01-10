@@ -8,7 +8,7 @@
       <form @submit="updateUser" class="form-width">
         <p><b>Username:</b> {{ currentUser.name }}</p>
         <div class="form-group">
-          <label label-for="userEmail">Email Address:</label>
+          <label for="userEmail">Email Address:</label>
           <input
             type="text"
             id="userEmail"
@@ -18,8 +18,8 @@
             v-model="currentUser.email"
           />
         </div>
-        <label>Receive Emails:</label>
-        <div role="radiogroup" tabindex="-1">
+        <fieldset role="radiogroup" tabindex="-1">
+          <legend>Receive Emails:</legend>
           <div
             class="form-check form-check-inline"
             v-for="(emailOption, key) in emailOptions"
@@ -33,15 +33,14 @@
               :value="key"
               v-model="currentUser.receiveEmails"
             />
-            <label class="form-check-label" for="'userReceiveEmails_' + key">
+            <label class="form-check-label" :for="'userReceiveEmails_' + key">
               {{ emailOption }}
             </label>
           </div>
-        </div>
-
+        </fieldset>
         <div v-if="this.canDoPushNotifications">
-          <label>Receive Notifications:</label>
-          <div role="radiogroup" tabindex="-1">
+          <fieldset role="radiogroup" tabindex="-1">
+            <legend>Receive Notifications:</legend>
             <div
               class="form-check form-check-inline"
               v-for="(emailOption, key) in emailOptions"
@@ -57,14 +56,14 @@
               />
               <label
                 class="form-check-label"
-                for="'userReceiveNotifications_' + key"
+                :for="'userReceiveNotifications_' + key"
               >
                 {{ emailOption }}
               </label>
             </div>
-          </div>
-          <label>Receive Notifications for Dropping Rank:</label>
-          <div role="radiogroup" tabindex="-1">
+          </fieldset>
+          <fieldset role="radiogroup" tabindex="-1">
+            <legend>Receive Notifications for Dropping Rank:</legend>
             <div
               class="form-check form-check-inline"
               v-for="(emailOption, key) in emailOptions"
@@ -80,12 +79,12 @@
               />
               <label
                 class="form-check-label"
-                for="'receiveNegativeNotifications_' + key"
+                :for="'userReceiveNegativeNotifications_' + key"
               >
                 {{ emailOption }}
               </label>
             </div>
-          </div>
+          </fieldset>
         </div>
         <div v-show="saveSuccess" class="alert alert-success">
           Save Successful
@@ -121,6 +120,11 @@
 label {
   margin-bottom: 0;
   font-weight: bold;
+}
+legend {
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 16px;
 }
 </style>
 
