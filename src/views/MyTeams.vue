@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row align-items-center profile-header">
       <div class="col-md text-center">
-        <h2>My Teams</h2>
+        <h1>My Teams</h1>
       </div>
       <MyTeams />
     </div>

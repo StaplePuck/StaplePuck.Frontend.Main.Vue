@@ -19,7 +19,7 @@
                   <router-link
                     :to="{ name: 'league', params: { id: row.league.id } }"
                   >
-                    {{ row.rank }}
+                    {{ row.league.name }}
                   </router-link>
                 </td>
                 <td>
@@ -36,6 +36,13 @@
                   </div>
                 </td>
                 <td>
+                  <router-link
+                    :to="{ name: 'league', params: { id: row.league.id } }"
+                  >
+                    {{ row.rank }}
+                  </router-link>
+                </td>
+                <td>
                   <div v-if="row.isPaid || !row.league.isLocked">
                     {{ row.score }}
                   </div>
@@ -45,22 +52,14 @@
                     {{ row.todaysScore }}
                   </div>
                 </td>
-                <td>
-                  <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.league.name }}
-                  </router-link>
-                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
-
       <section id="scroll-table" class="col-md">
         <div class="col-md text-center">
-          <h3>Archived Teams</h3>
+          <h2>Archived Teams</h2>
         </div>
         <div class="table-responsive-md col-md">
           <table class="table table-bordered table-striped table-condensed cf">
@@ -77,7 +76,7 @@
                   <router-link
                     :to="{ name: 'league', params: { id: row.league.id } }"
                   >
-                    {{ row.rank }}
+                    {{ row.league.name }}
                   </router-link>
                 </td>
                 <td>
@@ -94,16 +93,16 @@
                   </div>
                 </td>
                 <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.score }}
-                  </div>
-                </td>
-                <td>
                   <router-link
                     :to="{ name: 'league', params: { id: row.league.id } }"
                   >
-                    {{ row.league.name }}
+                    {{ row.rank }}
                   </router-link>
+                </td>
+                <td>
+                  <div v-if="row.isPaid || !row.league.isLocked">
+                    {{ row.score }}
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -113,60 +112,6 @@
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
-.league-info {
-  margin-bottom: 1em;
-}
-.table th {
-  cursor: pointer;
-  padding: 0.25em;
-}
-.table td {
-  cursor: pointer;
-  padding: 0.25em;
-}
-td {
-  a {
-    color: darkblue;
-    text-align: left;
-    text-decoration: underline;
-  }
-}
-
-@media only screen and (max-width: 576px) {
-  .hideLeague {
-    table td:nth-child(5),
-    table th:nth-child(5) {
-      display: none;
-    }
-
-    table th:nth-child(4) {
-      span {
-        display: none;
-      }
-    }
-
-    table th:nth-child(4):after {
-      content: "PtsTdy";
-    }
-
-    table th:nth-child(3) {
-      span {
-        display: none;
-      }
-    }
-
-    table th:nth-child(3):after {
-      content: "Pts";
-    }
-  }
-}
-</style>
-
 <script>
 import { GET_MY_FANTASY_TEAMS } from "../constants/graphQLqueries/graphQLqueries";
 
@@ -179,12 +124,16 @@ export default {
       notActiveTeams: null,
       activeFields: [
         {
-          key: "rank",
-          label: "#"
+          key: "league.name",
+          label: "League"
         },
         {
           key: "name",
           label: "Team"
+        },
+        {
+          key: "rank",
+          label: "Rank"
         },
         {
           key: "score",
@@ -193,28 +142,24 @@ export default {
         {
           key: "todaysScore",
           label: "Points Today"
-        },
-        {
-          key: "league.name",
-          label: "League"
         }
       ],
       nonActiveFields: [
         {
-          key: "rank",
-          label: "#"
+          key: "league.name",
+          label: "League"
         },
         {
           key: "name",
           label: "Team"
         },
         {
-          key: "score",
-          label: "Points"
+          key: "rank",
+          label: "Rank"
         },
         {
-          key: "league.name",
-          label: "League"
+          key: "score",
+          label: "Points"
         }
       ]
     };
@@ -240,3 +185,40 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+h2 {
+  margin-bottom: 0;
+}
+.league-info {
+  margin-bottom: 1em;
+}
+.table th {
+  cursor: pointer;
+  padding: 0.25em;
+}
+.table td {
+  cursor: pointer;
+  padding: 0.25em;
+}
+@media only screen and (max-width: 576px) {
+  .hideLeague {
+    table td:nth-child(5),
+    table th:nth-child(5) {
+      display: none;
+    }
+    table th:nth-child(4) {
+      span {
+        display: none;
+      }
+    }
+    table th:nth-child(4) {
+      span {
+        display: none;
+      }
+    }
+    table th:nth-child(4):after {
+      content: "Pts";
+    }
+  }
+}
+</style>
