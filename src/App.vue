@@ -1,15 +1,7 @@
 <template>
   <div id="app">
     <div class="main-content">
-      <div class="nav-logo">
-        <PageMainNav />
-        <img
-          alt="StaplePuck logo"
-          src="./assets/StaplePuckLogo.png"
-          width="200"
-          height="200"
-        />
-      </div>
+      <PageMainNav />
       <main>
         <router-view />
       </main>
@@ -111,9 +103,6 @@ footer {
       border-radius: 10rem;
     }
   }
-}
-.nav-logo {
-  text-align: center;
 }
 .pipes {
   margin: 0.25em;
