@@ -1,25 +1,26 @@
 <template>
   <header>
-    <nav id="main-nav">
-      <router-link to="/">Home</router-link>
-      <router-link v-if="$auth.isAuthenticated" to="/myTeams"
-        >My Teams</router-link
-      >
-      <router-link v-if="$auth.isAuthenticated" to="/user"
-        >My Profile</router-link
-      >
-      <a
-        v-if="!$auth.isAuthenticated && !$auth.loading"
-        id="qsLoginBtn"
-        @click.prevent="login"
-        >Sign In
-      </a>
-      <a v-if="$auth.isAuthenticated" id="qsLoginBtn" @click="logout"
-        >Sign Out
-      </a>
-      <a class="icon" @click.prevent="showMenu()">
-        <i class="fa fa-bars"></i>
-      </a>
+    <nav>
+      <div class="row main-nav">
+        <router-link to="/" class="logo-link">
+          <img alt="StaplePuck logo" src="../assets/logos/StaplePuck.jpg" />
+        </router-link>
+        <router-link v-if="$auth.isAuthenticated" to="/myTeams"
+          >My Teams</router-link
+        >
+        <router-link v-if="$auth.isAuthenticated" to="/user"
+          >Profile</router-link
+        >
+        <a
+          v-if="!$auth.isAuthenticated && !$auth.loading"
+          id="qsLoginBtn"
+          @click.prevent="login"
+          >Sign In
+        </a>
+        <a v-if="$auth.isAuthenticated" id="qsLoginBtn" @click="logout"
+          >Sign Out
+        </a>
+      </div>
     </nav>
   </header>
 </template>
@@ -76,66 +77,43 @@ export default {
 };
 </script>
 <style lang="scss">
+.main-nav {
+  align-items: center;
+}
 nav {
   overflow: hidden;
-  background-color: #ffc107;
+  background-color: #30313c;
+  padding-left: 1rem;
+  padding-right: 1.5rem;
 }
 nav a {
-  font-weight: 700;
+  font-weight: 500;
   float: left;
   display: block;
-  color: #000;
+  color: #fff;
   text-align: center;
-  padding: 14px 16px;
+  padding: 0.25rem 0.5rem;
   text-decoration: none;
-  font-size: 17px;
-  &.router-link-exact-active {
-    background-color: #000;
-    text-decoration: none;
-    color: #fff;
-  }
+  font-size: 15px;
   &.router-link-exact-active:hover {
-    background-color: #000;
-    text-decoration: none;
+    background-color: #30313c;
+    text-decoration: underline;
     color: #fff;
   }
 }
 nav a:hover {
-  color: #000;
+  color: #fff;
+}
+nav a:not([href]) {
+  color: #fff;
+  cursor: pointer;
 }
 nav a:not([href]):hover {
+  color: #fff;
   text-decoration: underline;
   cursor: pointer;
 }
-nav a.active {
-  background-color: #ffc107;
-  color: #000;
-}
-nav .icon {
-  display: none;
-  background-color: #ffc107;
-  color: #000;
-}
-@media screen and (max-width: 576px) {
-  nav a:not(:first-child) {
-    display: none;
-  }
-  nav a.icon {
-    float: right;
-    display: block;
-  }
-  nav.responsive {
-    position: relative;
-  }
-  nav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  nav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
+nav a:last-child {
+  margin-left: auto;
 }
 </style>
