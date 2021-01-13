@@ -349,7 +349,6 @@ export default {
   text-decoration: none;
   padding-right: 0.6em;
   padding-left: 0.6em;
-  border-radius: 10rem;
 }
 table th,
 table td {

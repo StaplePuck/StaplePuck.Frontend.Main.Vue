@@ -15,10 +15,10 @@
           v-if="!$auth.isAuthenticated && !$auth.loading"
           id="qsLoginBtn"
           @click.prevent="login"
-          >Sign In
+          >Log In
         </a>
         <a v-if="$auth.isAuthenticated" id="qsLoginBtn" @click="logout"
-          >Sign Out
+          >Log Out
         </a>
       </div>
     </nav>
