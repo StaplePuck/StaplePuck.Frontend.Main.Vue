@@ -1,11 +1,9 @@
 <template>
   <div id="app">
-    <div class="main-content">
-      <PageMainNav />
-      <main>
-        <router-view />
-      </main>
-    </div>
+    <PageMainNav />
+    <main>
+      <router-view />
+    </main>
     <PageFooter />
   </div>
 </template>
@@ -21,20 +19,24 @@ export default {
 };
 </script>
 <style lang="scss">
-.main-content {
-  margin-bottom: 1rem;
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+main {
+  margin: 1rem 0;
+}
+main,
+footer {
+  a {
+    color: #000099;
+    font-weight: 700 !important ;
+  }
 }
 h2 {
   text-align: center;
   font-size: 1.75em !important;
   font-weight: 700 !important;
-}
-main,
-footer {
-  a {
-    color: #000099 !important ;
-    font-weight: 700 !important ;
-  }
 }
 .a-button {
   margin: 0.5em 0;
@@ -48,8 +50,19 @@ footer {
 }
 .card {
   border-radius: 0 !important;
+  .card-header:first-child {
+    border-radius: 0;
+  }
   .card-header {
+    color: #fff;
     padding: 0.5rem 1rem;
+    border-radius: 0;
+    background-color: #5b616b;
+    a {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: underline;
+    }
     h1 {
       text-align: center;
       font-size: 1.5rem;
@@ -69,10 +82,6 @@ footer {
       }
     }
   }
-}
-.card-links {
-  color: #000099;
-  font-weight: 700;
 }
 .alert-msg {
   color: #e31c3d;
