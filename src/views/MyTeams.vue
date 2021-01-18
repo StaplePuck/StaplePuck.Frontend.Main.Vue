@@ -1,11 +1,9 @@
 <template>
   <div class="container">
-    <div class="row align-items-center profile-header">
-      <div class="col-md text-center">
-        <h1>My Teams</h1>
-      </div>
-      <MyTeams />
+    <div class="col-md text-center">
+      <h1>My Teams</h1>
     </div>
+    <MyTeams />
   </div>
 </template>
 
