@@ -1,114 +1,109 @@
 <template>
-  <div class="container">
+  <div>
     <h4 v-if="loading" class="text-center">Loading...</h4>
-
-    <div v-else class="align-items-center profile-header">
-      <section id="scroll-table" class="col-md">
-        <div class="table-responsive-md col-md hideLeague">
-          <table class="table table-bordered table-striped table-condensed cf">
-            <thead class="cf">
-              <tr>
-                <th v-for="(col, colID) in activeFields" :key="colID">
-                  <span>{{ col.label }}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, rowID) in activeTeams" :key="rowID">
-                <td>
-                  <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.league.name }}
+    <div v-else>
+      <div class="table-responsive-md col-md hideLeague">
+        <table class="table table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th v-for="(col, colID) in activeFields" :key="colID">
+                <span>{{ col.label }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, rowID) in activeTeams" :key="rowID">
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.league.name }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.league.isLocked">
+                  <router-link :to="{ name: 'team', params: { id: row.id } }"
+                    >{{ row.name }}
                   </router-link>
-                </td>
-                <td>
-                  <div v-if="row.league.isLocked">
-                    <router-link :to="{ name: 'team', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                  <div v-else>
-                    <router-link
-                      :to="{ name: 'editTeam', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                </td>
-                <td>
+                </div>
+                <div v-else>
                   <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.rank }}
+                    :to="{ name: 'editTeam', params: { id: row.id } }"
+                    >{{ row.name }}
                   </router-link>
-                </td>
-                <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.score }}
-                  </div>
-                </td>
-                <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.todaysScore }}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section id="scroll-table" class="col-md">
-        <div class="col-md text-center">
-          <h2>Archived Teams</h2>
-        </div>
-        <div class="table-responsive-md col-md">
-          <table class="table table-bordered table-striped table-condensed cf">
-            <thead class="cf">
-              <tr>
-                <th v-for="(col, colID) in nonActiveFields" :key="colID">
-                  <span>{{ col.label }}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, rowID) in nonActiveTeams" :key="rowID">
-                <td>
+                </div>
+              </td>
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.rank }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !row.league.isLocked">
+                  {{ row.score }}
+                </div>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !row.league.isLocked">
+                  {{ row.todaysScore }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md text-center">
+        <h2>Archived Teams</h2>
+      </div>
+      <div class="table-responsive-md col-md">
+        <table class="table table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th v-for="(col, colID) in nonActiveFields" :key="colID">
+                <span>{{ col.label }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, rowID) in nonActiveTeams" :key="rowID">
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.league.name }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.league.isLocked">
+                  <router-link :to="{ name: 'team', params: { id: row.id } }"
+                    >{{ row.name }}
+                  </router-link>
+                </div>
+                <div v-else>
                   <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.league.name }}
+                    :to="{ name: 'editTeam', params: { id: row.id } }"
+                    >{{ row.name }}
                   </router-link>
-                </td>
-                <td>
-                  <div v-if="row.league.isLocked">
-                    <router-link :to="{ name: 'team', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                  <div v-else>
-                    <router-link
-                      :to="{ name: 'editTeam', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                </td>
-                <td>
-                  <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.rank }}
-                  </router-link>
-                </td>
-                <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.score }}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+                </div>
+              </td>
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.rank }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !row.league.isLocked">
+                  {{ row.score }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
