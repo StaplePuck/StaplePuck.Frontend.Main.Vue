@@ -1,27 +1,37 @@
 <template>
   <header>
-    <nav>
-      <div class="row main-nav">
-        <router-link to="/" class="logo-link">
+    <div class="container">
+      <nav class="navbar navbar-expand navbar-light">
+        <router-link to="/">
           <img alt="StaplePuck logo" src="../assets/logos/StaplePuck.jpg" />
         </router-link>
-        <router-link v-if="$auth.isAuthenticated" to="/myTeams"
-          >My Teams</router-link
-        >
-        <router-link v-if="$auth.isAuthenticated" to="/user"
-          >Profile</router-link
-        >
-        <a
-          v-if="!$auth.isAuthenticated && !$auth.loading"
-          id="qsLoginBtn"
-          @click.prevent="login"
-          >Log In
-        </a>
-        <a v-if="$auth.isAuthenticated" id="qsLoginBtn" @click="logout"
-          >Log Out
-        </a>
-      </div>
-    </nav>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <router-link v-if="$auth.isAuthenticated" to="/myTeams"
+                >My Teams</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link v-if="$auth.isAuthenticated" to="/user"
+                >Profile</router-link
+              >
+            </li>
+          </ul>
+          <div class="my-2 my-lg-0">
+            <a
+              v-if="!$auth.isAuthenticated && !$auth.loading"
+              id="qsLoginBtn"
+              @click.prevent="login"
+              >Log In
+            </a>
+            <a v-if="$auth.isAuthenticated" id="qsLoginBtn" @click="logout"
+              >Log Out
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
   </header>
 </template>
 <script>
@@ -77,14 +87,11 @@ export default {
 };
 </script>
 <style lang="scss">
-.main-nav {
-  align-items: center;
-}
-nav {
-  overflow: hidden;
+header {
   background-color: #30313c;
-  padding-left: 1rem;
-  padding-right: 1.5rem;
+}
+.navbar {
+  padding: 0 !important;
 }
 nav a {
   font-weight: 500;
@@ -112,8 +119,5 @@ nav a:not([href]):hover {
   color: #fff;
   text-decoration: underline;
   cursor: pointer;
-}
-nav a:last-child {
-  margin-left: auto;
 }
 </style>
