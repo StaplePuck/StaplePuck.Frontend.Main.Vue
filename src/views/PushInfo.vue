@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <h1>Push Notifications</h1>
-    <p class="lead">
-      You can receive scoring updates for your team through push notifications.
-    </p>
+    <PageSummary headline="Push Notifications">
+      <p>
+        You can receive scoring updates for your team through push
+        notifications.
+      </p>
+    </PageSummary>
     <p>
       Push notifications only work on Android or on the desktop using Chrome or
       new versions of Edge. The technology leveraged to provide push
@@ -44,10 +46,13 @@
 </template>
 
 <script>
-import AllLeagues from "@/components/AllLeagues.vue";
+import AllLeagues from "../components/AllLeagues.vue";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "pushInfo",
-  components: {}
+  components: {
+    PageSummary
+  }
 };
 </script>
