@@ -6,11 +6,17 @@
         Team Not Paid For
       </div>
       <div v-else class="align-items-center profile-header">
+        <PageSummary :headline="team.name">
+          <p>
+            Enable
+            <router-link :to="{ name: 'pushInfo' }"
+              >push notifications</router-link
+            >
+            to enhance your experience.
+          </p>
+        </PageSummary>
         <div class="col-md team-info">
           <div class="card">
-            <div class="card-header">
-              <h1>{{ team.name }}</h1>
-            </div>
             <div class="card-body">
               <ul>
                 <li>
@@ -36,7 +42,7 @@
           <span class="player-info table-success">+ = Team in Play Today</span>
         </div>
         <section id="scroll-table" class="col-md">
-          <table class="table table-bordered table-condensed cf">
+          <table class="table table-bordered table-striped table-condensed cf">
             <thead class="cf">
               <tr>
                 <th
@@ -106,7 +112,6 @@ li {
   text-decoration: none;
   padding-right: 0.6em;
   padding-left: 0.6em;
-  border-radius: 10rem;
 }
 table th,
 table td {
@@ -207,6 +212,7 @@ table td {
 import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
+import PageSummary from "../components/PageSummary.vue";
 
 var getScoringData = function (scoring, id) {
   var i;
@@ -221,7 +227,8 @@ var getScoringData = function (scoring, id) {
 export default {
   name: "team",
   components: {
-    LeagueRules
+    LeagueRules,
+    PageSummary
   },
   data() {
     return {

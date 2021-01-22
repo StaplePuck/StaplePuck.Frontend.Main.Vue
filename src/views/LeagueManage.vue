@@ -2,7 +2,11 @@
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
-      <h1>Manange League Settings</h1>
+      <PageSummary headline="Manange League Settings">
+        <p>
+          Keep track of this league.
+        </p>
+      </PageSummary>
       <form @submit="updateLeague" class="form-width">
         <div class="form-group">
           <label for="leagueName">League Name:</label>
@@ -174,9 +178,13 @@ import {
   UPDATE_LEAGUE_INFO
 } from "../constants/graphQLqueries/graphQLqueries";
 import { DisplayErrors } from "../serverInputErrors";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "leagueManage",
+  components: {
+    PageSummary
+  },
   data() {
     return {
       validCollection: {},

@@ -2,9 +2,9 @@
   <div class="container">
     <div class="summary">
       <h1>{{ headline }}</h1>
-      Enable
-      <router-link :to="{ name: 'pushInfo' }">push notifications</router-link>
-      to enhance your experience.
+      <slot>
+        This will only be displayed if there is no content to be distributed.
+      </slot>
     </div>
   </div>
 </template>

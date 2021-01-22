@@ -2,11 +2,17 @@
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
+      <PageSummary :headline="leagueScores.name">
+        <p>
+          Enable
+          <router-link :to="{ name: 'pushInfo' }"
+            >push notifications</router-link
+          >
+          to enhance your experience.
+        </p>
+      </PageSummary>
       <div class="col-md league-info">
         <div class="card text-left">
-          <div class="card-header">
-            <h1>{{ leagueScores.name }}</h1>
-          </div>
           <div class="card-body">
             <span v-if="leagueScores.announcement != ''" class="alert-msg">
               <b>{{ leagueScores.announcement }}</b>
@@ -177,9 +183,13 @@ import {
   QUERY_SCORES_IN_LEAGUE,
   QUERY_NOT_PAID
 } from "../constants/graphQLqueries/graphQLqueries";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "leagueTeams",
+  components: {
+    PageSummary
+  },
   data() {
     return {
       fields: [

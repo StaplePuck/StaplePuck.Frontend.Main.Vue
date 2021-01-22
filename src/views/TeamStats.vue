@@ -2,14 +2,14 @@
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
+      <PageSummary :headline="teamInfo.name">
+        <p>
+          Overall stats for all players on this team.
+        </p>
+      </PageSummary>
       <div class="align-items-center profile-header">
         <div class="col-md team-info">
           <div class="card">
-            <div class="card-header">
-              <h1>
-                {{ teamInfo.name }}
-              </h1>
-            </div>
             <div class="card-body">
               <ul>
                 <li>
@@ -29,7 +29,7 @@
           <span class="player-info table-success"># = Player on your team</span>
         </div>
         <section id="scroll-table" class="col-md">
-          <table class="table table-bordered table-condensed cf">
+          <table class="table table-bordered table-striped table-condensed cf">
             <thead class="cf">
               <tr>
                 <th
@@ -83,7 +83,6 @@
   text-decoration: none;
   padding-right: 0.6em;
   padding-left: 0.6em;
-  border-radius: 10rem;
 }
 table th,
 table td {
@@ -185,6 +184,7 @@ import { GET_TEAM_SCORE } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import { GET_FANTASY_PLAYERS_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
+import PageSummary from "../components/PageSummary.vue";
 
 var getScoringData = function (scoring, id) {
   var i;
@@ -199,7 +199,8 @@ var getScoringData = function (scoring, id) {
 export default {
   name: "teamStats",
   components: {
-    LeagueRules
+    LeagueRules,
+    PageSummary
   },
   data() {
     return {

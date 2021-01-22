@@ -1,10 +1,5 @@
 <template>
   <div class="container">
-    <p>
-      Welcome to StaplePuck. In order to continue you will need to define a
-      Username that you want to go by and your email address to receive updates.
-      Note that the Username is not the same as your team name.
-    </p>
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <form v-else @submit="updateUser">
       <div class="form-group">
