@@ -331,6 +331,7 @@ export const GET_TEAM_SCORE = gql`
         team {
           id
           name
+          fullName
         }
         teamStateForSeason {
           gameState
