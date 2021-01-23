@@ -2,7 +2,7 @@
   <div>
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
-      <div class="table-responsive-md col-md hideLeague">
+      <div class="table-responsive-md col-md hide-points hide-league">
         <h2>Active</h2>
         <table class="table table-bordered table-striped table-condensed cf">
           <thead class="cf">
@@ -56,7 +56,7 @@
         </table>
       </div>
       <h2>Archived</h2>
-      <div class="table-responsive-md col-md">
+      <div class="table-responsive-md col-md hide-league">
         <table class="table table-bordered table-striped table-condensed cf">
           <thead class="cf">
             <tr>
@@ -195,23 +195,16 @@ h2 {
   padding: 0.25em;
 }
 @media only screen and (max-width: 576px) {
-  .hideLeague {
+  .hide-points {
     table td:nth-child(5),
     table th:nth-child(5) {
       display: none;
     }
-    table th:nth-child(4) {
-      span {
-        display: none;
-      }
-    }
-    table th:nth-child(4) {
-      span {
-        display: none;
-      }
-    }
-    table th:nth-child(4):after {
-      content: "Pts";
+  }
+  .hide-league {
+    table td:first-child,
+    table th:first-child {
+      display: none;
     }
   }
 }
