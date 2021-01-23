@@ -325,7 +325,8 @@ export default {
         return {
           leagueid: this.id
         };
-      }
+      },
+      pollInterval: 60000
     }
   }
 };
