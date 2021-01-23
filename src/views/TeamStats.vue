@@ -215,7 +215,7 @@ export default {
     teamInfo() {
       const info = {};
       const player = this.playerCalculatedScoresForTeam[0];
-      info.name = player.playerSeason.team.name;
+      info.name = player.playerSeason.team.fullName;
       info.leagueName = player.league.name;
       const state = player.playerSeason.teamStateForSeason.gameState;
       if (state == 0) {
