@@ -368,6 +368,7 @@ export default {
           teamid: this.id
         };
       },
+      pollInterval: 60000,
       result() {
         if (this.fantasyTeams == null) {
           return;
