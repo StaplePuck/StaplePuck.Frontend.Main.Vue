@@ -13,11 +13,7 @@
           season.fullName
         }}</span>
         <div class="card-deck">
-          <div
-            class="card card-styles text-left"
-            v-for="(league, idx) in season.leagues"
-            :key="idx"
-          >
+          <div class="card" v-for="(league, idx) in season.leagues" :key="idx">
             <div class="card-header">
               <router-link
                 class="card-links"
