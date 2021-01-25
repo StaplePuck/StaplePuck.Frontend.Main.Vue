@@ -65,11 +65,7 @@
             </tbody>
           </table>
         </section>
-        <div class="row align-items-center profile-header">
-          <div class="col-md">
-            <LeagueRules :leagueId="id"></LeagueRules>
-          </div>
-        </div>
+        <LeagueRules :leagueId="id"></LeagueRules>
       </div>
     </div>
   </div>
