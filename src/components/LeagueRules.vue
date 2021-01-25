@@ -96,4 +96,7 @@ p {
   margin-top: 0;
   margin-bottom: 0;
 }
+.mb-4 {
+  margin-bottom: 0.5rem !important;
+}
 </style>
