@@ -1,176 +1,111 @@
 <template>
-  <div class="container">
+  <div>
     <h4 v-if="loading" class="text-center">Loading...</h4>
-
-    <div v-else class="align-items-center profile-header">
-      <section id="scroll-table" class="col-md">
-        <div class="table-responsive-md col-md hideLeague">
-          <table class="table table-bordered table-striped table-condensed cf">
-            <thead class="cf">
-              <tr>
-                <th v-for="(col, colID) in activeFields" :key="colID">
-                  <span>{{ col.label }}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, rowID) in activeTeams" :key="rowID">
-                <td>
-                  <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.rank }}
+    <div v-else>
+      <div class="table-responsive-md col-md hide-points hide-league">
+        <h2>Active</h2>
+        <table class="table table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th v-for="(col, colID) in activeFields" :key="colID">
+                <span>{{ col.label }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, rowID) in activeTeams" :key="rowID">
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.league.name }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.league.isLocked">
+                  <router-link :to="{ name: 'team', params: { id: row.id } }"
+                    >{{ row.name }}
                   </router-link>
-                </td>
-                <td>
-                  <div v-if="row.league.isLocked">
-                    <router-link :to="{ name: 'team', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                  <div v-else>
-                    <router-link
-                      :to="{ name: 'editTeam', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                </td>
-                <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.score }}
-                  </div>
-                </td>
-                <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.todaysScore }}
-                  </div>
-                </td>
-                <td>
+                </div>
+                <div v-else>
                   <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.league.name }}
+                    :to="{ name: 'editTeam', params: { id: row.id } }"
+                    >{{ row.name }}
                   </router-link>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section id="scroll-table" class="col-md">
-        <div class="col-md text-center">
-          <h3>Archived Teams</h3>
-        </div>
-        <div class="table-responsive-md col-md">
-          <table class="table table-bordered table-striped table-condensed cf">
-            <thead class="cf">
-              <tr>
-                <th v-for="(col, colID) in nonActiveFields" :key="colID">
-                  <span>{{ col.label }}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, rowID) in nonActiveTeams" :key="rowID">
-                <td>
+                </div>
+              </td>
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.rank }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !row.league.isLocked">
+                  {{ row.score }}
+                </div>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !row.league.isLocked">
+                  {{ row.todaysScore }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>Archived</h2>
+      <div class="table-responsive-md col-md hide-league">
+        <table class="table table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th v-for="(col, colID) in nonActiveFields" :key="colID">
+                <span>{{ col.label }}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, rowID) in nonActiveTeams" :key="rowID">
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.league.name }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.league.isLocked">
+                  <router-link :to="{ name: 'team', params: { id: row.id } }"
+                    >{{ row.name }}
+                  </router-link>
+                </div>
+                <div v-else>
                   <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.rank }}
+                    :to="{ name: 'editTeam', params: { id: row.id } }"
+                    >{{ row.name }}
                   </router-link>
-                </td>
-                <td>
-                  <div v-if="row.league.isLocked">
-                    <router-link :to="{ name: 'team', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                  <div v-else>
-                    <router-link
-                      :to="{ name: 'editTeam', params: { id: row.id } }"
-                      >{{ row.name }}
-                    </router-link>
-                  </div>
-                </td>
-                <td>
-                  <div v-if="row.isPaid || !row.league.isLocked">
-                    {{ row.score }}
-                  </div>
-                </td>
-                <td>
-                  <router-link
-                    :to="{ name: 'league', params: { id: row.league.id } }"
-                  >
-                    {{ row.league.name }}
-                  </router-link>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+                </div>
+              </td>
+              <td>
+                <router-link
+                  :to="{ name: 'league', params: { id: row.league.id } }"
+                >
+                  {{ row.rank }}
+                </router-link>
+              </td>
+              <td>
+                <div v-if="row.isPaid || !row.league.isLocked">
+                  {{ row.score }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-.league-info {
-  margin-bottom: 1em;
-}
-.table th {
-  cursor: pointer;
-  padding: 0.25em;
-}
-.table td {
-  cursor: pointer;
-  padding: 0.25em;
-}
-td {
-  a {
-    color: darkblue;
-    text-align: left;
-    text-decoration: underline;
-  }
-}
-
-@media only screen and (max-width: 576px) {
-  .hideLeague {
-    table td:nth-child(5),
-    table th:nth-child(5) {
-      display: none;
-    }
-
-    table th:nth-child(4) {
-      span {
-        display: none;
-      }
-    }
-
-    table th:nth-child(4):after {
-      content: "PtsTdy";
-    }
-
-    table th:nth-child(3) {
-      span {
-        display: none;
-      }
-    }
-
-    table th:nth-child(3):after {
-      content: "Pts";
-    }
-  }
-}
-</style>
-
 <script>
 import { GET_MY_FANTASY_TEAMS } from "../constants/graphQLqueries/graphQLqueries";
 
@@ -183,12 +118,16 @@ export default {
       notActiveTeams: null,
       activeFields: [
         {
-          key: "rank",
-          label: "#"
+          key: "league.name",
+          label: "League"
         },
         {
           key: "name",
           label: "Team"
+        },
+        {
+          key: "rank",
+          label: "Rank"
         },
         {
           key: "score",
@@ -197,28 +136,24 @@ export default {
         {
           key: "todaysScore",
           label: "Points Today"
-        },
-        {
-          key: "league.name",
-          label: "League"
         }
       ],
       nonActiveFields: [
         {
-          key: "rank",
-          label: "#"
+          key: "league.name",
+          label: "League"
         },
         {
           key: "name",
           label: "Team"
         },
         {
-          key: "score",
-          label: "Points"
+          key: "rank",
+          label: "Rank"
         },
         {
-          key: "league.name",
-          label: "League"
+          key: "score",
+          label: "Points"
         }
       ]
     };
@@ -244,3 +179,33 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+h2 {
+  margin-bottom: 0;
+}
+.league-info {
+  margin-bottom: 1em;
+}
+.table th {
+  cursor: pointer;
+  padding: 0.25em;
+}
+.table td {
+  cursor: pointer;
+  padding: 0.25em;
+}
+@media only screen and (max-width: 576px) {
+  .hide-points {
+    table td:nth-child(5),
+    table th:nth-child(5) {
+      display: none;
+    }
+  }
+  .hide-league {
+    table td:first-child,
+    table th:first-child {
+      display: none;
+    }
+  }
+}
+</style>

@@ -1,23 +1,23 @@
 <template>
-  <div class="container">
+  <div>
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
-      <h1>{{ msg }}</h1>
+      <h2>Latest Leagues</h2>
       <div
         class="group-div"
         v-for="(season, ids) in seasons.slice().reverse()"
         track-by="id"
         :key="ids"
       >
-        <h4 class="badge badge-warning text-center">{{ season.fullName }}</h4>
+        <span class="badge badge-warning text-center">{{
+          season.fullName
+        }}</span>
         <div class="card-deck">
-          <div
-            class="card text-left"
-            v-for="(league, idx) in season.leagues"
-            :key="idx"
-          >
+          <div class="card" v-for="(league, idx) in season.leagues" :key="idx">
             <div class="card-header">
-              <router-link :to="{ name: 'league', params: { id: league.id } }"
+              <router-link
+                class="card-links"
+                :to="{ name: 'league', params: { id: league.id } }"
                 >{{ league.name }}
               </router-link>
             </div>
@@ -30,7 +30,7 @@
                   {{ league.description }}
                 </li>
                 <li v-if="league.announcement != ''">
-                  <span style="color: darkred;">
+                  <span class="alert-msg">
                     <b>{{ league.announcement }}</b>
                   </span>
                 </li>
@@ -66,31 +66,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a {
-  color: darkblue;
-  font-weight: 700;
-  text-decoration: underline;
-  &::after {
-    content: " >";
-  }
-}
-h4 {
-  margin-top: 0.5rem;
-}
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-ul {
+h2 {
   margin-bottom: 0;
 }
 .badge {
-  font-size: large;
+  font-size: 1rem;
   display: block;
+  border-radius: 0;
+  margin: 0.25rem 0;
+}
+.badge-warning {
+  background-color: #000;
+  color: #ffc107;
 }
 .group-div {
   padding-top: 1em;

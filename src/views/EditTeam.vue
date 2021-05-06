@@ -2,12 +2,12 @@
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
-      <div class="row align-items-center profile-header">
-        <div class="col-md">
-          <h1>{{ team.name }}</h1>
-          <LeagueRules :leagueId="team.league.id"></LeagueRules>
-        </div>
-      </div>
+      <PageSummary :headline="team.name">
+        <p>
+          Set the lineup for your team.
+        </p>
+      </PageSummary>
+      <LeagueRules :leagueId="team.league.id"></LeagueRules>
       <form @submit="saveTeam" class="form-width">
         <div class="form-group" v-for="(pTeam, idy) in proTeams" :key="idy">
           <label label-for="'team_' + pTeam.team.id">
@@ -69,11 +69,13 @@ import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueri
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 import { DisplayErrors } from "../serverInputErrors";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "editTeam",
   components: {
-    LeagueRules
+    LeagueRules,
+    PageSummary
   },
   data() {
     return {

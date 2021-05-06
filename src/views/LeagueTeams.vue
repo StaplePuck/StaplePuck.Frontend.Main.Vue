@@ -2,16 +2,19 @@
   <div class="container">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
+      <PageSummary :headline="leagueScores.name">
+        <p>
+          Enable
+          <router-link :to="{ name: 'pushInfo' }"
+            >push notifications</router-link
+          >
+          to enhance your experience.
+        </p>
+      </PageSummary>
       <div class="col-md league-info">
         <div class="card text-left">
-          <div class="card-header">
-            <h2>{{ leagueScores.name }}</h2>
-          </div>
           <div class="card-body">
-            <span
-              v-if="leagueScores.announcement != ''"
-              style="color: darkred;"
-            >
+            <span v-if="leagueScores.announcement != ''" class="alert-msg">
               <b>{{ leagueScores.announcement }}</b>
             </span>
             <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
@@ -28,7 +31,9 @@
               </div>
             </div>
             <div v-else>
-              <router-link :to="{ name: 'players', params: { id: id } }"
+              <router-link
+                class="card-links"
+                :to="{ name: 'players', params: { id: id } }"
                 >Player Stats
               </router-link>
             </div>
@@ -107,7 +112,7 @@
         </table>
       </div>
       <div v-if="fantasyTeamsNotPaid" class="table-responsive-md col-md">
-        <h4>Teams Not Paid For</h4>
+        <h2>Teams Not Paid For</h2>
         <table class="table table-bordered table-condensed cf">
           <thead class="cf">
             <tr>
@@ -132,13 +137,6 @@
 </template>
 
 <style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
 .league-info {
   margin-bottom: 1em;
 }
@@ -149,13 +147,6 @@ h2 {
 .table td {
   cursor: pointer;
   padding: 0.25em;
-}
-td {
-  a {
-    color: darkblue;
-    text-align: left;
-    text-decoration: underline;
-  }
 }
 
 @media only screen and (max-width: 576px) {
@@ -192,9 +183,13 @@ import {
   QUERY_SCORES_IN_LEAGUE,
   QUERY_NOT_PAID
 } from "../constants/graphQLqueries/graphQLqueries";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "leagueTeams",
+  components: {
+    PageSummary
+  },
   data() {
     return {
       fields: [
@@ -330,7 +325,8 @@ export default {
         return {
           leagueid: this.id
         };
-      }
+      },
+      pollInterval: 60000
     }
   }
 };

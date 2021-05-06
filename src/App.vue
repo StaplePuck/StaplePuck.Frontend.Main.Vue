@@ -1,118 +1,90 @@
 <template>
   <div id="app">
-    <div class="main-content">
-      <div class="nav-logo">
-        <header>
-          <div id="nav">
-            <router-link to="/">Home</router-link>
-            <span class="pipes">|</span>
-            <a
-              v-if="!$auth.isAuthenticated && !$auth.loading"
-              id="qsLoginBtn"
-              @click.prevent="login"
-              >Login
-            </a>
-            <router-link v-if="$auth.isAuthenticated" to="/myTeams"
-              >My Teams</router-link
-            >
-            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
-            <router-link v-if="$auth.isAuthenticated" to="/user"
-              >My Profile</router-link
-            >
-            <span class="pipes" v-if="$auth.isAuthenticated">|</span>
-            <a
-              v-if="$auth.isAuthenticated"
-              id="qsLoginBtn"
-              @click.prevent="logout"
-              >Log Out
-            </a>
-          </div>
-        </header>
-        <img
-          alt="StaplePuck logo"
-          src="./assets/StaplePuckLogo.png"
-          width="200"
-          height="200"
-        />
-      </div>
+    <PageMainNav />
+    <main>
       <router-view />
-    </div>
-    <footer>
-      <a
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.termsfeed.com/privacy-policy/1d035b59d3dcbf692dbce4eead4ec7d8"
-      >
-        Privacy Policy
-      </a>
-    </footer>
+    </main>
+    <PageFooter />
   </div>
 </template>
-
 <script>
-import { QUERY_USER_PROFILE } from "./constants/graphQLqueries/graphQLqueries";
-import pushNotifications from "./plugins/pushNotifications";
+import PageMainNav from "@/components/PageMainNav.vue";
+import PageFooter from "@/components/PageFooter.vue";
 
 export default {
-  data() {
-    return {
-      clientId: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN
-    };
-  },
-  apollo: {
-    currentUser: {
-      query: QUERY_USER_PROFILE,
-      skip() {
-        return (
-          !this.$store.getters["auth/hasUserToken"] ||
-          this.$route.name == "newUser"
-        );
-      },
-      result({ data }) {
-        if (
-          data != null &&
-          (data.currentUser == null ||
-            data.currentUser.name == null ||
-            data.currentUser.name == "")
-        ) {
-          this.$router.push("/newUser");
-        }
-      },
-      error() {}
-    }
-  },
-  methods: {
-    login() {
-      this.$store.dispatch("auth/auth0Login");
-    },
-    logout() {
-      this.$store.dispatch("auth/auth0Logout");
-    }
+  components: {
+    PageFooter,
+    PageMainNav
   }
 };
 </script>
-
-<style>
-h1 {
-  text-align: center;
-  font-size: 2em;
-  font-weight: 700;
+<style lang="scss">
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+main {
+  margin: 1rem 0;
+}
+main,
+footer {
+  a {
+    color: #000099;
+    font-weight: 700 !important ;
+  }
 }
 h2 {
   text-align: center;
-  font-size: 2em;
-  font-weight: 700;
+  font-size: 1.75em !important;
+  font-weight: 700 !important;
 }
 .a-button {
   margin: 0.5em 0;
+  color: #fff;
+  text-decoration: none;
 }
 .form-width {
   max-width: 720px;
   margin-right: auto;
   margin-left: auto;
 }
-ul {
-  margin-bottom: 0;
+.card {
+  border-radius: 0 !important;
+  .card-header:first-child {
+    border-radius: 0;
+  }
+  .card-header {
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0;
+    background-color: #5b616b;
+    a {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+  }
+  .card-body {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  ul {
+    margin-bottom: 0;
+    padding-left: 1rem;
+    li {
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}
+.alert-msg {
+  color: #e31c3d;
 }
 </style>
 <style scoped lang="scss">
@@ -141,24 +113,7 @@ ul {
     }
   }
 }
-.nav-logo {
-  text-align: center;
-}
 .pipes {
   margin: 0.25em;
-}
-.main-content {
-  padding-bottom: 2.5rem;
-}
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 2.5rem;
-  text-align: center;
-  a {
-    color: darkblue;
-    text-decoration: underline;
-  }
 }
 </style>

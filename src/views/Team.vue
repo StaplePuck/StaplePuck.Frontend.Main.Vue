@@ -5,17 +5,25 @@
       <div v-if="!team.isPaid">
         Team Not Paid For
       </div>
-      <div v-else class="align-items-center profile-header">
+      <div v-else>
+        <PageSummary :headline="team.name">
+          <p>
+            Enable
+            <router-link :to="{ name: 'pushInfo' }"
+              >push notifications</router-link
+            >
+            to enhance your experience.
+          </p>
+        </PageSummary>
         <div class="col-md team-info">
           <div class="card">
-            <div class="card-header">
-              <h2>{{ team.name }}</h2>
-            </div>
             <div class="card-body">
               <ul>
                 <li>
                   <span>League:</span>
+                  &nbsp;
                   <router-link
+                    class="card-links"
                     :to="{ name: 'league', params: { id: team.league.id } }"
                   >
                     {{ team.league.name }}
@@ -34,7 +42,7 @@
           <span class="player-info table-success">+ = Team in Play Today</span>
         </div>
         <section id="scroll-table" class="col-md">
-          <table class="table table-bordered table-condensed cf">
+          <table class="table table-bordered table-striped table-condensed cf">
             <thead class="cf">
               <tr>
                 <th
@@ -81,43 +89,25 @@
             </tbody>
           </table>
         </section>
-        <div class="row align-items-center profile-header">
-          <div class="col-md">
-            <LeagueRules :leagueId="team.league.id"></LeagueRules>
-          </div>
-        </div>
+        <LeagueRules :leagueId="team.league.id"></LeagueRules>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-h2 {
-  margin-bottom: 0;
-}
-.card-body {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
 .team-info {
   margin-bottom: 1em;
-}
-ul {
-  margin-bottom: 0;
 }
 li {
   span {
     font-weight: bold;
   }
 }
-a {
-  color: darkblue;
-}
 .player-info {
   text-decoration: none;
   padding-right: 0.6em;
   padding-left: 0.6em;
-  border-radius: 10rem;
 }
 table th,
 table td {
@@ -218,6 +208,7 @@ table td {
 import { QUERY_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
+import PageSummary from "../components/PageSummary.vue";
 
 var getScoringData = function (scoring, id) {
   var i;
@@ -232,7 +223,8 @@ var getScoringData = function (scoring, id) {
 export default {
   name: "team",
   components: {
-    LeagueRules
+    LeagueRules,
+    PageSummary
   },
   data() {
     return {
@@ -372,6 +364,7 @@ export default {
           teamid: this.id
         };
       },
+      pollInterval: 60000,
       result() {
         if (this.fantasyTeams == null) {
           return;

@@ -2,9 +2,11 @@
   <div class="container justify-content-center">
     <h4 v-if="loading" class="text-center">Loading...</h4>
     <div v-else>
-      <h2>
-        Create a team for the <i>{{ leagues[0].name }}</i>
-      </h2>
+      <PageSummary headline="New team">
+        <p>
+          Create a team for the <i>{{ leagues[0].name }}</i>
+        </p>
+      </PageSummary>
       <div v-if="leagues[0].isLocked" class="container">
         League is Locked!
       </div>
@@ -62,9 +64,13 @@ label {
 import { QUERY_TEAMS_IN_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import { CREATE_TEAM } from "../constants/graphQLqueries/graphQLqueries";
 import { DisplayErrors } from "../serverInputErrors";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "newTeam",
+  components: {
+    PageSummary
+  },
   props: ["id"],
   computed: {
     leagueIsLocked: function () {

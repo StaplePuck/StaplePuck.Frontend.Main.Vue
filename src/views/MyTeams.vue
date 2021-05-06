@@ -1,21 +1,23 @@
 <template>
   <div class="container">
-    <div class="row align-items-center profile-header">
-      <div class="col-md text-center">
-        <h2>My Teams</h2>
-      </div>
-      <MyTeams />
-    </div>
+    <PageSummary headline="My Teams">
+      <p>
+        Teams you created, the good and the ugly.
+      </p>
+    </PageSummary>
+    <MyTeams />
   </div>
 </template>
 
 <script>
 import MyTeams from "@/components/MyTeams.vue";
+import PageSummary from "../components/PageSummary.vue";
 
 export default {
   name: "myTeams",
   components: {
-    MyTeams
+    MyTeams,
+    PageSummary
   }
 };
 </script>
