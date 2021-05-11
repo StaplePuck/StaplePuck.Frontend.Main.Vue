@@ -1,5 +1,5 @@
 <template>
-  <div class="container rules">
+  <div>
     <h2 class="text-center">League Rules</h2>
     <span v-if="loading">Loading Rules...</span>
     <div v-else v-for="(league, idx) in leagues" :key="idx">
@@ -89,14 +89,14 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.rules {
-  margin-bottom: 1em;
-}
 .list-group-item {
   border: 0;
 }
 p {
   margin-top: 0;
   margin-bottom: 0;
+}
+.mb-4 {
+  margin-bottom: 0.5rem !important;
 }
 </style>

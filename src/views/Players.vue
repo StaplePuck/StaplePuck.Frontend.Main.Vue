@@ -107,13 +107,9 @@
           </button>
         </div>
       </section>
-      <div class="row align-items-center profile-header">
-        <div class="col-md">
-          <LeagueRules
-            :leagueId="playerCalculatedScores[0].league.id"
-          ></LeagueRules>
-        </div>
-      </div>
+      <LeagueRules
+        :leagueId="playerCalculatedScores[0].league.id"
+      ></LeagueRules>
     </div>
   </div>
 </template>

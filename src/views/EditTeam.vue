@@ -7,11 +7,7 @@
           Set the lineup for your team.
         </p>
       </PageSummary>
-      <div class="row align-items-center profile-header">
-        <div class="col-md">
-          <LeagueRules :leagueId="team.league.id"></LeagueRules>
-        </div>
-      </div>
+      <LeagueRules :leagueId="team.league.id"></LeagueRules>
       <form @submit="saveTeam" class="form-width">
         <div class="form-group" v-for="(pTeam, idy) in proTeams" :key="idy">
           <label label-for="'team_' + pTeam.team.id">

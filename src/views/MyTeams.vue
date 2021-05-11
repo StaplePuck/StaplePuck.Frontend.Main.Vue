@@ -2,7 +2,7 @@
   <div class="container">
     <PageSummary headline="My Teams">
       <p>
-        Teams you created, whether you're proud of it or not.
+        Teams you created, the good and the ugly.
       </p>
     </PageSummary>
     <MyTeams />

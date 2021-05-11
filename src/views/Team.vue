@@ -5,7 +5,7 @@
       <div v-if="!team.isPaid">
         Team Not Paid For
       </div>
-      <div v-else class="align-items-center profile-header">
+      <div v-else>
         <PageSummary :headline="team.name">
           <p>
             Enable
@@ -89,11 +89,7 @@
             </tbody>
           </table>
         </section>
-        <div class="row align-items-center profile-header">
-          <div class="col-md">
-            <LeagueRules :leagueId="team.league.id"></LeagueRules>
-          </div>
-        </div>
+        <LeagueRules :leagueId="team.league.id"></LeagueRules>
       </div>
     </div>
   </div>
