@@ -67,11 +67,11 @@ const actions = {
   },
   auth0Logout({ commit }) {
     var instance = getInstance();
-    instance.logout();
     localStorage.removeItem("auth_token");
     localStorage.removeItem("auth_sub");
     localStorage.removeItem("auth_scope");
     commit("auth_logout");
+    instance.logout();
   },
   async auth0Refresh({ commit }) {
     var instance = getInstance();
