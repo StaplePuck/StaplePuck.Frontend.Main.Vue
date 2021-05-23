@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.9.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "apollo-cache-inmemory": "^1.6.5",
