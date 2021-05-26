@@ -15,7 +15,7 @@
         <div class="card text-left">
           <div class="card-body">
             <span v-if="leagueScores.announcement != ''" class="alert-msg">
-              <b>{{ leagueScores.announcement }}</b>
+              <b v-html="leagueScores.announcement"></b>
             </span>
             <p v-if="hasNotPaid" v-html="leagueScores.paymentInfo"></p>
             <div v-if="!leagueScores.isLocked">

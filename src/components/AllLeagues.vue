@@ -31,7 +31,7 @@
                 </li>
                 <li v-if="league.announcement != ''">
                   <span class="alert-msg">
-                    <b>{{ league.announcement }}</b>
+                    <b v-html="league.announcement"></b>
                   </span>
                 </li>
               </ul>
