@@ -15,11 +15,7 @@
       /></a>
     </div>
     <div class="container text-center">
-      <a
-        target="_blank"
-        rel="noreferrer"
-        href="https://www.termsfeed.com/privacy-policy/1d035b59d3dcbf692dbce4eead4ec7d8"
-      >
+      <a target="_blank" rel="noreferrer" href="privacy-policy.html">
         Privacy Policy
       </a>
     </div>
