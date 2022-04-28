@@ -55,10 +55,11 @@ export default {
       },
       result({ data }) {
         if (
-          data != null &&
-          (data.currentUser == null ||
-            data.currentUser.name == null ||
-            data.currentUser.name == "")
+          data === undefined ||
+          (data != null &&
+            (data.currentUser == null ||
+              data.currentUser.name == null ||
+              data.currentUser.name == ""))
         ) {
           this.$router.push("/newUser");
         }
