@@ -176,7 +176,7 @@ export const QUERY_SCORING_TYPES_FOR_LEAGUE = gql`
 `;
 
 export const QUERY_USER_PROFILE = gql`
-  {
+  query getCurrentUser {
     currentUser {
       id
       name
