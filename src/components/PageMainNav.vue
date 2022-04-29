@@ -53,13 +53,12 @@ export default {
           this.$route.name == "newUser"
         );
       },
-      result({ data }) {
+      update(data) {
         if (
-          data === undefined ||
-          (data != null &&
-            (data.currentUser == null ||
-              data.currentUser.name == null ||
-              data.currentUser.name == ""))
+          data == null ||
+          data.currentUser == null ||
+          data.currentUser.name == null ||
+          data.currentUser.name == ""
         ) {
           this.$router.push("/newUser");
         }
