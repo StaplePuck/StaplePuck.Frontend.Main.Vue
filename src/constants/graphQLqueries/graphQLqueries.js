@@ -299,7 +299,7 @@ export const GET_LEAGUE_RULES = gql`
           name
           shortName
         }
-        pointsPerScore
+        scoringWeight
       }
       numberPerPositions {
         count
