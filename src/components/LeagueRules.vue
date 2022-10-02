@@ -22,7 +22,8 @@
                 :key="idr"
               >
                 <b>{{ rule.scoringType.name }}</b
-                >: {{ rule.pointsPerScore }} points
+                >:
+                {{ rule.scoringWeight.toFixed(2).replace(/[.]00$/, "") }} points
               </p>
             </div>
           </div>
@@ -38,7 +39,8 @@
                 :key="idr"
               >
                 <b>{{ rule.scoringType.name }}</b
-                >: {{ rule.pointsPerScore }} points
+                >:
+                {{ rule.scoringWeight.toFixed(2).replace(/[.]00$/, "") }} points
               </p>
             </div>
           </div>
@@ -76,7 +78,7 @@ export default {
       for (i = 0; i < scoringRules.length; i++) {
         if (
           scoringRules[i].positionType.id == positionId &&
-          scoringRules[i].pointsPerScore > 0
+          scoringRules[i].scoringWeight > 0
         ) {
           rules.push(scoringRules[i]);
         }
