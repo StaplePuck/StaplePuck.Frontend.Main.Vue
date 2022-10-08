@@ -258,7 +258,7 @@ export default {
     },
     rowColor(fantasyTeam) {
       const sub = this.$store.state.auth.userSub;
-      if (fantasyTeam.gM.externalId == sub) {
+      if (fantasyTeam.gM.externalId == sub && fantasyTeam.isPaid) {
         return "table-success";
       }
       return "";
