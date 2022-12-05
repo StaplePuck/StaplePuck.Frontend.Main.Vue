@@ -351,3 +351,5 @@ ASALocalRun/
 .mfractor/
 auth_config.json
 public/env-vars.js
+
+/src/sp.code-workspace
