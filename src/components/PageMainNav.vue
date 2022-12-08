@@ -97,7 +97,7 @@ nav a {
   font-weight: 500;
   float: left;
   display: block;
-  color: #fff;
+  color: #fff !important;
   text-align: center;
   padding: 0.25rem 0.5rem;
   text-decoration: none;
@@ -105,18 +105,18 @@ nav a {
   &.router-link-exact-active:hover {
     background-color: #30313c;
     text-decoration: underline;
-    color: #fff;
+    color: #fff !important;
   }
 }
 nav a:hover {
-  color: #fff;
+  color: #fff !important;
 }
 nav a:not([href]) {
-  color: #fff;
+  color: #fff !important;
   cursor: pointer;
 }
 nav a:not([href]):hover {
-  color: #fff;
+  color: #fff !important;
   text-decoration: underline;
   cursor: pointer;
 }
