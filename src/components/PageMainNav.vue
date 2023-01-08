@@ -97,7 +97,7 @@ nav a {
   font-weight: 500;
   float: left;
   display: block;
-  color: #fff;
+  color: #fff !important;
   text-align: center;
   padding: 0.25rem 0.5rem;
   text-decoration: none;
