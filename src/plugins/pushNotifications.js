@@ -1,7 +1,6 @@
 import Vue from "vue";
-import firebase from "firebase/app";
-import "firebase/app";
-import "firebase/messaging";
+import { initializeApp } from "firebase/app";
+import { getMessaging, isSupported, getToken} from "firebase/messaging";
 import { ADD_NOTIFICATION_TOKEN } from "../constants/graphQLqueries/graphQLqueries";
 import { apolloClient } from "../plugins/apollo";
 
@@ -40,15 +39,15 @@ export const usePushNotifications = () => {
 };
 
 export const requestNotificationPermission = () => {
-  if (firebase.messaging.isSupported()) {
-    const messaging = firebase.messaging();
+  if (isSupported()) {
+    const messaging = getMessaging(initializeApp);
 
     messaging.usePublicVapidKey(process.env.VUE_APP_FIREBASE_PUBLIC_KEY);
 
     messaging
       .requestPermission()
       .then(() => {
-        messaging.getToken().then((token) => {
+        getToken(messaging).then((token) => {
           instance.saveNotificationToken(token);
         });
       })
@@ -73,14 +72,13 @@ export const PushNotificationsPlugin = {
       messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID
     };
 
-    firebase.initializeApp(config);
+    initializeApp(config);
 
-    if (firebase.messaging.isSupported()) {
-      const messaging = firebase.messaging();
+    if (isSupported()) {
+      const messaging = getMessaging(initializeApp);
 
       messaging.onTokenRefresh(function () {
-        messaging
-          .getToken()
+        getToken(messaging)
           .then(function (newToken) {
             instance.saveNotificationToken(newToken);
           })
