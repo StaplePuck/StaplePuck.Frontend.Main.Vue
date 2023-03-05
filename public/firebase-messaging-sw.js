@@ -1,6 +1,6 @@
-importScripts("https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js");
 importScripts(
-  "https://www.gstatic.com/firebasejs/7.17.1/firebase-messaging.js"
+  "https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js"
 );
 importScripts("./env-vars.js");
 
