@@ -1,13 +1,25 @@
 import Vue from "vue";
-import firebase from "firebase/app";
-import "firebase/app";
-import "firebase/messaging";
+import { initializeApp } from "firebase/app";
+import { getMessaging, isSupported, getToken } from "firebase/messaging";
 import { ADD_NOTIFICATION_TOKEN } from "../constants/graphQLqueries/graphQLqueries";
 import { apolloClient } from "../plugins/apollo";
 
 let instance;
 
 export const getInstance = () => instance;
+
+const firebaseConfig = {
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_PROJECT_ID + ".firebaseapp.com",
+  databaseURL:
+    "https://" +
+    process.env.VUE_APP_FIREBASE_PROJECT_ID +
+    ".firebaseio.com",
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIREBASE_PROJECT_ID + ".appspot.com",
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID
+};
 
 export const usePushNotifications = () => {
   if (instance) return instance;
@@ -40,15 +52,13 @@ export const usePushNotifications = () => {
 };
 
 export const requestNotificationPermission = () => {
-  if (firebase.messaging.isSupported()) {
-    const messaging = firebase.messaging();
+  if (isSupported()) {
+    const messaging = getMessaging(initializeApp(firebaseConfig), process.env.VUE_APP_FIREBASE_PUBLIC_KEY);
 
-    messaging.usePublicVapidKey(process.env.VUE_APP_FIREBASE_PUBLIC_KEY);
-
-    messaging
+    Notification
       .requestPermission()
       .then(() => {
-        messaging.getToken().then((token) => {
+        getToken(messaging).then((token) => {
           instance.saveNotificationToken(token);
         });
       })
@@ -60,32 +70,10 @@ export const PushNotificationsPlugin = {
   install(Vue, options) {
     Vue.prototype.$pushNotifications = usePushNotifications(options);
 
-    var config = {
-      apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
-      authDomain: process.env.VUE_APP_FIREBASE_PROJECT_ID + ".firebaseapp.com",
-      databaseURL:
-        "https://" +
-        process.env.VUE_APP_FIREBASE_PROJECT_ID +
-        ".firebaseio.com",
-      projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.VUE_APP_FIREBASE_PROJECT_ID + ".appspot.com",
-      appId: process.env.VUE_APP_FIREBASE_APP_ID,
-      messagingSenderId: process.env.VUE_APP_FIREBASE_SENDER_ID
-    };
+    const app = initializeApp(firebaseConfig);
 
-    firebase.initializeApp(config);
-
-    if (firebase.messaging.isSupported()) {
-      const messaging = firebase.messaging();
-
-      messaging.onTokenRefresh(function () {
-        messaging
-          .getToken()
-          .then(function (newToken) {
-            instance.saveNotificationToken(newToken);
-          })
-          .catch(function (err) {});
-      });
+    if (isSupported()) {
+      const messaging = getMessaging(app);
     }
   }
 };
