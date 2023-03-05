@@ -1,5 +1,6 @@
 importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js");
+importScripts("./env-vars.js");
 
 var config = {
   apiKey: VUE_APP_FIREBASE_API_KEY,
