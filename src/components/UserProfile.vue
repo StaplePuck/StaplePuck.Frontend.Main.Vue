@@ -175,10 +175,11 @@ export default {
           variables: {
             user: {
               email: this.currentUser.email,
-              receiveEmails: this.currentUser.receiveEmails,
-              receiveNotifications: this.currentUser.receiveNotifications,
-              receiveNegativeNotifications: this.currentUser
-                .receiveNegativeNotifications
+              receiveEmails: (this.currentUser.receiveEmails == 'true' || this.currentUser.receiveEmails === true),
+              receiveNotifications: (this.currentUser.receiveNotifications == 'true' || this.currentUser.receiveNotifications === true),
+              receiveNegativeNotifications: (this.currentUser
+                .receiveNegativeNotifications == 'true' || this.currentUser
+                .receiveNegativeNotifications === true)
             }
           }
         })

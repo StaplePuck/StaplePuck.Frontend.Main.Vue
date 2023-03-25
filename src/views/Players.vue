@@ -270,7 +270,7 @@ export default {
       query: QUERY_GET_CALCULATED_SCORES,
       variables() {
         return {
-          leagueId: this.id.toString(),
+          leagueId: this.id,
           positionTypes: this.selectedPositions,
           take: this.pageSize,
           skip: this.skipPosition,
@@ -295,7 +295,7 @@ export default {
       query: QUERY_SCORING_TYPES_FOR_LEAGUE,
       variables() {
         return {
-          leagueId: this.id
+          leagueId: Number(this.id)
         };
       }
     },
@@ -303,7 +303,7 @@ export default {
       query: QUERY_GET_LEAGUEPOSITIONS,
       variables() {
         return {
-          leagueId: this.id
+          leagueId: Number(this.id)
         };
       },
       result() {
@@ -328,7 +328,7 @@ export default {
       query: GET_FANTASY_PLAYERS_FOR_LEAGUE,
       variables() {
         return {
-          leagueId: this.id
+          leagueId: Number(this.id)
         };
       }
     }

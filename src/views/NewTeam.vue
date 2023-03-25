@@ -98,7 +98,7 @@ export default {
       query: QUERY_TEAMS_IN_LEAGUE,
       variables() {
         return {
-          leagueid: this.id
+          leagueid: Number(this.id)
         };
       }
     }
@@ -123,7 +123,7 @@ export default {
           variables: {
             fantasyTeam: {
               name: this.newTeam.name,
-              leagueId: this.id
+              leagueId: Number(this.id)
             }
           }
         })

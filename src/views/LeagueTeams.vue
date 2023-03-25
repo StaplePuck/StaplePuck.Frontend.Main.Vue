@@ -308,7 +308,7 @@ export default {
       query: QUERY_SCORES_IN_LEAGUE,
       variables() {
         return {
-          leagueid: this.id
+          leagueid: Number(this.id)
         };
       },
       result({ data }) {
@@ -323,7 +323,7 @@ export default {
       query: QUERY_NOT_PAID,
       variables() {
         return {
-          leagueid: this.id
+          leagueid: Number(this.id)
         };
       },
       pollInterval: 60000

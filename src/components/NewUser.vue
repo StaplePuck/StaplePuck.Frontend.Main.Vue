@@ -109,7 +109,7 @@ export default {
             user: {
               name: this.currentUser.name,
               email: this.currentUser.email,
-              receiveEmails: this.currentUser.receiveEmails
+              receiveEmails: (this.currentUser.receiveEmails == 'true' || this.currentUser.receiveEmails === true)
             }
           }
         })
