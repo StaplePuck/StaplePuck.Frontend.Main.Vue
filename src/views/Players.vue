@@ -270,7 +270,7 @@ export default {
       query: QUERY_GET_CALCULATED_SCORES,
       variables() {
         return {
-          leagueId: this.id,
+          leagueId: this.id.toString(),
           positionTypes: this.selectedPositions,
           take: this.pageSize,
           skip: this.skipPosition,
