@@ -324,8 +324,8 @@ export default {
       query: GET_TEAM_SCORE,
       variables() {
         return {
-          teamId: this.teamId,
-          leagueId: this.id
+          teamId: Number(this.teamId),
+          leagueId: Number(this.id)
         };
       }
     },
@@ -333,15 +333,15 @@ export default {
       query: QUERY_SCORING_TYPES_FOR_LEAGUE,
       variables() {
         return {
-          leagueId: this.id
+          leagueId: Number(this.id)
         };
       }
     },
     myFantasyTeams: {
-      query: GET_FANTASY_PLAYERS_FOR_LEAGUE,
+       GET_FANTASY_PLAYERS_FOR_LEAGUE,
       variables() {
         return {
-          leagueId: this.id
+          leagueId: Number(this.id)
         };
       }
     }

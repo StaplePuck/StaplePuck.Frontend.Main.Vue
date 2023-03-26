@@ -102,7 +102,7 @@ export default {
       query: GET_TEAM_DATA_FOR_EDIT,
       variables() {
         return {
-          teamid: this.id
+          teamid: Number(this.id)
         };
       },
       result() {
@@ -159,14 +159,14 @@ export default {
       var fantasyTeamPlayers = [];
 
       for (let [, value] of Object.entries(this.selected)) {
-        fantasyTeamPlayers.push({ playerId: value });
+        fantasyTeamPlayers.push({ playerId: Number(value) });
       }
       this.$apollo
         .mutate({
           mutation: SET_TEAM_LINEUP,
           variables: {
             fantasyTeam: {
-              id: this.id,
+              id: Number(this.id),
               fantasyTeamPlayers: fantasyTeamPlayers
             }
           }

@@ -361,7 +361,7 @@ export default {
       query: QUERY_TEAM,
       variables() {
         return {
-          teamid: this.id
+          teamid: Number(this.id)
         };
       },
       pollInterval: 60000,
@@ -378,7 +378,7 @@ export default {
       query: QUERY_SCORING_TYPES_FOR_LEAGUE,
       variables() {
         return {
-          leagueId: this.id
+          leagueId: Number(this.id)
         };
       }
     }
