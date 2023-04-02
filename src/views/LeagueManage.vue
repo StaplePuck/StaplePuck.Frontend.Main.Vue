@@ -224,7 +224,7 @@ export default {
       query: QUERY_TEAMS_FOR_MANAGE,
       variables() {
         return {
-          leagueid: this.id
+          leagueid: Number(this.id)
         };
       },
       result({ data }) {
@@ -277,14 +277,14 @@ export default {
       var i;
       for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
         var ft = this.leagues[0].fantasyTeams[i];
-        fantasyTeams.push({ id: ft.id, isPaid: ft.isPaid });
+        fantasyTeams.push({ id: Number(ft.id), isPaid: ft.isPaid });
       }
       this.$apollo
         .mutate({
           mutation: UPDATE_LEAGUE_INFO,
           variables: {
             league: {
-              id: this.id,
+              id: Number(this.id),
               name: this.leagues[0].name,
               description: this.leagues[0].description,
               announcement: this.leagues[0].announcement,

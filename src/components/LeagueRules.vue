@@ -66,7 +66,7 @@ export default {
       query: GET_LEAGUE_RULES,
       variables() {
         return {
-          leagueId: this.leagueId
+          leagueId: Number(this.leagueId)
         };
       }
     }

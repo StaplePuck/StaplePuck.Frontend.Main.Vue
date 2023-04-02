@@ -1,10 +1,13 @@
 import gql from "graphql-tag";
 
 export const QUERY_ALL_LEAGUES = gql`
-  {
+  query getSeasons{
     seasons {
       id
       fullName
+      sport {
+        name
+      }
       leagues {
         id
         name
@@ -396,10 +399,10 @@ export const QUERY_GET_CALCULATED_SCORES = gql`
   ) {
     playerCalculatedScores(
       where: [
-        { path: "league.id", comparison: "equal", value: $leagueId }
+        { path: "league.id", comparison: equal, value: $leagueId }
         {
           path: "playerSeason.positionTypeId"
-          comparison: "in"
+          comparison: in
           value: $positionTypes
         }
       ]
