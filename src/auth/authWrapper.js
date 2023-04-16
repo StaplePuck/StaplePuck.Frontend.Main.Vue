@@ -94,6 +94,7 @@ export const useAuth0 = ({
         ) {
           const { appState } = await this.auth0Client.handleRedirectCallback();
           this.error = null;
+          this.user = await this.auth0Client.getUser();
           onRedirectCallback(appState);
         }
       } catch (e) {
