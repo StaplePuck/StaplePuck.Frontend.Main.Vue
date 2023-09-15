@@ -118,6 +118,7 @@ export default {
           this.saveSuccess = true;
           this.saving = 0;
           this.$router.push("/");
+          this.$router.go();
         })
         .catch((error) => {
           this.saveSuccess = false;
