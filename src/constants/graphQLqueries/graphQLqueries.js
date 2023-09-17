@@ -100,6 +100,7 @@ export const QUERY_TEAMS_FOR_MANAGE = gql`
       description
       announcement
       isLocked
+      isActive
       allowMultipleTeams
       paymentInfo
       fantasyTeams {
