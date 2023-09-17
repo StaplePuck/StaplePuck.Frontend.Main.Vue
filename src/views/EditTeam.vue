@@ -9,6 +9,18 @@
       </PageSummary>
       <LeagueRules :leagueId="team.league.id"></LeagueRules>
       <form @submit="saveTeam" class="form-width">
+        <label label-for="teamName">Team Name:</label>
+        <input
+          type="text"
+          id="teamName"
+          class="form-control"
+          required
+          trim
+          v-model="teamName"
+        />
+        <br />
+        <br />
+
         <div class="form-group" v-for="(pTeam, idy) in proTeams" :key="idy">
           <label label-for="'team_' + pTeam.team.id">
             {{ pTeam.team.fullName }}:
@@ -85,7 +97,8 @@ export default {
       saving: 0,
       saveSuccess: false,
       saveFailed: false,
-      saveErrors: {}
+      saveErrors: {},
+      teamName: ''
     };
   },
   computed: {
@@ -129,6 +142,7 @@ export default {
           list.push(fp.player.id);
         }
 
+        this.teamName = this.fantasyTeams[0].name;
         const ts = this.fantasyTeams[0].league.season.teamSeasons;
         for (i = 0; i < ts.length; i++) {
           var j;
@@ -167,6 +181,7 @@ export default {
           variables: {
             fantasyTeam: {
               id: Number(this.id),
+              name: this.teamName,
               fantasyTeamPlayers: fantasyTeamPlayers
             }
           }
