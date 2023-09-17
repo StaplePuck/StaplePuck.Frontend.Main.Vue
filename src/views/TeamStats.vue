@@ -338,7 +338,7 @@ export default {
       }
     },
     myFantasyTeams: {
-       GET_FANTASY_PLAYERS_FOR_LEAGUE,
+      query: GET_FANTASY_PLAYERS_FOR_LEAGUE,
       variables() {
         return {
           leagueId: Number(this.id)
