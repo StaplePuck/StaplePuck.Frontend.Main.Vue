@@ -12,13 +12,25 @@ const httpLink = new HttpLink({
   uri: process.env.VUE_APP_GRAPHQL_CLIENT
 });
 
-var _authToken;
-
 const authLink = new ApolloLink((operation, forward) => {
   const token = store.state.auth.userToken;
   operation.setContext({
     headers: {
       authorization: token ? `Bearer ${token}` : null
+    }
+  });
+  return forward(operation);
+});
+
+const staplePuck2HttpLink = new HttpLink({
+  uri: process.env.VUE_APP_GRAPHQL_STAPLEPUCK2_CLIENT
+});
+
+const staplePuck2AuthLink = new ApolloLink((operation, forward) => {
+  const apiKey = process.env.VUE_APP_GRAPHQL_STAPLEPUCK2_APKKEY;
+  operation.setContext({
+    headers: {
+      'x-api-key': apiKey
     }
   });
   return forward(operation);
@@ -30,7 +42,17 @@ export const apolloClient = new ApolloClient({
   connectToDevTools: true
 });
 
+export const staplePuck2Client = new ApolloClient({
+  link: staplePuck2AuthLink.concat(staplePuck2HttpLink),
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+});
+
 export default new VueApollo({
+  clients: {
+    apolloClient,
+    staplePuck2Client
+  },
   defaultClient: apolloClient,
   defaultOptions: {
     $query: {

@@ -78,6 +78,7 @@ label {
 
 <script>
 import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
+import { QUERY_LEAGUE_HISTORY } from "../constants/graphQLqueries/staplePuck2Queries";
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 import { DisplayErrors } from "../serverInputErrors";
@@ -98,7 +99,8 @@ export default {
       saveSuccess: false,
       saveFailed: false,
       saveErrors: {},
-      teamName: ''
+      teamName: '',
+      leagueId: 0
     };
   },
   computed: {
@@ -111,6 +113,18 @@ export default {
   },
   props: ["id"],
   apollo: {
+    leaguHistory: {
+      client: 'staplePuck2Client',
+      query: QUERY_LEAGUE_HISTORY,
+      variables() {
+        return {
+          leagueid: this.leagueId
+        };
+      },
+      skip() {
+        return this.leagueId === 0;
+      }
+    },
     fantasyTeams: {
       query: GET_TEAM_DATA_FOR_EDIT,
       variables() {
@@ -143,6 +157,7 @@ export default {
         }
 
         this.teamName = this.fantasyTeams[0].name;
+        this.leagueId = this.fantasyTeams[0].league.id;
         const ts = this.fantasyTeams[0].league.season.teamSeasons;
         for (i = 0; i < ts.length; i++) {
           var j;
