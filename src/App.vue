@@ -30,7 +30,6 @@ main,
 footer {
   a {
     color: #000099;
-    font-weight: 700 !important ;
   }
 }
 h2 {
@@ -41,7 +40,6 @@ h2 {
 .a-button {
   margin: 0.5em 0;
   color: #fff;
-  text-decoration: none;
 }
 .form-width {
   max-width: 720px;
@@ -56,7 +54,6 @@ h2 {
   .card-header {
     color: #fff;
     padding: 0.5rem 1rem;
-    border-radius: 0;
     background-color: #5b616b;
     a {
       color: #fff;
@@ -74,22 +71,20 @@ h2 {
     padding-bottom: 0.25rem;
   }
   ul {
+    list-style: square;
     margin-bottom: 0;
     padding-left: 1rem;
-    li {
-      span {
-        font-weight: bold;
-      }
-    }
   }
 }
 .alert-msg {
   color: #e31c3d;
+  font-weight: normal;
 }
 </style>
 <style scoped lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #30303c;
