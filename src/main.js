@@ -15,16 +15,21 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { BootstrapVue } from "bootstrap-vue";
 
 dom.watch();
 library.add(fas);
 library.add(faInstagram);
 library.add(faFacebook);
 
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 
+Vue.use(BootstrapVue);
 Vue.use(PushNotificationsPlugin);
 Vue.use(Auth0Plugin, {
   onRedirectCallback: async (appState) => {

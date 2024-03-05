@@ -8,6 +8,16 @@
         </p>
       </PageSummary>
       <LeagueRules :leagueId="team.league.id"></LeagueRules>
+      <!-- {{ leagueHistory }} -->
+      <router-link v-for="hTeam in hProTeam"
+                  :to="{ name: 'addPlayerByTeam', params: { id: id, teamId: hTeam.id } }"
+                  :class="{ disabled: teamHasMaxPlayers(hTeam.id) }"
+                  >
+                  <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.id + '.svg'" width="70" /> 
+      </router-link>
+      <!-- <a v-for="hTeam in hProTeam" v-bind:href="hTeam.id">
+        <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.Id + '.svg'" width="70" /> 
+      </a> -->
       <form @submit="saveTeam" class="form-width">
         <label label-for="teamName">Team Name:</label>
         <input
@@ -74,11 +84,15 @@ label {
   margin-bottom: 0;
   font-weight: bold;
 }
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 </style>
 
 <script>
 import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
-import { QUERY_LEAGUE_HISTORY } from "../constants/graphQLqueries/staplePuck2Queries";
+import { QUERY_LEAGUE, QUERY_PLAYERS_BY_SEASON, QUERY_TEAMS_BY_SEASON } from "../constants/graphQLqueries/staplePuck2Queries";
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 import { DisplayErrors } from "../serverInputErrors";
@@ -100,7 +114,8 @@ export default {
       saveFailed: false,
       saveErrors: {},
       teamName: '',
-      leagueId: 0
+      leagueId: 0,
+      seasonId: 0
     };
   },
   computed: {
@@ -109,20 +124,53 @@ export default {
       return list.sort((a, b) =>
         a.team.fullName.localeCompare(b.team.fullName)
       );
+    },
+    hProTeam: function () {
+      const list = this.teamsBySeason;
+      return list.sort((a, b) =>
+        a.fullName.localeCompare(b.fullName)
+      );
     }
   },
   props: ["id"],
   apollo: {
-    leaguHistory: {
+    league: {
       client: 'staplePuck2Client',
-      query: QUERY_LEAGUE_HISTORY,
+      query: QUERY_LEAGUE,
+      fetchPolicy: 'cache-first',
       variables() {
         return {
-          leagueid: this.leagueId
+          leagueId: this.leagueId
         };
       },
       skip() {
         return this.leagueId === 0;
+      }
+    },
+    teamsBySeason: {
+      client: 'staplePuck2Client',
+      query: QUERY_TEAMS_BY_SEASON,
+      fetchPolicy: 'cache-first',
+      variables() {
+        return {
+          seasonId: this.seasonId
+        };
+      },
+      skip() {
+        return this.seasonId === 0;
+      }
+    },
+    playersBySeason: {
+      client: 'staplePuck2Client',
+      query: QUERY_PLAYERS_BY_SEASON,
+      fetchPolicy: 'cache-first',
+      variables() {
+        return {
+          seasonId: this.seasonId
+        };
+      },
+      skip() {
+        return this.seasonId === 0;
       }
     },
     fantasyTeams: {
@@ -158,6 +206,7 @@ export default {
 
         this.teamName = this.fantasyTeams[0].name;
         this.leagueId = this.fantasyTeams[0].league.id;
+        this.seasonId = this.fantasyTeams[0].league.season.id;
         const ts = this.fantasyTeams[0].league.season.teamSeasons;
         for (i = 0; i < ts.length; i++) {
           var j;
@@ -212,6 +261,18 @@ export default {
           this.saveErrors = DisplayErrors(this.$bvToast, error);
           this.saving = 0;
         });
+    },
+    teamHasMaxPlayers(teamId) {
+      let count = 0;
+      for (let [x, value] of Object.entries(this.selected)) {
+        if (x == teamId) {
+          count++;
+          if (count >= this.league.playersPerTeam) {
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
 };
