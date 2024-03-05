@@ -9,6 +9,8 @@
             </PageSummary>
             <LeagueRules :leagueId="fTeam.league.id"></LeagueRules>
 
+            <PlayerSelectDialog :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
+
             <div>
                 Span:
                 <div v-for="(span, index) in spans">
@@ -18,7 +20,6 @@
                     </label>
                 </div>
             </div>
-
 
             <section id="scroll-table" class="col-md">
                 <table class="table table-bordered table-striped table-condensed cf">
@@ -30,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.style">
+                        <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.style" v-on:click="showPlayer(row.id)">
                             <td v-for="(col, colID) in computedFields" :key="colID">
                                 <img v-bind:src="'https://assets.staplepuck.com/headshots/' + row.id + '.png'" width="70"
                                     v-if="col.key === 'fullName'" />
@@ -182,9 +183,13 @@ table td {
 
 .invalid {
     background-color: red;
+    pointer-events: none;
+    cursor: default;
 }
 .selected {
     background-color: green;
+    pointer-events: none;
+    cursor: default;
 }
 .valid {
     background-color: blue;
@@ -197,6 +202,7 @@ import { QUERY_LEAGUE, QUERY_PLAYERS_HISTORY_BY_LEAGUE, QUERY_SPANS } from "../c
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 import PageSummary from "../components/PageSummary.vue";
+import PlayerSelectDialog from "../components/PlayerSelectDialog.vue";
 
 var getScoringData = function (scoring, id) {
     var i;
@@ -212,7 +218,8 @@ export default {
     name: "addPlayerByTeam",
     components: {
         LeagueRules,
-        PageSummary
+        PageSummary,
+        PlayerSelectDialog
     },
     data() {
         return {
@@ -224,6 +231,7 @@ export default {
             seasonId: 0,
             selectedSpan: {},
             positionType: {},
+            selectedPlayer: {},
         };
     },
     computed: {
@@ -410,6 +418,12 @@ export default {
             } else {
                 this.ascending = true;
                 this.sortColumn = col;
+            }
+        },
+        showPlayer(playerId) {
+            this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
+            if (this.selectedPlayer) {
+                this.$bvModal.show('player-select-modal');
             }
         },
         saveTeam(evt) {

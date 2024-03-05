@@ -33,6 +33,14 @@ export const QUERY_LEAGUE = gql`
           shortName
         }
       }
+      season {
+        id
+        fullName
+        isPlayoffs
+        startRound
+        externalPlayerUrl
+        externalPlayerUrl2
+      }
       scoringRules {
         positionType {
           id
@@ -125,6 +133,11 @@ export const QUERY_PLAYERS_HISTORY_BY_LEAGUE = gql`
         leagueId
         playerId
         spanId
+        span {
+          id
+          name
+          description
+        }
         rank
         positionRank
         score
