@@ -8,16 +8,26 @@
         </p>
       </PageSummary>
       <LeagueRules :leagueId="team.league.id"></LeagueRules>
-      <!-- {{ leagueHistory }} -->
       <router-link v-for="hTeam in hProTeam"
                   :to="{ name: 'addPlayerByTeam', params: { id: id, teamId: hTeam.id } }"
                   :class="{ disabled: teamHasMaxPlayers(hTeam.id) }"
                   >
                   <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.id + '.svg'" width="70" /> 
       </router-link>
-      <!-- <a v-for="hTeam in hProTeam" v-bind:href="hTeam.id">
-        <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.Id + '.svg'" width="70" /> 
-      </a> -->
+
+      <PlayerSelectDialog :player="selectedPlayer" :league="league" includeAdd="false" includeRemove="true" />
+
+      <div v-for="position in playersInfo">
+        <h3>{{ position.name }}</h3>
+        <b-container class="bv-example-row">
+          <b-row>
+            <b-col cols="3" v-for="player in position.players" v-on:click="showPlayer(player.id)">
+              <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" />
+            </b-col>
+          </b-row>
+        </b-container>
+      </div>
+
       <form @submit="saveTeam" class="form-width">
         <label label-for="teamName">Team Name:</label>
         <input
@@ -92,17 +102,21 @@ label {
 
 <script>
 import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
-import { QUERY_LEAGUE, QUERY_PLAYERS_BY_SEASON, QUERY_TEAMS_BY_SEASON } from "../constants/graphQLqueries/staplePuck2Queries";
+import { QUERY_LEAGUE, QUERY_PLAYERS_HISTORY_BY_LEAGUE, QUERY_TEAMS_BY_SEASON } from "../constants/graphQLqueries/staplePuck2Queries";
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 import { DisplayErrors } from "../serverInputErrors";
 import PageSummary from "../components/PageSummary.vue";
+import PlayerSelectCard from "../components/PlayerSelectCard.vue";
+import PlayerSelectDialog from "../components/PlayerSelectDialog.vue";
 
 export default {
   name: "editTeam",
   components: {
     LeagueRules,
-    PageSummary
+    PageSummary, 
+    PlayerSelectCard,
+    PlayerSelectDialog
   },
   data() {
     return {
@@ -115,7 +129,8 @@ export default {
       saveErrors: {},
       teamName: '',
       leagueId: 0,
-      seasonId: 0
+      seasonId: 0,
+      selectedPlayer: {},
     };
   },
   computed: {
@@ -130,6 +145,63 @@ export default {
       return list.sort((a, b) =>
         a.fullName.localeCompare(b.fullName)
       );
+    },
+    playersInfo() {
+      const positions = [];
+      if (!this.playersHistoryByLeague) {
+        return positions;
+      }
+      
+      const players = [];
+      for (let i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
+          const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
+          
+          const player = this.playersHistoryByLeague.find(x => x.id == fp.player.id);
+          if (player) {
+            players.push(player);
+          }
+      }
+
+      for (let i = 0; i < this.league.numberPerPositions.length; i++) {
+        const position = {
+          ...this.league.numberPerPositions[i].positionType,
+          players: [],
+        };
+        const count = this.league.numberPerPositions[i].count;
+        
+        let pos; 
+        const playersByPositon = players.filter(x => x.positionTypeId === position.id);
+        for (pos = 0; pos < playersByPositon.length; pos++) {
+          const player = {  ...playersByPositon[pos] };
+
+          const teamCount = players.filter(x => x.teamId === player.teamId);
+          if (teamCount > this.league.playersPerTeam) {
+            player.error = true;
+            player.maxTeam = true;
+          }
+          if (playersByPositon > count) {
+            player.error = true;
+            player.maxPosition = true;
+          }
+
+          position.players.push(player);
+        }
+        let nextPlayerPos = true;
+        while (pos < count) {
+          position.players.push({ 
+            id: -1, 
+            fullName: 'empty',
+            positionTypeId: position.id,
+            addPlayer: nextPlayerPos
+           });
+          pos++;
+          nextPlayerPos = false;
+        }
+
+        positions.push(position);
+      }
+
+      return positions;
     }
   },
   props: ["id"],
@@ -160,17 +232,17 @@ export default {
         return this.seasonId === 0;
       }
     },
-    playersBySeason: {
+    playersHistoryByLeague: {
       client: 'staplePuck2Client',
-      query: QUERY_PLAYERS_BY_SEASON,
+      query: QUERY_PLAYERS_HISTORY_BY_LEAGUE,
       fetchPolicy: 'cache-first',
       variables() {
         return {
-          seasonId: this.seasonId
+          leagueId: this.leagueId
         };
       },
       skip() {
-        return this.seasonId === 0;
+        return this.leagueId === 0;
       }
     },
     fantasyTeams: {
@@ -261,6 +333,12 @@ export default {
           this.saveErrors = DisplayErrors(this.$bvToast, error);
           this.saving = 0;
         });
+    },
+    showPlayer(playerId) {
+      this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
+      if (this.selectedPlayer) {
+          this.$bvModal.show('player-select-modal');
+      }
     },
     teamHasMaxPlayers(teamId) {
       let count = 0;
