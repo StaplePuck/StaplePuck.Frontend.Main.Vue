@@ -294,7 +294,7 @@ export default {
                 row.playerIsValid = this.playerIsValid(x);
                 if (row.playerIsValid === -1) {
                     row.style = 'invalid';
-                } else if (row.playerIsValid === 0) {
+                } else if (row.playerIsValid === 1) {
                     row.style = 'onTeam';
                 } else {
                     row.style = 'valid';
