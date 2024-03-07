@@ -15,7 +15,7 @@
                   <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.id + '.svg'" width="70" /> 
       </router-link>
 
-      <PlayerSelectDialog :player="selectedPlayer" :league="league" includeAdd="false" includeRemove="true" />
+      <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="false" includeRemove="true" />
 
       <div v-for="position in playersInfo">
         <h3>{{ position.name }}</h3>
@@ -28,63 +28,6 @@
         </b-container>
       </div>
 
-      <form @submit="saveTeam" class="form-width">
-        <label label-for="teamName">Team Name:</label>
-        <input
-          type="text"
-          id="teamName"
-          class="form-control"
-          required
-          trim
-          v-model="teamName"
-        />
-        <br />
-        <br />
-
-        <div class="form-group" v-for="(pTeam, idy) in proTeams" :key="idy">
-          <label label-for="'team_' + pTeam.team.id">
-            {{ pTeam.team.fullName }}:
-          </label>
-          <select
-            :id="'team_' + pTeam.team.id"
-            class="form-control"
-            v-model="selected[pTeam.team.id]"
-          >
-            <option
-              v-bind:value="team.value"
-              v-for="(team, idz) in teamOptions[pTeam.team.id]"
-              :key="idz"
-            >
-              {{ team.text }}
-            </option>
-          </select>
-        </div>
-        <div v-show="saveSuccess" class="alert alert-success">
-          Save Successful
-        </div>
-        <div v-show="saveFailed" class="alert alert-danger">
-          <p>Save Complete but Not Valid:</p>
-          <p
-            v-for="(thisError, index) in saveErrors"
-            :key="`saveErrors-${index}`"
-          >
-            {{ thisError }}
-          </p>
-        </div>
-        <button
-          class="btn btn-secondary a-button"
-          type="submit"
-          :disabled="saving == 1"
-        >
-          <span
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true"
-            v-if="saving == 1"
-          ></span>
-          Save
-        </button>
-      </form>
     </div>
   </div>
 </template>

@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <PlayerSelectDialog :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
+            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="true" includeRemove="false" />
 
             <section id="scroll-table" class="col-md">
                 <table class="table table-bordered table-striped table-condensed cf">
