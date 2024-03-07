@@ -294,10 +294,10 @@ export default {
                 row.playerIsValid = this.playerIsValid(x);
                 if (row.playerIsValid === -1) {
                     row.style = 'invalid';
-                } else if (row.playerIsValid === 1) {
-                    row.style = 'onTeam';
-                } else {
+                } else if (row.playerIsValid === 0) {
                     row.style = 'valid';
+                } else {
+                    row.style = 'onTeam';
                 }
                 data.push(row);
             });
