@@ -64,7 +64,6 @@ export default {
   data() {
     return {
       selected: {},
-      teamOptions: {},
       loading: 0,
       saving: 0,
       saveSuccess: false,
@@ -219,64 +218,23 @@ export default {
           list.push(fp.player.id);
         }
 
-        this.teamName = this.fantasyTeams[0].name;
         this.leagueId = this.fantasyTeams[0].league.id;
         this.seasonId = this.fantasyTeams[0].league.season.id;
         const ts = this.fantasyTeams[0].league.season.teamSeasons;
-        for (i = 0; i < ts.length; i++) {
-          var j;
+        for (let i = 0; i < ts.length; i++) {
           var ps = ts[i].playerSeasons.sort((a, b) =>
             a.player.fullName.localeCompare(b.player.fullName)
           );
-          let playerList = [];
-          for (j = 0; j < ps.length; j++) {
+          for (let j = 0; j < ps.length; j++) {
             if (list.includes(ts[i].playerSeasons[j].player.id)) {
               this.selected[ts[i].team.id] = ts[i].playerSeasons[j].player.id;
             }
-            playerList.push({
-              value: ps[j].player.id,
-              text: ps[j].player.fullName + " - " + ps[j].positionType.shortName
-            });
           }
-          this.teamOptions[ts[i].team.id] = playerList;
         }
       }
     }
   },
   methods: {
-    saveTeam(evt) {
-      evt.preventDefault();
-      this.saving = 1;
-      this.saveSuccess = false;
-      this.saveFailed = false;
-      var fantasyTeamPlayers = [];
-
-      for (let [, value] of Object.entries(this.selected)) {
-        fantasyTeamPlayers.push({ playerId: Number(value) });
-      }
-      this.$apollo
-        .mutate({
-          mutation: SET_TEAM_LINEUP,
-          variables: {
-            fantasyTeam: {
-              id: Number(this.id),
-              name: this.teamName,
-              fantasyTeamPlayers: fantasyTeamPlayers
-            }
-          }
-        })
-        .then(() => {
-          this.saveFailed = false;
-          this.saveSuccess = true;
-          this.saving = 0;
-        })
-        .catch((error) => {
-          this.saveSuccess = false;
-          this.saveFailed = true;
-          this.saveErrors = DisplayErrors(this.$bvToast, error);
-          this.saving = 0;
-        });
-    },
     showPlayer(playerId) {
       this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
       if (this.selectedPlayer) {

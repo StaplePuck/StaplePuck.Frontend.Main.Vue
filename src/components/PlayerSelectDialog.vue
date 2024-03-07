@@ -1,53 +1,51 @@
 <template>
-    <div v-if="player?.team">
-        <b-modal id="player-select-modal" v-bind:title="player.fullName">
-            <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="70" />
-            <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team.id + '.svg'" width="70" /> <br />
-            Team: {{ player.team.fullName }} <br />
-            Number: {{ player.number }} <br />
-            Position: {{ player.positionType.name }} <br />
-            Profile Links: 
-            <a v-if="player.externalId" v-bind:href="league.season.externalPlayerUrl + player.externalId" target="_blank">NHL</a>, 
-            <a v-if="player.externalId2" v-bind:href="league.season.externalPlayerUrl2 + player.externalId2" target="_blank">ESPN</a><br />
+    <b-modal id="player-select-modal" v-bind:title="player?.fullName">
+        <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="70" />
+        <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team?.id + '.svg'" width="70" /> <br />
+        Team: {{ player.team?.fullName }} <br />
+        Number: {{ player.number }} <br />
+        Position: {{ player.positionType?.name }} <br />
+        Profile Links: 
+        <a v-if="player.externalId" v-bind:href="league.season.externalPlayerUrl + player.externalId" target="_blank">NHL</a>, 
+        <a v-if="player.externalId2" v-bind:href="league.season.externalPlayerUrl2 + player.externalId2" target="_blank">ESPN</a><br />
 
-            <table>
-                <thead>
-                    <tr>
-                        <th rowspan="2"></th>
-                        <th v-for="span in spans" colspan="3" style="text-align:center">{{ span.name }}</th>
-                    </tr>
-                    <tr>
-                        <template v-for="span in spans">
-                            <th>Score</th>
-                            <th>Rank</th>
-                            <th>Position Rank</th>
-                        </template>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="score in scores">
-                        <td>{{ score.scoringType }}</td>
-                        <template v-for="s in score.scores">
-                            <td>{{ s.score }}</td>
-                            <td>{{ s.rank }}</td>
-                            <td>{{ s.positionRank }}</td>
-                        </template>
-                    </tr>
-                </tbody>
-            </table>
-            <template #modal-footer>
-                <div class="w-100">
-                    <!-- <p class="float-left">Modal Footer Content</p> -->
-                    <b-button v-if="includeAdd === 'true'" variant="primary" size="sm" class="float-right" @click="addPlayer()">
-                        Add
-                    </b-button>
-                    <b-button v-if="includeRemove === 'true'" variant="primary" size="sm" class="float-right" @click="removePlayer()">
-                        Remove
-                    </b-button>
-                </div>
-            </template>
-        </b-modal>
-    </div>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th v-for="span in spans" colspan="3" style="text-align:center">{{ span.name }}</th>
+                </tr>
+                <tr>
+                    <template v-for="span in spans">
+                        <th>Score</th>
+                        <th>Rank</th>
+                        <th>Position Rank</th>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="score in scores">
+                    <td>{{ score.scoringType }}</td>
+                    <template v-for="s in score.scores">
+                        <td>{{ s.score }}</td>
+                        <td>{{ s.rank }}</td>
+                        <td>{{ s.positionRank }}</td>
+                    </template>
+                </tr>
+            </tbody>
+        </table>
+        <template #modal-footer>
+            <div class="w-100">
+                <!-- <p class="float-left">Modal Footer Content</p> -->
+                <b-button v-if="includeAdd === 'true'" variant="primary" size="sm" class="float-right" @click="addPlayer()">
+                    Add
+                </b-button>
+                <b-button v-if="includeRemove === 'true'" variant="primary" size="sm" class="float-right" @click="removePlayer()">
+                    Remove
+                </b-button>
+            </div>
+        </template>
+    </b-modal>
 </template>
 <script>
 
@@ -68,6 +66,9 @@ export default {
     computed: { 
         spans() {
             const spans = [];
+            if (!this.player.hScores) {
+                return spans;
+            }
             for (let i = 0; i < this.player.hScores.length; i++) {
                 spans.push(this.player.hScores[i].span);
             }
@@ -75,6 +76,9 @@ export default {
         },
         scores() {
             const types = [];
+            if (!this.player.hScores) {
+                return types;
+            }
             for (let i = 0; i < this.player.hScores.length; i++) {
                 for (let j = 0; j < this.player.hScores[i].scores.length; j++) {
                     const score = this.player.hScores[i].scores[j];
