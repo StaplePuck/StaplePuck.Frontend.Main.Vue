@@ -38,10 +38,10 @@
             <template #modal-footer>
                 <div class="w-100">
                     <!-- <p class="float-left">Modal Footer Content</p> -->
-                    <b-button v-if="includeAdd === 'true'" variant="primary" size="sm" class="float-right" @click="show = false">
+                    <b-button v-if="includeAdd === 'true'" variant="primary" size="sm" class="float-right" @click="addPlayer()">
                         Add
                     </b-button>
-                    <b-button v-if="includeRemove === 'true'" variant="primary" size="sm" class="float-right" @click="show = false">
+                    <b-button v-if="includeRemove === 'true'" variant="primary" size="sm" class="float-right" @click="removePlayer()">
                         Remove
                     </b-button>
                 </div>
@@ -51,14 +51,20 @@
 </template>
 <script>
 
+import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
+import { DisplayErrors } from "../serverInputErrors";
+
 export default {
     name: "PlayerSelectDialog",
     data() {
         return {
-            loading: 0
+            loading: 0,
+            saveFailed: false,
+            saveSuccess: true,
+            saving: 0
         };
     },
-    props: ["player", "league", "includeAdd", "includeRemove"],
+    props: ["fantasyTeamId", "player", "league", "fantasyTeam", "includeAdd", "includeRemove"],
     computed: { 
         spans() {
             const spans = [];
@@ -126,6 +132,55 @@ export default {
             return rules.sort((a, b) =>
                 a.scoringType.name.localeCompare(b.scoringType.name)
             );
+        },
+        addPlayer() {
+            const list = [];
+            for (let i = 0; i < this.fantasyTeam.fantasyTeamPlayers.length; i++) {
+                const fp = this.fantasyTeam.fantasyTeamPlayers[i];
+                list.push({ playerId: Number(fp.player.id) });
+            }
+
+            list.push({ playerId: Number(this.player.id) });
+            this.saveTeam(list);
+        },
+        removePlayer() {
+            const list = [];
+            const playerId = Number(this.player.id);
+            for (let i = 0; i < this.fantasyTeam.fantasyTeamPlayers.length; i++) {
+                const fp = this.fantasyTeam.fantasyTeamPlayers[i];
+                if (playerId !== fp.player.id) {
+                    list.push({ playerId: Number(fp.player.id) });
+                }
+            }
+
+            this.saveTeam(list);
+        },
+        saveTeam(fantasyTeamPlayers) {
+            this.$apollo
+                .mutate({
+                mutation: SET_TEAM_LINEUP,
+                variables: {
+                    fantasyTeam: {
+                    id: Number(this.fantasyTeamId),
+                    fantasyTeamPlayers
+                    }
+                }
+                })
+                .then(() => {
+                this.saveFailed = false;
+                this.saveSuccess = true;
+                this.saving = 0;
+                this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
+                this.$router.go();
+                })
+                .catch((error) => {
+                this.saveSuccess = false;
+                this.saveFailed = true;
+                //this.saveErrors = DisplayErrors(this.$bvToast, error);
+                this.saving = 0;
+                this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
+                this.$router.go();
+                });
         }
     }
 };

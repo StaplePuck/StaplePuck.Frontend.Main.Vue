@@ -9,7 +9,7 @@
             </PageSummary>
             <LeagueRules :leagueId="fTeam.league.id"></LeagueRules>
 
-            <PlayerSelectDialog :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
+            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="true" includeRemove="false" />
 
             <div>
                 Span:
