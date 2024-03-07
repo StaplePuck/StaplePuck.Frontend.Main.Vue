@@ -294,9 +294,9 @@ export default {
                 if (row.playerIsValid === -1) {
                     row.style = 'invalid';
                 } else if (row.playerIsValid === 0) {
-                    row.style = 'onTeam';
-                } else {
                     row.style = 'valid';
+                } else {
+                    row.style = 'onTeam';
                 }
                 data.push(row);
             });
