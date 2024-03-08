@@ -37,10 +37,20 @@
         <template #modal-footer>
             <div class="w-100">
                 <!-- <p class="float-left">Modal Footer Content</p> -->
-                <b-button v-if="includeAdd === 'true'" variant="primary" size="sm" class="float-right" @click="addPlayer()">
+                <b-button v-if="includeAdd === 'true'" 
+                    variant="primary" 
+                    size="sm" 
+                    class="float-right" 
+                    @click="addPlayer()"
+                    :disabled="saving == 1">
                     Add
                 </b-button>
-                <b-button v-if="includeRemove === 'true'" variant="primary" size="sm" class="float-right" @click="removePlayer()">
+                <b-button v-if="includeRemove === 'true'" 
+                    variant="primary" 
+                    size="sm" 
+                    class="float-right" 
+                    @click="removePlayer()"
+                    :disabled="saving == 1">
                     Remove
                 </b-button>
             </div>
