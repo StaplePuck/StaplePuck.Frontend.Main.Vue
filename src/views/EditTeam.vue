@@ -7,7 +7,17 @@
           Set the lineup for your team.
         </p>
       </PageSummary>
+      <router-link
+                  :to="{ name: 'editTeamName', params: { id: id } }"
+                  >
+                  Change Team Name
+      </router-link>  
       <LeagueRules :leagueId="team.league.id"></LeagueRules>
+      <div v-if="fantasyTeamValidation">
+        <ul>
+          <li v-for="item in fantasyTeamValidation">{{ item.message }}</li>
+        </ul>
+      </div>
       <router-link v-for="hTeam in hProTeam"
                   :to="{ name: 'addPlayerByTeam', params: { id: id, teamId: hTeam.id } }"
                   :class="{ disabled: teamHasMaxPlayers(hTeam.id) }"
@@ -44,9 +54,8 @@ label {
 </style>
 
 <script>
-import { GET_TEAM_DATA_FOR_EDIT } from "../constants/graphQLqueries/graphQLqueries";
+import { GET_TEAM_DATA_FOR_EDIT, GET_TEAM_VALIDATION } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_LEAGUE, QUERY_PLAYERS_HISTORY_BY_LEAGUE, QUERY_TEAMS_BY_SEASON } from "../constants/graphQLqueries/staplePuck2Queries";
-import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
 import { DisplayErrors } from "../serverInputErrors";
 import PageSummary from "../components/PageSummary.vue";
@@ -231,6 +240,14 @@ export default {
             }
           }
         }
+      }
+    },
+    fantasyTeamValidation: {
+      query: GET_TEAM_VALIDATION,
+      variables() {
+        return {
+          teamid: Number(this.id)
+        };
       }
     }
   },

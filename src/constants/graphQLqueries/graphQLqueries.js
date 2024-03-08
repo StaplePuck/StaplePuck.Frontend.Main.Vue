@@ -288,6 +288,14 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
   }
 `;
 
+export const GET_TEAM_VALIDATION = gql`
+ query getValidation($teamid: Int) {
+  fantasyTeamValidation(id: $teamid) {
+    message
+  }
+}
+`;
+
 export const GET_LEAGUE_RULES = gql`
   query getLeagueRules($leagueId: ID) {
     leagues(id: $leagueId) {

@@ -5,6 +5,7 @@ import User from "./views/UserProfile.vue";
 import MyTeams from "./views/MyTeams.vue";
 import NewTeam from "./views/NewTeam.vue";
 import EditTeam from "./views/EditTeam.vue";
+import EditTeamName from "./views/EditTeamName.vue";
 import AddPlayerByPosition from "./views/AddPlayerByPosition.vue";
 import AddPlayerByTeam from "./views/AddPlayerByTeam.vue";
 import NewUser from "./views/NewUser.vue";
@@ -65,6 +66,13 @@ const router = new Router({
       path: "/team/:id/edit",
       name: "editTeam",
       component: EditTeam,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/team/:id/editName",
+      name: "editTeamName",
+      component: EditTeamName,
       props: true,
       beforeEnter: authGuard
     },
