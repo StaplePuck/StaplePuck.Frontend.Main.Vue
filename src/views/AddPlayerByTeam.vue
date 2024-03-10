@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <h4 v-if="loading" class="text-center">Loading...</h4>
-        <div v-else v-for="(fTeam, idx) in fantasyTeams" :key="idx">
-            <PageSummary :headline="fTeam.name">
+        <div v-else>
+            <PageSummary :headline="fantasyTeam.name">
                 <p>
                     Select player for {{ team.fullName }}. <img
                         v-bind:src="'https://assets.staplepuck.com/logos/' + team.id + '.svg'" width="70" />
                 </p>
             </PageSummary>
-            <LeagueRules :leagueId="fTeam.league.id"></LeagueRules>
+            <LeagueRules :leagueId="fantasyTeam.leagueId"></LeagueRules>
 
             <div>
                 Span:
@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="true" includeRemove="false" />
+            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
 
             <section id="scroll-table" class="col-md">
                 <table class="table table-bordered table-striped table-condensed cf">
@@ -226,15 +226,15 @@ export default {
             ascending: false,
             sortColumn: "score",
             loading: 0,
-            teamDataLoaded: false,
-            leagueId: 0,
-            seasonId: 0,
             selectedSpan: {},
             team: {},
             selectedPlayer: {},
         };
     },
     computed: {
+        fantasyTeam() {
+            return this.$store.state.teamEdit.fantasyTeams[this.id];
+        },
         computedFields() {
             const field = [];
             field.push({
@@ -320,11 +320,12 @@ export default {
             fetchPolicy: 'cache-first',
             variables() {
                 return {
-                    leagueId: this.leagueId
+                    leagueId: this.fantasyTeam.leagueId
                 };
             },
             skip() {
-                return this.leagueId === 0;
+                console.log(`league: ${this.fantasyTeam?.leagueId}`);
+                return !this.fantasyTeam?.leagueId;
             }
         },
         playersHistoryByLeague: {
@@ -332,11 +333,11 @@ export default {
             query: QUERY_PLAYERS_HISTORY_BY_LEAGUE,
             variables() {
                 return {
-                    leagueId: this.leagueId
+                    leagueId: this.fantasyTeam.leagueId
                 };
             },
             skip() {
-                return !this.teamDataLoaded;
+                return !this.fantasyTeam.leagueId;
             },
             result() {
                 if (this.playersHistoryByLeague) {
@@ -354,11 +355,11 @@ export default {
             query: QUERY_SPANS,
             variables() {
                 return {
-                    leagueId: this.leagueId
+                    leagueId: this.fantasyTeam.leagueId
                 };
             },
             skip() {
-                return !this.teamDataLoaded;
+                return !this.fantasyTeam.leagueId;
             },
             result() {
                 if (this.spans) {
@@ -366,47 +367,12 @@ export default {
                 }
             }
         },
-        fantasyTeams: {
-            query: GET_TEAM_DATA_FOR_EDIT,
-            variables() {
-                return {
-                    teamid: Number(this.id)
-                };
-            },
-            result() {
-                const list = [];
-                var i;
-                if (this.fantasyTeams == null) {
-                    return;
-                }
-                if (this.fantasyTeams[0].league.isLocked) {
-                    this.$router.push({ name: "unauthorized" });
-                }
-                const sub = this.$store.state.auth.userSub;
-                if (
-                    !this.$store.getters["auth/canEditTeam"](
-                        this.fantasyTeams[0].id,
-                        this.fantasyTeams[0].league.id
-                    ) &&
-                    this.fantasyTeams[0].gM.externalId != sub
-                ) {
-                    this.$router.push({ name: "unauthorized" });
-                }
-                for (i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
-                    const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
-                    list.push(fp.player.id);
-                }
-
-                this.teamName = this.fantasyTeams[0].name;
-                this.leagueId = this.fantasyTeams[0].league.id;
-                this.teamDataLoaded = true;
-            }
-        },
         scoringTypeHeadersForTeam: {
             query: QUERY_SCORING_TYPES_FOR_LEAGUE,
+            fetchPolicy: 'cache-first',
             variables() {
                 return {
-                    leagueId: Number(this.id)
+                    teamId: Number(this.id)
                 };
             }
         }
@@ -465,12 +431,12 @@ export default {
 
             const maxNumberPerPosition = this.league.numberPerPositions.find(x => x.positionType.id === player.positionTypeId);
 
-            for (let i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
-                const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
-                if (fp.player.id == player.id) {
+            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
+                const fp = this.fantasyTeam.playerIds[i];
+                if (fp == player.id) {
                     return 1;
                 }
-                const playerInfo = this.playersHistoryByLeague.find(x => x.id == fp.player.id);
+                const playerInfo = this.playersHistoryByLeague.find(x => x.id == fp);
 
                 if (playerInfo.teamId === player.teamId) {
                     teamCount++;

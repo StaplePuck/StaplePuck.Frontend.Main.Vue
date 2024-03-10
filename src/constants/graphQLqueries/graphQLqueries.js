@@ -170,8 +170,8 @@ export const QUERY_TEAM = gql`
 `;
 
 export const QUERY_SCORING_TYPES_FOR_LEAGUE = gql`
-  query scoringTypes($leagueId: Int) {
-    scoringTypeHeadersForTeam(id: $leagueId) {
+  query scoringTypes($teamId: Int) {
+    scoringTypeHeadersForTeam(id: $teamId) {
       id
       name
       shortName

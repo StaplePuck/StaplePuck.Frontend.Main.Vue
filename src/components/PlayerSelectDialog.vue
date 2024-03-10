@@ -72,8 +72,11 @@ export default {
             saving: 0
         };
     },
-    props: ["fantasyTeamId", "player", "league", "fantasyTeam", "includeAdd", "includeRemove"],
+    props: ["fantasyTeamId", "player", "league", "includeAdd", "includeRemove"],
     computed: { 
+        fantasyTeam() {
+            return this.$store.state.teamEdit.fantasyTeams[this.fantasyTeamId];
+        },
         spans() {
             const spans = [];
             if (!this.player.hScores) {
@@ -149,9 +152,9 @@ export default {
         },
         addPlayer() {
             const list = [];
-            for (let i = 0; i < this.fantasyTeam.fantasyTeamPlayers.length; i++) {
-                const fp = this.fantasyTeam.fantasyTeamPlayers[i];
-                list.push({ playerId: Number(fp.player.id) });
+            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
+                const fp = this.fantasyTeam.playerIds[i];
+                list.push({ playerId: Number(fp) });
             }
 
             list.push({ playerId: Number(this.player.id) });
@@ -160,10 +163,10 @@ export default {
         removePlayer() {
             const list = [];
             const playerId = Number(this.player.id);
-            for (let i = 0; i < this.fantasyTeam.fantasyTeamPlayers.length; i++) {
-                const fp = this.fantasyTeam.fantasyTeamPlayers[i];
-                if (playerId !== fp.player.id) {
-                    list.push({ playerId: Number(fp.player.id) });
+            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
+                const fp = this.fantasyTeam.playerIds[i];
+                if (playerId !== fp) {
+                    list.push({ playerId: Number(fp) });
                 }
             }
 
