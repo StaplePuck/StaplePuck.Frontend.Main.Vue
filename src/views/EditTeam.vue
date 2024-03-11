@@ -78,13 +78,14 @@ export default {
       saveSuccess: false,
       saveFailed: false,
       saveErrors: {},
-      teamName: '',
-      leagueId: 0,
-      seasonId: 0,
       selectedPlayer: {},
+      teamLoaded: false
     };
   },
   computed: {
+    fantasyTeam() {
+      return this.$store.state.teamEdit.fantasyTeam;
+    },
     proTeams: function () {
       var list = this.fantasyTeams[0].league.season.teamSeasons;
       return list.sort((a, b) =>
@@ -104,10 +105,10 @@ export default {
       }
       
       const players = [];
-      for (let i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
-          const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
+      for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
+          const fp = this.fantasyTeam.playerIds[i];
           
-          const player = this.playersHistoryByLeague.find(x => x.id == fp.player.id);
+          const player = this.playersHistoryByLeague.find(x => x.id == fp);
           if (player) {
             players.push(player);
           }
@@ -163,11 +164,11 @@ export default {
       fetchPolicy: 'cache-first',
       variables() {
         return {
-          leagueId: this.leagueId
+          leagueId: this.fantasyTeam?.leagueId
         };
       },
       skip() {
-        return this.leagueId === 0;
+        return !this.teamLoaded;
       }
     },
     teamsBySeason: {
@@ -176,11 +177,11 @@ export default {
       fetchPolicy: 'cache-first',
       variables() {
         return {
-          seasonId: this.seasonId
+          seasonId: this.fantasyTeam?.seasonId
         };
       },
       skip() {
-        return this.seasonId === 0;
+        return !this.teamLoaded;
       }
     },
     playersHistoryByLeague: {
@@ -189,11 +190,11 @@ export default {
       fetchPolicy: 'cache-first',
       variables() {
         return {
-          leagueId: this.leagueId
+          leagueId: this.fantasyTeam?.leagueId
         };
       },
       skip() {
-        return this.leagueId === 0;
+        return !this.teamLoaded;
       }
     },
     fantasyTeams: {
@@ -222,13 +223,15 @@ export default {
         ) {
           this.$router.push({ name: "unauthorized" });
         }
+
+        this.$store.commit('teamEdit/initialTeam', this.fantasyTeams[0]);
+        this.teamLoaded = true;
+
         for (i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
           const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
           list.push(fp.player.id);
         }
-
-        this.leagueId = this.fantasyTeams[0].league.id;
-        this.seasonId = this.fantasyTeams[0].league.season.id;
+        
         const ts = this.fantasyTeams[0].league.season.teamSeasons;
         for (let i = 0; i < ts.length; i++) {
           var ps = ts[i].playerSeasons.sort((a, b) =>
@@ -253,9 +256,11 @@ export default {
   },
   methods: {
     showPlayer(playerId) {
-      this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
-      if (this.selectedPlayer) {
-          this.$bvModal.show('player-select-modal');
+      if (playerId > 1) {
+        this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
+        if (this.selectedPlayer) {
+            this.$bvModal.show('player-select-modal');
+        }
       }
     },
     teamHasMaxPlayers(teamId) {
