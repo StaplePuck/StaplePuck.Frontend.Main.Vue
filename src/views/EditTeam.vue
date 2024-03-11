@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     fantasyTeam() {
-      return this.$store.state.teamEdit.fantasyTeams[this.id];
+      return this.$store.state.teamEdit.fantasyTeam;
     },
     proTeams: function () {
       var list = this.fantasyTeams[0].league.season.teamSeasons;
@@ -256,14 +256,15 @@ export default {
   },
   methods: {
     showPlayer(playerId) {
-      this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
-      if (this.selectedPlayer) {
-          this.$bvModal.show('player-select-modal');
+      if (playerId > 1) {
+        this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
+        if (this.selectedPlayer) {
+            this.$bvModal.show('player-select-modal');
+        }
       }
     },
     teamHasMaxPlayers(teamId) {
       let count = 0;
-      console.log(`ppt: ${this.league.playersPerTeam}`);
       for (let [x, value] of Object.entries(this.selected)) {
         if (x == teamId) {
           count++;

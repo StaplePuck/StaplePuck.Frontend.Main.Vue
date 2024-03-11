@@ -186,7 +186,7 @@ table td {
     pointer-events: none;
     cursor: default;
 }
-.selected {
+.onTeam {
     background-color: green;
     pointer-events: none;
     cursor: default;
@@ -233,7 +233,7 @@ export default {
     },
     computed: {
         fantasyTeam() {
-            return this.$store.state.teamEdit.fantasyTeams[this.id];
+            return this.$store.state.teamEdit.fantasyTeam;
         },
         computedFields() {
             const field = [];

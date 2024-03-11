@@ -186,7 +186,7 @@ table td {
     pointer-events: none;
     cursor: default;
 }
-.selected {
+.onTeam {
     background-color: green;
     pointer-events: none;
     cursor: default;
@@ -233,7 +233,7 @@ export default {
     },
     computed: {
         fantasyTeam() {
-            return this.$store.state.teamEdit.fantasyTeams[this.id];
+            return this.$store.state.teamEdit.fantasyTeam;
         },
         computedFields() {
             const field = [];
@@ -322,10 +322,6 @@ export default {
                 return {
                     leagueId: this.fantasyTeam.leagueId
                 };
-            },
-            skip() {
-                console.log(`league: ${this.fantasyTeam?.leagueId}`);
-                return !this.fantasyTeam?.leagueId;
             }
         },
         playersHistoryByLeague: {
@@ -335,9 +331,6 @@ export default {
                 return {
                     leagueId: this.fantasyTeam.leagueId
                 };
-            },
-            skip() {
-                return !this.fantasyTeam.leagueId;
             },
             result() {
                 if (this.playersHistoryByLeague) {
@@ -357,9 +350,6 @@ export default {
                 return {
                     leagueId: this.fantasyTeam.leagueId
                 };
-            },
-            skip() {
-                return !this.fantasyTeam.leagueId;
             },
             result() {
                 if (this.spans) {

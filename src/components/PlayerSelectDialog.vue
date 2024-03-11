@@ -75,7 +75,7 @@ export default {
     props: ["fantasyTeamId", "player", "league", "includeAdd", "includeRemove"],
     computed: { 
         fantasyTeam() {
-            return this.$store.state.teamEdit.fantasyTeams[this.fantasyTeamId];
+            return this.$store.state.teamEdit.fantasyTeam;
         },
         spans() {
             const spans = [];
@@ -152,25 +152,29 @@ export default {
         },
         addPlayer() {
             const list = [];
-            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
-                const fp = this.fantasyTeam.playerIds[i];
+            const playerIds = this.fantasyTeam.playerIds;
+            for (let i = 0; i < playerIds.length; i++) {
+                const fp = playerIds[i];
                 list.push({ playerId: Number(fp) });
             }
 
             list.push({ playerId: Number(this.player.id) });
             this.saveTeam(list);
+            this.$store.commit('teamEdit/addPlayer', this.player.id);
         },
         removePlayer() {
             const list = [];
             const playerId = Number(this.player.id);
-            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
-                const fp = this.fantasyTeam.playerIds[i];
+            const playerIds = this.fantasyTeam.playerIds;
+            for (let i = 0; i < playerIds.length; i++) {
+                const fp = playerIds[i];
                 if (playerId !== fp) {
                     list.push({ playerId: Number(fp) });
                 }
             }
 
             this.saveTeam(list);
+            this.$store.commit('teamEdit/removePlayer', this.player.id);
         },
         saveTeam(fantasyTeamPlayers) {
             this.$apollo
@@ -188,7 +192,7 @@ export default {
                 this.saveSuccess = true;
                 this.saving = 0;
                 this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
-                this.$router.go();
+                //this.$router.go();
                 })
                 .catch((error) => {
                 this.saveSuccess = false;
