@@ -327,6 +327,7 @@ export default {
         playersHistoryByLeague: {
             client: 'staplePuck2Client',
             query: QUERY_PLAYERS_HISTORY_BY_LEAGUE,
+            fetchPolicy: 'cache-first',
             variables() {
                 return {
                     leagueId: this.fantasyTeam.leagueId
@@ -346,6 +347,7 @@ export default {
         spans: {
             client: 'staplePuck2Client',
             query: QUERY_SPANS,
+            fetchPolicy: 'cache-first',
             variables() {
                 return {
                     leagueId: this.fantasyTeam.leagueId

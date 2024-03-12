@@ -155,3 +155,32 @@ export const QUERY_PLAYERS_HISTORY_BY_LEAGUE = gql`
     }
   }
 `;
+
+export const GET_LEAGUE_RULES = gql`
+  query getLeagueRules($leagueId: ID) {
+    league(leagueId: $leagueId) {
+      id
+      scoringRules {
+        scoringType {
+          id
+          name
+          shortName
+        }
+        positionType {
+          id
+          name
+          shortName
+        }
+        scoringWeight
+      }
+      numberPerPositions {
+        count
+        positionType {
+          id
+          name
+          shortName
+        }
+      }
+    }
+  }
+`;
