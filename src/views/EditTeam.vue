@@ -231,18 +231,6 @@ export default {
           const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];
           list.push(fp.player.id);
         }
-        
-        const ts = this.fantasyTeams[0].league.season.teamSeasons;
-        for (let i = 0; i < ts.length; i++) {
-          var ps = ts[i].playerSeasons.sort((a, b) =>
-            a.player.fullName.localeCompare(b.player.fullName)
-          );
-          for (let j = 0; j < ps.length; j++) {
-            if (list.includes(ts[i].playerSeasons[j].player.id)) {
-              this.selected[ts[i].team.id] = ts[i].playerSeasons[j].player.id;
-            }
-          }
-        }
       }
     },
     fantasyTeamValidation: {

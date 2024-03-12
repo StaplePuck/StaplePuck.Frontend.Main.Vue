@@ -250,6 +250,7 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
     fantasyTeams(id: $teamid) {
       id
       name
+      isValid
       gM {
         externalId
         id
@@ -264,24 +265,6 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
         isLocked
         season {
           id
-          fullName
-          teamSeasons {
-            team {
-              locationName
-              fullName
-              id
-            }
-            playerSeasons {
-              player {
-                id
-                fullName
-              }
-              positionType {
-                name
-                shortName
-              }
-            }
-          }
         }
       }
     }
