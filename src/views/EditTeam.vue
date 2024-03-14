@@ -253,14 +253,18 @@ export default {
     },
     teamHasMaxPlayers(teamId) {
       let count = 0;
-      for (let [x, value] of Object.entries(this.selected)) {
-        if (x == teamId) {
-          count++;
-          if (count >= this.league.playersPerTeam) {
-            return true;
+      for (let i = 0; i < this.playersInfo.length; i++) {
+        for (let j = 0; j < this.playersInfo[i].players.length; j++) {
+          if (this.playersInfo[i].players[j].teamId == teamId) {
+            count++;
+            if (count >= this.league.playersPerTeam) {
+              console.log(`team valid: ${teamId} false`);
+              return true;
+            }
           }
         }
       }
+      
       return false;
     }
   }
