@@ -225,7 +225,7 @@ export default {
             ascending: false,
             sortColumn: "score",
             loading: 0,
-            selectedSpan: {},
+            selectedSpan: '',
             team: {},
             selectedPlayer: {},
             scoringTypes: [],

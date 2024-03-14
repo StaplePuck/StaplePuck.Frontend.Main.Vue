@@ -4,9 +4,9 @@ export const QUERY_SPANS = gql`
  query getSpans($leagueId: ID!) {
   spans(leagueId: $leagueId) {
     id
+    leagueId
     name
     description
-    leagueId
     seasonId
     startDate
     endDate
@@ -63,6 +63,7 @@ export const QUERY_PLAYERS_BY_SEASON = gql`
   query getPlayersBySeason($seasonId: ID!) {
     playersBySeason(seasonId: $seasonId) {
       id
+      seasonId
       fullName
       shortName
       firstName
@@ -92,6 +93,7 @@ export const QUERY_TEAMS_BY_SEASON = gql`
   query getTeamsBySeason($seasonId: ID!) {
     teamsBySeason(seasonId: $seasonId) {
       id
+      seasonId
       name
       fullName
       shortName
@@ -106,6 +108,7 @@ export const QUERY_PLAYERS_HISTORY_BY_LEAGUE = gql`
   query getPlayersHistoryByLeague($leagueId: ID!) {
     playersHistoryByLeague(leagueId: $leagueId) {
       id
+      leagueId
       fullName
       shortName
       firstName
@@ -135,6 +138,7 @@ export const QUERY_PLAYERS_HISTORY_BY_LEAGUE = gql`
         spanId
         span {
           id
+          leagueId
           name
           description
         }
