@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h4 v-if="loading" class="text-center">Loading...</h4>
+        <h1 v-if="loading" class="text-center">Loading...</h1>
         <div v-else>
             <PageSummary :headline="fantasyTeam.name">
                 <p>
