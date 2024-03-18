@@ -38,7 +38,20 @@ const staplePuck2AuthLink = new ApolloLink((operation, forward) => {
 
 export const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    PlayerHistory: {
+      keyFields: ["id", "leagueId"],
+    },
+    PlayerHistory: {
+      keyFields: ["id", "leagueId"],
+    },
+    Player: {
+      keyFields: ["id", "seasonId"],
+    },
+    Team: {
+      keyFields: ["id", "seasonId"],
+    },
+  }),
   connectToDevTools: true
 });
 

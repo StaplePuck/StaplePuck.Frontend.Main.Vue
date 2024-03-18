@@ -191,16 +191,22 @@ export default {
                 this.saveFailed = false;
                 this.saveSuccess = true;
                 this.saving = 0;
-                this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
-                //this.$router.go();
+                if (this.$route.name !== 'editTeam') {
+                    this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
+                } else { 
+                    this.$router.go();
+                }
                 })
                 .catch((error) => {
                 this.saveSuccess = false;
                 this.saveFailed = true;
                 //this.saveErrors = DisplayErrors(this.$bvToast, error);
                 this.saving = 0;
-                this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
-                this.$router.go();
+                if (this.$route.name !== 'editTeam') {
+                    this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
+                } else { 
+                    this.$router.go();
+                }
                 });
         }
     }

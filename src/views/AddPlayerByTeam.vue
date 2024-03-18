@@ -197,7 +197,6 @@ table td {
 </style>
   
 <script>
-import { GET_TEAM_DATA_FOR_EDIT, QUERY_SCORING_TYPES_FOR_LEAGUE } from "../constants/graphQLqueries/graphQLqueries";
 import { QUERY_LEAGUE, QUERY_PLAYERS_HISTORY_BY_LEAGUE, QUERY_SPANS } from "../constants/graphQLqueries/staplePuck2Queries";
 import { SET_TEAM_LINEUP } from "../constants/graphQLqueries/graphQLqueries";
 import LeagueRules from "../components/LeagueRules";
@@ -226,9 +225,10 @@ export default {
             ascending: false,
             sortColumn: "score",
             loading: 0,
-            selectedSpan: {},
+            selectedSpan: '',
             team: {},
             selectedPlayer: {},
+            scoringTypes: [],
         };
     },
     computed: {
@@ -257,7 +257,7 @@ export default {
                 key: "positionRank",
                 label: "Position Rank"
             });
-            this.scoringTypeHeadersForTeam.forEach((x) => {
+            this.scoringTypes.forEach((x) => {
                 field.push({
                     key: "score" + x.id,
                     label: x.shortName
@@ -278,7 +278,7 @@ export default {
                 row.rank = scores?.rank;
                 row.positionRank = scores?.positionRank;
 
-                this.scoringTypeHeadersForTeam.forEach((s) => {
+                this.scoringTypes.forEach((s) => {
                     var text = "0";
                     var scoringData = getScoringData(
                         scores.scores,
@@ -322,11 +322,24 @@ export default {
                 return {
                     leagueId: this.fantasyTeam.leagueId
                 };
+            },
+            result() {
+                const list = [];
+                this.league.scoringRules.forEach(x => {
+                    if (x.scoringWeight > 0) {
+                        if (!list.find(y => y.id === x.scoringType.id)) {
+                            list.push(x.scoringType);    
+                        }
+                    }
+                });
+                list.sort((a, b) => a.id - b.id);
+                this.scoringTypes = list;
             }
         },
         playersHistoryByLeague: {
             client: 'staplePuck2Client',
             query: QUERY_PLAYERS_HISTORY_BY_LEAGUE,
+            fetchPolicy: 'cache-first',
             variables() {
                 return {
                     leagueId: this.fantasyTeam.leagueId
@@ -346,6 +359,7 @@ export default {
         spans: {
             client: 'staplePuck2Client',
             query: QUERY_SPANS,
+            fetchPolicy: 'cache-first',
             variables() {
                 return {
                     leagueId: this.fantasyTeam.leagueId
@@ -355,15 +369,6 @@ export default {
                 if (this.spans) {
                     this.selectedSpan = this.spans[this.spans.length - 1].id;
                 }
-            }
-        },
-        scoringTypeHeadersForTeam: {
-            query: QUERY_SCORING_TYPES_FOR_LEAGUE,
-            fetchPolicy: 'cache-first',
-            variables() {
-                return {
-                    teamId: Number(this.id)
-                };
             }
         }
     },
