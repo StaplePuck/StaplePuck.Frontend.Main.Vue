@@ -4,7 +4,7 @@
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <PageSummary :headline="team.name">
         <p>
-          Set the lineup for your team.
+          Set the lineup for your team
         </p>
       </PageSummary>
       <div class="text-center mb-2">
@@ -20,27 +20,23 @@
           <li v-for="item in fantasyTeamValidation">{{ item.message }}</li>
         </ul>
       </div>
-      <div class="px-1">
+      <div class="px-1 text-center">
         <span class="d-block px-3 mb-3 font-weight-bold">Click a logo to select a player from that team:</span>
         <router-link v-for="hTeam in hProTeam"
                     :to="{ name: 'addPlayerByTeam', params: { id: id, teamId: hTeam.id } }"
                     :class="{ disabled: teamHasMaxPlayers(hTeam.id) }"
                     >
-                    <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.id + '.svg'" width="70" /> 
+                    <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.id + '.svg'" width="70" class="my-2" /> 
         </router-link>
       </div>
-      
       <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="false" includeRemove="true" />
-
-      <div v-for="position in playersInfo">
-        <h3>{{ position.name }}</h3>
-        <b-container>
-          <b-row>
-            <b-col cols="3" v-for="player in position.players" v-on:click="showPlayer(player.id)">
+      <div class="p-3" v-for="position in playersInfo">
+        <span class="h5">{{ position.name }}</span>
+          <div class="player-c">
+            <div class="player" v-for="player in position.players" v-on:click="showPlayer(player.id)">
               <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" />
-            </b-col>
-          </b-row>
-        </b-container>
+            </div>
+          </div>
       </div>
 
     </div>
@@ -48,6 +44,21 @@
 </template>
 
 <style scoped lang="scss">
+.player-c {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+}
+.player {
+  display: inline-block;
+  flex-grow: 1;
+  flex-basis: 50%;
+}
+
+ul {
+  list-style-type: square;
+  color: red;
+}
 label {
   margin-bottom: 0;
   font-weight: bold;

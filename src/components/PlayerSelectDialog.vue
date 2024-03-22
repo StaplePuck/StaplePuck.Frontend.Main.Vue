@@ -2,14 +2,14 @@
     <b-modal id="player-select-modal" v-bind:title="player?.fullName">
         <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="70" />
         <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team?.id + '.svg'" width="70" /> <br />
-        Team: {{ player.team?.fullName }} <br />
-        Number: {{ player.number }} <br />
-        Position: {{ player.positionType?.name }} <br />
-        Profile Links: 
+        <b>Team:</b> {{ player.team?.fullName }} <br />
+        <b>Number:</b> {{ player.number }} <br />
+        <b>Position:</b> {{ player.positionType?.name }} <br />
+        <b>Profile Links: </b>
         <a v-if="player.externalId" v-bind:href="league.season.externalPlayerUrl + player.externalId" target="_blank">NHL</a>, 
         <a v-if="player.externalId2" v-bind:href="league.season.externalPlayerUrl2 + player.externalId2" target="_blank">ESPN</a><br />
 
-        <table>
+        <table class="table table-sm table-bordered">
             <thead>
                 <tr>
                     <th rowspan="2"></th>
@@ -19,7 +19,7 @@
                     <template v-for="span in spans">
                         <th>Score</th>
                         <th>Rank</th>
-                        <th>Position Rank</th>
+                        <th>Pos.<br> Rank</th>
                     </template>
                 </tr>
             </thead>
@@ -216,12 +216,10 @@ export default {
 .list-group-item {
     border: 0;
 }
-
 p {
     margin-top: 0;
     margin-bottom: 0;
 }
-
 .mb-4 {
     margin-bottom: 0.5rem !important;
 }

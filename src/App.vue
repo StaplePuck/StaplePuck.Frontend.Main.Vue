@@ -19,6 +19,13 @@ export default {
 };
 </script>
 <style lang="scss">
+.modal-content {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+.modal-header {
+  background-color: #fff !important;;
+}
 .row {
   margin-right: 0 !important;
   margin-left: 0 !important;
