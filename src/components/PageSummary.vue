@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="summary">
+    <div class="summary text-center">
       <h1>{{ headline }}</h1>
       <slot>
         This will only be displayed if there is no content to be distributed.
@@ -18,7 +18,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .summary {
-  text-align: center;
   h1 {
     font-size: 2em;
     font-weight: 700;

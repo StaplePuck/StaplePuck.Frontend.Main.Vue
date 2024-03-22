@@ -12,26 +12,42 @@
         </b-card>
         <b-card
             v-else
-            title="{Empty}"
             style="max-width: 20rem;"
             class="mb-2">
-
+            <b-card-text>
+                Player Available
+            </b-card-text>
         </b-card>
     </div>
     <div v-else>
         <b-card
-            :title="player.fullName"
-            :img-src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'"
-            :img-alt="player.fullName"
-            img-top
             style="max-width: 20rem;"
-            class="mb-2"
+            class="mb-2 card-p"
         >
             <b-card-text>
-                <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team.id + '.svg'" width="30" />
-                {{ player.team.fullName }}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <b>{{ player.fullName }}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                {{ player.team.fullName }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                                <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="50" />
+                            </td>
+                            <td>
+                                <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team.id + '.svg'" width="50" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </b-card-text>
-
         </b-card>
     </div>
 </template>
@@ -54,5 +70,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.card-p div {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+}
 </style>
   
