@@ -20,8 +20,8 @@
           <li v-for="item in fantasyTeamValidation">{{ item.message }}</li>
         </ul>
       </div>
+      <span class="px-3 h6 d-block font-weight-bold">Click a logo to select a player from that team</span>
       <div class="px-1 text-center">
-        <span class="d-block px-3 mb-3 font-weight-bold">Click a logo to select a player from that team:</span>
         <router-link v-for="hTeam in hProTeam"
                     :to="{ name: 'addPlayerByTeam', params: { id: id, teamId: hTeam.id } }"
                     :class="{ disabled: teamHasMaxPlayers(hTeam.id) }"
@@ -29,14 +29,15 @@
                     <img v-bind:src="'https://assets.staplepuck.com/logos/' + hTeam.id + '.svg'" width="70" class="my-2" /> 
         </router-link>
       </div>
+      <span class="px-3 mt-3 h6 d-block font-weight-bold">Click a player to see stats and remove them from your team</span>
       <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="false" includeRemove="true" />
-      <div class="p-3" v-for="position in playersInfo">
-        <span class="h5">{{ position.name }}</span>
-          <div class="player-c">
-            <div class="player" v-for="player in position.players" v-on:click="showPlayer(player.id)">
-              <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" />
-            </div>
+      <div v-for="position in playersInfo">
+        <span class="px-3 mb-3 h5">{{ position.name }}</span>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
+          <div v-for="player in position.players" v-on:click="showPlayer(player.id)">
+            <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" />
           </div>
+        </div>
       </div>
 
     </div>

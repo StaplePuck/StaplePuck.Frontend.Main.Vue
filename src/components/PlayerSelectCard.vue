@@ -1,54 +1,43 @@
 <template>
-    <div v-if="player.id === -1">
-        <b-card
+    <div 
+        v-if="player.id === -1 && player.addPlayer"
+        class="col mb-2"
+        >
+        <div
             v-if="player.addPlayer"
             style="max-width: 20rem;"
-            class="mb-2">
+            >
             <router-link 
                 :to="{ name: 'addPlayerByPosition', params: { id: fantasyTeamId, posId: player.positionTypeId } }"
                 class="card-link">
                   Add Player
             </router-link>
-        </b-card>
-        <b-card
-            v-else
-            style="max-width: 20rem;"
-            class="mb-2">
-            <b-card-text>
-                Player Available
-            </b-card-text>
-        </b-card>
+        </div>
     </div>
-    <div v-else>
-        <b-card
-            style="max-width: 20rem;"
-            class="mb-2 card-p"
-        >
-            <b-card-text>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">
-                                <b>{{ player.fullName }}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                {{ player.team.fullName }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td >
-                                <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="50" />
-                            </td>
-                            <td>
-                                <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team.id + '.svg'" width="50" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </b-card-text>
-        </b-card>
+    <div v-else
+        class="col mb-2">
+        <div class="card card-p">
+            <table>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">
+                            <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="40" />
+                        </td>
+                        <td rowspan="2">
+                            <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team.id + '.svg'" width="40" />
+                        </td>
+                        <td>
+                            <b>{{ player.fullName }}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ player.team.fullName }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -70,9 +59,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.card-p div {
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
+.card-p {
+    cursor: pointer;
+}
+.card-link {
+    text-decoration: underline;
 }
 </style>
   
