@@ -10,7 +10,7 @@
             <router-link 
                 :to="{ name: 'addPlayerByPosition', params: { id: fantasyTeamId, posId: player.positionTypeId } }"
                 class="card-link">
-                  Add Player
+                  Add Player by Position
             </router-link>
         </div>
     </div>

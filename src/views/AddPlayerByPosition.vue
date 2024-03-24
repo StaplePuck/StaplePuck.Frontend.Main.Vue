@@ -4,25 +4,51 @@
         <div v-else>
             <PageSummary :headline="fantasyTeam.name">
                 <p>
-                    Select player for {{ positionType.name }} position.
+                    Select a player for the <b>{{ positionType.name }}</b> position.
                 </p>
             </PageSummary>
             <LeagueRules :leagueId="fantasyTeam.leagueId"></LeagueRules>
 
             <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
-
-            <div>
-                Span:
+            
+            <div class="col mb-2 font-weight-bold">
+                Stats Date Range:
                 <div v-for="(span, index) in spans">
                     <input type="radio" :id="span.id" :value="span.id" v-model="selectedSpan">
+                    &nbsp;
                     <label>
                         {{ span.name }}
                     </label>
                 </div>
             </div>
-
-            <section id="scroll-table" class="col-md">
-                <table class="table table-bordered table-striped table-condensed cf">
+            <div class="col">
+                <div class="font-weight-bold">
+                    Color Key:
+                </div>
+                <div>
+                    <table>
+                        <tr class="onTeam p-1">
+                            <td class="font-weight-bold">
+                                Green:
+                            </td>
+                            <td>
+                                Player already selected
+                            </td>
+                        </tr>
+                        <tr class="invalid p-1">
+                            <td class="font-weight-bold">
+                                Red:
+                            </td>
+                            <td>
+                                Player not available
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <span class="px-3 mt-3 d-block font-weight-bold">Click on an available player to add them to your team</span>
+            <section class="col-md">
+                <table class="table table-responsive-md table-bordered cf">
                     <thead class="cf">
                         <tr>
                             <th v-for="(col, colID) in computedFields" :key="colID" v-on:click="sortTable(col.key)">
@@ -33,11 +59,26 @@
                     <tbody>
                         <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.style" v-on:click="showPlayer(row.id)">
                             <td v-for="(col, colID) in computedFields" :key="colID">
-                                <img v-bind:src="'https://assets.staplepuck.com/headshots/' + row.id + '.png'" width="70"
-                                    v-if="col.key === 'fullName'" />
-                                <img v-bind:src="'https://assets.staplepuck.com/logos/' + row.teamId + '.svg'" width="70"
-                                    v-if="col.key === 'team'" />
-                                {{ row[col.key] }}
+                                <div v-if="col.key === 'fullName'">
+                                    <table class="table-borderless">
+                                        <tr>
+                                            <td colspan="2">
+                                                {{ row[col.key] }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img v-bind:src="'https://assets.staplepuck.com/headshots/' + row.id + '.png'" width="30" />
+                                            </td>
+                                            <td>
+                                                <img v-bind:src="'https://assets.staplepuck.com/logos/' + row.teamId + '.svg'" width="30" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div v-else>
+                                    {{ row[col.key] }}
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -182,17 +223,14 @@ table td {
 }
 
 .invalid {
-    background-color: red;
+    background-color: lightpink;
     pointer-events: none;
     cursor: default;
 }
 .onTeam {
-    background-color: green;
+    background-color: lightgreen;
     pointer-events: none;
     cursor: default;
-}
-.valid {
-    background-color: blue;
 }
 </style>
   
