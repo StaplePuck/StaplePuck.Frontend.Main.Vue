@@ -15,6 +15,9 @@
         </router-link>  
       </div>
       <LeagueRules :leagueId="team.league.id"></LeagueRules>
+      <div v-if="fantasyTeams[0].isValid" class="alert alert-success">
+        Congratulations, your team is valid and ready for the start of the league! Time to start losing/or winning!
+      </div>
       <div v-if="fantasyTeamValidation">
         <ul>
           <li v-for="item in fantasyTeamValidation">{{ item.message }}</li>
@@ -256,6 +259,24 @@ export default {
         return {
           teamid: Number(this.id)
         };
+      },
+      skip() {
+        if (!this.teamLoaded || !this.league?.numberPerPositions) {
+          return true;
+        }
+    
+        // skip if valid
+        if (this.fantasyTeams[0].isValid) {
+          return true;
+        }
+
+        let maxPlayers = 0;
+        for (let i = 0; i < this.league.numberPerPositions.length; i++) {
+          maxPlayers += this.league.numberPerPositions[i].count;
+        }
+
+        // skip if players players select less than max players
+        return this.fantasyTeam.playerIds.length < maxPlayers;
       }
     }
   },
@@ -275,7 +296,6 @@ export default {
           if (this.playersInfo[i].players[j].teamId == teamId) {
             count++;
             if (count >= this.league.playersPerTeam) {
-              console.log(`team valid: ${teamId} false`);
               return true;
             }
           }
