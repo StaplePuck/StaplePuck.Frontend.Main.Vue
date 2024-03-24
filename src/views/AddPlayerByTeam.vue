@@ -10,8 +10,8 @@
             </PageSummary>
             <LeagueRules :leagueId="fantasyTeam.leagueId"></LeagueRules>
 
-            <div class="col mb-2">
-                <b>Stats Date Range:</b>
+            <div class="col mb-2 font-weight-bold">
+                Stats Date Range:
                 <div v-for="(span, index) in spans">
                     <input type="radio" :id="span.id" :value="span.id" v-model="selectedSpan">
                     &nbsp;
@@ -20,17 +20,29 @@
                     </label>
                 </div>
             </div>
-            <div class="col mb-2">
-                <b>Color Key:</b>
-                <div class="invalid p-1">
-                    <b>Red:</b> Player not available
+            <div class="col">
+                <div class="font-weight-bold">
+                    Color Key:
+                </div>
+                <div>
+                    <table>
+                        <tr class="invalid p-1">
+                            <td class="font-weight-bold">
+                                Red:
+                            </td>
+                            <td>
+                                Player not available
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
             <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
+            
             <span class="px-3 mt-2 d-block font-weight-bold">Click on an available player to add them to your team</span>
-            <section id="scroll-table" class="col-md">
-                <table class="table table-bordered table-condensed cf">
+            <section class="col-md">
+                <table class="table table-bordered table-responsive-md cf">
                     <thead class="cf">
                         <tr>
                             <th v-for="(col, colID) in computedFields" :key="colID" v-on:click="sortTable(col.key)">
@@ -41,8 +53,17 @@
                     <tbody>
                         <tr v-for="(row, rowID) in computedData" :key="rowID" v-bind:class="row.style" v-on:click="showPlayer(row.id)">
                             <td v-for="(col, colID) in computedFields" :key="colID">
-                                <img v-bind:src="'https://assets.staplepuck.com/headshots/' + row.id + '.png'" width="30" v-if="col.key === 'fullName'" />
-                                {{ row[col.key] }}
+                                <div v-if="col.key === 'fullName'">
+                                    <div>
+                                        <img v-bind:src="'https://assets.staplepuck.com/headshots/' + row.id + '.png'" width="30" />
+                                        <span class="d-inline-block">
+                                            {{ row[col.key] }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    {{ row[col.key] }}
+                                </div>
                             </td>
                         </tr>
                     </tbody>
