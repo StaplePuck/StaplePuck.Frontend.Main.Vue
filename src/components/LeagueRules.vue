@@ -11,7 +11,7 @@
         >
           <div class="card">
             <div class="card-header">
-              {{ position.positionType.name }}: {{ position.count }} per team
+              {{ position.positionType.name }}: {{ position.count }} players per team
             </div>
             <div class="card-body">
               <p
