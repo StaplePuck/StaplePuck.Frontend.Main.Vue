@@ -35,7 +35,7 @@
       <span class="px-3 mt-3 h6 d-block font-weight-bold">Click a player to see stats and remove them from your team</span>
       <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="false" includeRemove="true" />
       <div v-for="position in playersInfo">
-        <span class="px-3 mb-3 h5">{{ position.name }}</span>
+        <span class="px-3 mb-3 h5">{{ position.name }} ({{ position.count }} of {{ position.max }})</span>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
           <div v-for="player in position.players" v-on:click="showPlayer(player.id)">
             <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" />
@@ -137,6 +137,7 @@ export default {
       for (let i = 0; i < this.league.numberPerPositions.length; i++) {
         const position = {
           ...this.league.numberPerPositions[i].positionType,
+          max: this.league.numberPerPositions[i].count,
           players: [],
         };
         const count = this.league.numberPerPositions[i].count;
@@ -158,6 +159,7 @@ export default {
 
           position.players.push(player);
         }
+        position.count = pos;
         let nextPlayerPos = true;
         while (pos < count) {
           position.players.push({ 
