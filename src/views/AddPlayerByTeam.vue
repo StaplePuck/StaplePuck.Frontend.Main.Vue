@@ -34,6 +34,14 @@
                                 Player not available
                             </td>
                         </tr>
+                        <tr class="sorted">
+                            <td class="font-weight-bold">
+                                Yellow:
+                            </td>
+                            <td>
+                                Sorted by
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -45,7 +53,10 @@
                 <table class="table table-bordered table-responsive-md cf">
                     <thead class="cf">
                         <tr>
-                            <th v-for="(col, colID) in computedFields" :key="colID" v-on:click="sortTable(col.key)">
+                            <th v-for="(col, colID) in computedFields" :key="colID" 
+                                v-on:click="sortTable(col.key)"
+                                :class="{ sorted: col.key === sortColumn }"
+                            >
                                 {{ col.label }}
                             </th>
                         </tr>
@@ -98,11 +109,7 @@ table td {
 }
 
 .sorted {
-    text-decoration: underline;
-}
-
-.unsorted {
-    text-decoration: none;
+    background-color : #ffc107;
 }
 
 @media only screen and (max-width: 800px) {
