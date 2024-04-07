@@ -6,11 +6,12 @@
         <div
             v-if="player.addPlayer"
             style="max-width: 20rem;"
-            >
+            class="card card-p card-no-b">
             <router-link 
                 :to="{ name: 'addPlayerByPosition', params: { id: fantasyTeamId, posId: player.positionTypeId } }"
-                class="card-link">
-                  Add Player by Position
+                class="btn btn-warning"
+                >
+                  Add {{ positionName }}
             </router-link>
         </div>
     </div>
@@ -20,18 +21,18 @@
             <table>
                 <tbody>
                     <tr>
-                        <td rowspan="2">
+                        <td rowspan="2" style="width:15%">
                             <img v-bind:src="'https://assets.staplepuck.com/headshots/' + player.id + '.png'" width="40" />
                         </td>
-                        <td rowspan="2">
+                        <td rowspan="2" style="width:15%">
                             <img v-bind:src="'https://assets.staplepuck.com/logos/' + player.team.id + '.svg'" width="40" />
                         </td>
-                        <td>
+                        <td style="width:70%">
                             <b>{{ player.fullName }}</b>
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style="width:70%">
                             {{ player.team.fullName }}
                         </td>
                     </tr>
@@ -50,7 +51,7 @@ export default {
             loading: 0
         };
     },
-    props: ["player", "league", "fantasyTeamId"],
+    props: ["player", "league", "fantasyTeamId", "positionName"],
     computed: { 
     },
     methods: {
@@ -64,6 +65,9 @@ export default {
 }
 .card-link {
     text-decoration: underline;
+}
+.card-no-b {
+    border: 0 !important;
 }
 </style>
   

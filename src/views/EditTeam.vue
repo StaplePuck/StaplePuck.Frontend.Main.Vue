@@ -36,9 +36,9 @@
       <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="false" includeRemove="true" />
       <div v-for="position in playersInfo">
         <span class="px-3 mb-3 h5">{{ position.name }} ({{ position.count }} of {{ position.max }})</span>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
           <div v-for="player in position.players" v-on:click="showPlayer(player.id)">
-            <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" />
+            <PlayerSelectCard :player="player" :league="league" :fantasyTeamId="id" :positionName="position.name" />
           </div>
         </div>
       </div>
@@ -68,8 +68,22 @@ label {
   font-weight: bold;
 }
 .disabled {
-    opacity: 0.5;
     pointer-events: none;
+    position: relative;
+
+    img {
+      opacity: 0.5;
+    }
+}
+
+.disabled::after {
+  content: "\2713";
+  color: darkgreen;
+  font-size: 4.25rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -50px;
 }
 </style>
 
