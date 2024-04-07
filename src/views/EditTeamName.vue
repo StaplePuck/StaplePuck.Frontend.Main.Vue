@@ -130,7 +130,7 @@
             this.saving = 1;
             this.saveSuccess = false;
             this.saveFailed = false;
-            var fantasyTeamPlayers = [];
+            // var fantasyTeamPlayers = [];
 
             this.$apollo
                 .mutate({
@@ -138,8 +138,7 @@
                 variables: {
                     fantasyTeam: {
                     id: Number(this.id),
-                    name: this.teamName,
-                    fantasyTeamPlayers: fantasyTeamPlayers
+                    name: this.teamName
                     }
                 }
                 })
