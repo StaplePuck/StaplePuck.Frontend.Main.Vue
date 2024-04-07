@@ -151,6 +151,7 @@ export default {
             );
         },
         addPlayer() {
+            this.saving = 1;
             const list = [];
             const playerIds = this.fantasyTeam.playerIds;
             for (let i = 0; i < playerIds.length; i++) {
@@ -163,6 +164,7 @@ export default {
             this.$store.commit('teamEdit/addPlayer', this.player.id);
         },
         removePlayer() {
+            this.saving = 1;
             const list = [];
             const playerId = Number(this.player.id);
             const playerIds = this.fantasyTeam.playerIds;
