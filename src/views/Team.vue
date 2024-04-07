@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4 v-if="loading" class="text-center">Loading...</h4>
+    <h1 v-if="loading" class="text-center">Loading...</h1>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div v-if="!team.isPaid">
         Team Not Paid For
@@ -376,9 +376,10 @@ export default {
     },
     scoringTypeHeadersForTeam: {
       query: QUERY_SCORING_TYPES_FOR_LEAGUE,
+      fetchPolicy: 'cache-first',
       variables() {
         return {
-          leagueId: Number(this.id)
+          teamId: Number(this.id)
         };
       }
     }

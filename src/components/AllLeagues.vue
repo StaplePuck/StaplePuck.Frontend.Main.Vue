@@ -10,10 +10,10 @@
         :key="ids"
       >
         <span class="badge badge-warning text-center">{{
-          season.fullName
-        }}</span>
+            season.fullName
+          }}</span>
         <div class="card-deck">
-          <div class="card" v-for="(league, idx) in season.leagues" :key="idx">
+          <div class="card border-top-0" v-for="(league, idx) in season.leagues" :key="idx">
             <div class="card-header">
               <router-link
                 class="card-links"
@@ -24,14 +24,13 @@
             <div class="card-body">
               <ul>
                 <li>
-                  {{ league.season.sport.name }}
+                  <b>Sport:</b> {{ league.season.sport.name }}
                 </li>
                 <li>
-                  {{ league.description }}
+                  <b>About:</b> {{ league.description }}
                 </li>
                 <li v-if="league.announcement != ''">
-                  <span class="alert-msg">
-                    <b v-html="league.announcement"></b>
+                  <span class="alert-msg" v-html="league.announcement">
                   </span>
                 </li>
               </ul>
@@ -73,7 +72,6 @@ h2 {
   font-size: 1rem;
   display: block;
   border-radius: 0;
-  margin: 0.25rem 0;
 }
 .badge-warning {
   background-color: #000;
@@ -81,5 +79,8 @@ h2 {
 }
 .group-div {
   padding-top: 1em;
+}
+.border-top-0 {
+  border-top: none;
 }
 </style>

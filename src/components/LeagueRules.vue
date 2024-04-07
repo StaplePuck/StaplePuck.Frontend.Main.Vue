@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-center">League Rules</h2>
     <span v-if="loading">Loading Rules...</span>
-    <div v-else v-for="(league, idx) in leagues" :key="idx">
+    <div v-else>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         <div
           class="col mb-4"
@@ -11,7 +11,7 @@
         >
           <div class="card">
             <div class="card-header">
-              {{ position.positionType.name }}: {{ position.count }} per team
+              {{ position.positionType.name }}: {{ position.count }} players per team
             </div>
             <div class="card-body">
               <p
@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { GET_LEAGUE_RULES } from "../constants/graphQLqueries/graphQLqueries";
+import { GET_LEAGUE_RULES } from "../constants/graphQLqueries/staplePuck2Queries";
 
 export default {
   name: "LeagueRules",
@@ -62,8 +62,10 @@ export default {
   },
   props: ["leagueId"],
   apollo: {
-    leagues: {
+    league: {
+      client: 'staplePuck2Client',
       query: GET_LEAGUE_RULES,
+      fetchPolicy: 'cache-first',
       variables() {
         return {
           leagueId: Number(this.leagueId)

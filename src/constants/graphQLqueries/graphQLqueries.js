@@ -170,8 +170,8 @@ export const QUERY_TEAM = gql`
 `;
 
 export const QUERY_SCORING_TYPES_FOR_LEAGUE = gql`
-  query scoringTypes($leagueId: Int) {
-    scoringTypeHeadersForTeam(id: $leagueId) {
+  query scoringTypes($teamId: Int) {
+    scoringTypeHeadersForTeam(id: $teamId) {
       id
       name
       shortName
@@ -250,6 +250,7 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
     fantasyTeams(id: $teamid) {
       id
       name
+      isValid
       gM {
         externalId
         id
@@ -264,28 +265,18 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
         isLocked
         season {
           id
-          fullName
-          teamSeasons {
-            team {
-              locationName
-              fullName
-              id
-            }
-            playerSeasons {
-              player {
-                id
-                fullName
-              }
-              positionType {
-                name
-                shortName
-              }
-            }
-          }
         }
       }
     }
   }
+`;
+
+export const GET_TEAM_VALIDATION = gql`
+ query getValidation($teamid: Int) {
+  fantasyTeamValidation(id: $teamid) {
+    message
+  }
+}
 `;
 
 export const GET_LEAGUE_RULES = gql`

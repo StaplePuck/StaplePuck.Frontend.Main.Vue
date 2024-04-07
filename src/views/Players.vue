@@ -293,9 +293,10 @@ export default {
     },
     scoringTypeHeadersForTeam: {
       query: QUERY_SCORING_TYPES_FOR_LEAGUE,
+      fetchPolicy: 'cache-first',
       variables() {
         return {
-          leagueId: Number(this.id)
+          teamId: Number(this.id)
         };
       }
     },

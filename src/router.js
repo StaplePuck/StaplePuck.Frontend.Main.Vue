@@ -5,6 +5,9 @@ import User from "./views/UserProfile.vue";
 import MyTeams from "./views/MyTeams.vue";
 import NewTeam from "./views/NewTeam.vue";
 import EditTeam from "./views/EditTeam.vue";
+import EditTeamName from "./views/EditTeamName.vue";
+import AddPlayerByPosition from "./views/AddPlayerByPosition.vue";
+import AddPlayerByTeam from "./views/AddPlayerByTeam.vue";
 import NewUser from "./views/NewUser.vue";
 import LeagueManage from "./views/LeagueManage.vue";
 import League from "./views/LeagueTeams.vue";
@@ -12,6 +15,7 @@ import Players from "./views/Players.vue";
 import Team from "./views/Team.vue";
 import TeamStats from "./views/TeamStats.vue";
 import Unauthorized from "./views/Unauthorized.vue";
+import NotFound from "./views/NotFound.vue";
 import PushInfo from "./views/PushInfo.vue";
 import { authGuard } from "./auth";
 
@@ -66,6 +70,27 @@ const router = new Router({
       beforeEnter: authGuard
     },
     {
+      path: "/team/:id/editName",
+      name: "editTeamName",
+      component: EditTeamName,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/team/:id/edit/addPlayerByPosition/:posId",
+      name: "addPlayerByPosition",
+      component: AddPlayerByPosition,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/team/:id/edit/addPlayerByTeam/:teamId",
+      name: "addPlayerByTeam",
+      component: AddPlayerByTeam,
+      props: true,
+      beforeEnter: authGuard
+    },
+    {
       path: "/team/:id",
       name: "team",
       component: Team,
@@ -87,6 +112,11 @@ const router = new Router({
       path: "/myTeams",
       name: "myTeams",
       component: MyTeams
+    },
+    {
+      path: "/notFound",
+      name: "notFound",
+      component: NotFound
     },
     {
       path: "/unauthorized",
