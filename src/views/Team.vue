@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 v-if="loading" class="text-center">Loading...</h1>
+    <div v-if="loading" class="text-center h3"> 
+      Loading... <font-awesome-icon :icon="[ 'fas', 'snowflake']" spin/>
+    </div>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <div v-if="!team.isPaid">
         Team Not Paid For
@@ -36,19 +38,48 @@
             </div>
           </div>
         </div>
-        <div class="col-md team-info">
-          <span class="player-info table-danger">* = Team Eliminated</span>
-          <br />
-          <span class="player-info table-success">+ = Team in Play Today</span>
+        <div class="col mb-2">
+            <div class="font-weight-bold">
+                Color Key:
+            </div>
+            <div>
+                <table>
+                    <tr class="onTeam">
+                        <td class="font-weight-bold">
+                          Green:
+                        </td>
+                        <td>
+                          * Team playing today
+                        </td>
+                    </tr>
+                    <tr class="invalid">
+                        <td class="font-weight-bold">
+                          Red:
+                        </td>
+                        <td>
+                          Team Eliminated
+                        </td>
+                    </tr>
+                    <tr class="sorted">
+                        <td class="font-weight-bold">
+                          Yellow:
+                        </td>
+                        <td>
+                          Sorted by
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <section id="scroll-table" class="col-md">
-          <table class="table table-bordered table-striped table-condensed cf">
+        <section class="col-md">
+          <table class="table table-responsive-md table-bordered cf">
             <thead class="cf">
               <tr>
                 <th
                   v-for="(col, colID) in computedFields"
                   :key="colID"
                   v-on:click="sortTable(col.key)"
+                  :class="{ sorted: col.key === sortColumn }"
                 >
                   {{ col.label }}
                 </th>
@@ -115,10 +146,7 @@ table td {
   padding: 0.25em;
 }
 .sorted {
-  text-decoration: underline;
-}
-.unsorted {
-  text-decoration: none;
+    background-color : #fff38c;
 }
 @media only screen and (max-width: 800px) {
   #scroll-table.cf:after {
@@ -202,6 +230,17 @@ table td {
     border-bottom: 1px solid #babcbf;
   }
 }
+
+.invalid {
+    background-color: #fe7669;
+    pointer-events: none;
+    cursor: default;
+}
+.onTeam {
+    background-color: lightgreen;
+    pointer-events: none;
+    cursor: default;
+}
 </style>
 
 <script>
@@ -277,11 +316,11 @@ export default {
         row.score = x.playerCalculatedScore.score;
         row.todaysScore = x.playerCalculatedScore.todaysScore;
         if (x.playerSeason.teamStateForSeason.gameState === 1) {
-          row.rowColor = "table-success";
-          row.teamName = " + " + x.playerSeason.team.name;
+          row.rowColor = "onTeam";
+          row.teamName = x.playerSeason.team.name;
         }
         if (x.playerSeason.teamStateForSeason.gameState === -1) {
-          row.rowColor = "table-danger";
+          row.rowColor = "invalid";
           row.teamName = " * " + x.playerSeason.team.name;
         }
 
