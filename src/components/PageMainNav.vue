@@ -3,12 +3,12 @@
     <div class="container">
       <nav class="navbar navbar-expand navbar-light">
         <router-link to="/">
-          <img alt="StaplePuck logo" src="../assets/logos/StaplePuck.jpg" />
+          <img alt="StaplePuck logo" src="../assets/logos/StaplePuck-LOGO-A2.jpg" height="50" class="m-2"/>
         </router-link>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <router-link v-if="$auth.isAuthenticated" to="/myTeams"
+              <router-link v-if="$auth.isAuthenticated" to="/myTeams" 
                 >My Teams</router-link
               >
             </li>
@@ -100,8 +100,8 @@ nav a {
   color: #fff !important;
   text-align: center;
   padding: 0.25rem 0.5rem;
-  text-decoration: none;
   font-size: 15px;
+  text-decoration: none;
   &.router-link-exact-active:hover {
     background-color: #30313c;
     text-decoration: underline;
@@ -117,7 +117,7 @@ nav a:not([href]) {
 }
 nav a:not([href]):hover {
   color: #fff !important;
-  text-decoration: underline;
   cursor: pointer;
+  text-decoration: underline;
 }
 </style>

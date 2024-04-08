@@ -1,7 +1,9 @@
 <template>
   <div>
     <h2 class="text-center">League Rules</h2>
-    <span v-if="loading">Loading Rules...</span>
+    <div v-if="loading" class="text-center h3"> 
+      Loading... <font-awesome-icon :icon="[ 'fas', 'snowflake']" spin/>
+    </div>
     <div v-else>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
         <div
