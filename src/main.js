@@ -11,7 +11,7 @@ import { Auth0Plugin } from "./auth";
 import "./registerServiceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fas, faSnowflake } from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -21,6 +21,7 @@ dom.watch();
 library.add(fas);
 library.add(faInstagram);
 library.add(faFacebook);
+library.add(faSnowflake);
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'

@@ -1,6 +1,8 @@
 <template>
     <div class="container">
-        <h1 v-if="loading" class="text-center">Loading...</h1>
+        <div v-if="loading" class="text-center h3"> 
+            Loading... <font-awesome-icon :icon="[ 'fas', 'snowflake']" spin/>
+        </div>
         <div v-else>
             <PageSummary :headline="fantasyTeam.name">
                 <p>
@@ -27,7 +29,7 @@
                 </div>
                 <div>
                     <table>
-                        <tr class="onTeam p-1">
+                        <tr class="onTeam">
                             <td class="font-weight-bold">
                                 Green:
                             </td>
@@ -35,7 +37,7 @@
                                 Player already selected
                             </td>
                         </tr>
-                        <tr class="invalid p-1">
+                        <tr class="invalid">
                             <td class="font-weight-bold">
                                 Red:
                             </td>
@@ -123,7 +125,7 @@ table td {
 }
 
 .sorted {
-    background-color : #ffc107;
+    background-color : #fff38c;
 }
 
 @media only screen and (max-width: 800px) {
@@ -222,7 +224,7 @@ table td {
 }
 
 .invalid {
-    background-color: lightpink;
+    background-color: #fe7669;
     pointer-events: none;
     cursor: default;
 }

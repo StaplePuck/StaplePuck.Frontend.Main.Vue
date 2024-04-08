@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 v-if="loading" class="text-center">Loading...</h1>
+    <div v-if="loading" class="text-center h3"> 
+      Loading... <font-awesome-icon :icon="[ 'fas', 'snowflake']" spin/>
+    </div>
     <div v-else v-for="(team, idx) in fantasyTeams" :key="idx">
       <PageSummary :headline="team.name">
         <p>

@@ -1,6 +1,8 @@
 <template>
   <div class="container justify-content-center">
-    <h4 v-if="loading" class="text-center">Loading...</h4>
+    <div v-if="loading" class="text-center h3"> 
+      Loading... <font-awesome-icon :icon="[ 'fas', 'snowflake']" spin/>
+    </div>
     <div v-else>
       <PageSummary headline="New team">
         <p>

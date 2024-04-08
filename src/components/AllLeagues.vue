@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h4 v-if="loading" class="text-center">Loading...</h4>
+    <div v-if="loading" class="text-center h3"> 
+      Loading... <font-awesome-icon :icon="[ 'fas', 'snowflake']" spin/>
+    </div>
     <div v-else>
       <h2>Latest Leagues</h2>
       <div
