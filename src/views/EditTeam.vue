@@ -18,6 +18,10 @@
       <div v-if="fantasyTeams[0].isValid" class="alert alert-success">
         Congratulations, your team is valid and ready for the start of the league! Time to start losing/or winning!
       </div>
+      <div v-if="hProTeam.length != totalTeams">
+        Only {{ hProTeam.length }} of {{ totalTeams }} teams have clinched a spot in the playoffs. Come back to finish picking players for your team when more teams have clinched their spot.
+      </div>
+      <div v-if="hasNotPaid" v-html="league.paymentInfo"></div>
       <div v-if="fantasyTeamValidation">
         <ul>
           <li v-for="item in fantasyTeamValidation">{{ item.message }}</li>
@@ -106,25 +110,20 @@ export default {
   },
   data() {
     return {
-      selected: {},
       loading: 0,
       saving: 0,
       saveSuccess: false,
       saveFailed: false,
       saveErrors: {},
       selectedPlayer: {},
-      teamLoaded: false
+      teamLoaded: false,
+      hasNotPaid: false,
+      totalTeams: 0,
     };
   },
   computed: {
     fantasyTeam() {
       return this.$store.state.teamEdit.fantasyTeam;
-    },
-    proTeams: function () {
-      var list = this.fantasyTeams[0].league.season.teamSeasons;
-      return list.sort((a, b) =>
-        a.team.fullName.localeCompare(b.team.fullName)
-      );
     },
     hProTeam: function () {
       const list = this.teamsBySeason;
@@ -174,16 +173,14 @@ export default {
           position.players.push(player);
         }
         position.count = pos;
-        let nextPlayerPos = true;
-        while (pos < count) {
+
+        if (pos < count) {
           position.players.push({ 
             id: -1, 
             fullName: 'empty',
             positionTypeId: position.id,
-            addPlayer: nextPlayerPos
+            addPlayer: true
            });
-          pos++;
-          nextPlayerPos = false;
         }
 
         positions.push(position);
@@ -205,6 +202,14 @@ export default {
       },
       skip() {
         return !this.teamLoaded;
+      },
+      result() {
+        let count = 0;
+        for (let i = 0; i < this.league.numberPerPositions.length; i++) {
+          count += this.league.numberPerPositions[i].count;
+        }
+
+        this.totalTeams = count / this.league.playersPerTeam;
       }
     },
     teamsBySeason: {
@@ -262,6 +267,7 @@ export default {
 
         this.$store.commit('teamEdit/initialTeam', this.fantasyTeams[0]);
         this.teamLoaded = true;
+        this.hasNotPaid = !this.fantasyTeams[0].isPaid;
 
         for (i = 0; i < this.fantasyTeams[0].fantasyTeamPlayers.length; i++) {
           const fp = this.fantasyTeams[0].fantasyTeamPlayers[i];

@@ -6,6 +6,9 @@
         <p>
           Create a team for the <i>{{ leagues[0].name }}</i>
         </p>
+        <p>
+          Team name can be changed up until the start of the first game.
+        </p>
       </PageSummary>
       <div v-if="leagues[0].isLocked" class="container">
         League is Locked!
