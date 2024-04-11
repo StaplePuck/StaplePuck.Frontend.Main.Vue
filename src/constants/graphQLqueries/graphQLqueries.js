@@ -251,6 +251,7 @@ export const GET_TEAM_DATA_FOR_EDIT = gql`
       id
       name
       isValid
+      isPaid
       gM {
         externalId
         id
