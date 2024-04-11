@@ -6,6 +6,9 @@
           <p>
             Change team name.
           </p>
+          <p>
+            Team name can be changed up until the start of the first game.
+          </p>
         </PageSummary>
   
   

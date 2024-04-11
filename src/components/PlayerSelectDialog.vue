@@ -43,6 +43,12 @@
                     class="float-right" 
                     @click="addPlayer()"
                     :disabled="saving == 1">
+                    <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                        v-if="saving == 1"
+                    ></span>
                     Add
                 </b-button>
                 <b-button v-if="includeRemove === 'true'" 
@@ -51,6 +57,12 @@
                     class="float-right" 
                     @click="removePlayer()"
                     :disabled="saving == 1">
+                    <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                        v-if="saving == 1"
+                    ></span>
                     Remove
                 </b-button>
             </div>
