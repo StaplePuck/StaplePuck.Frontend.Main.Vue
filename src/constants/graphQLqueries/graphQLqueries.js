@@ -113,6 +113,9 @@ export const QUERY_TEAMS_FOR_MANAGE = gql`
         }
         isPaid
         isValid
+        fantasyTeamPlayers {
+          playerId
+        }
       }
     }
   }
