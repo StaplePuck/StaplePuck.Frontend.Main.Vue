@@ -6,7 +6,7 @@
     <div v-else>
       <div class="table-responsive-md col-md hide-points hide-league">
         <h2>Active</h2>
-        <table class="table table-bordered table-striped table-condensed cf">
+        <table class="table table-bordered table-condensed cf">
           <thead class="cf">
             <tr>
               <th v-for="(col, colID) in activeFields" :key="colID">
@@ -59,7 +59,7 @@
       </div>
       <h2>Archived</h2>
       <div class="table-responsive-md col-md hide-league">
-        <table class="table table-bordered table-striped table-condensed cf">
+        <table class="table table-bordered table-condensed cf">
           <thead class="cf">
             <tr>
               <th v-for="(col, colID) in nonActiveFields" :key="colID">
