@@ -51,6 +51,10 @@
             v-model="league.paymentInfo"
           />
         </div>
+        <div class="form-group">
+          <label for="paymentInfo">Number of teams:</label>
+          {{ league.fantasyTeams.length }}
+        </div>
         <div class="form-check">
           <input
             type="checkbox"
@@ -144,6 +148,9 @@
                     />
                   </div>
                 </td>
+                <td>
+                  {{ row.fantasyTeamPlayers.length }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -191,7 +198,7 @@ export default {
   },
   data() {
     return {
-      validCollection: {},
+      //validCollection: {},
       fields: [
         {
           key: "name",
@@ -212,6 +219,10 @@ export default {
         {
           key: "isPaid",
           label: "Paid"
+        },
+        {
+          key: "players",
+          label: "Players"
         }
       ],
       leagues: {},
@@ -244,10 +255,10 @@ export default {
             a.name > b.name ? 1 : -1
           );
         }
-        for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
-          var ft = this.leagues[0].fantasyTeams[i];
-          this.validCollection[ft.id] = ft.isValid;
-        }
+        // for (i = 0; i < this.leagues[0].fantasyTeams.length; i++) {
+        //   var ft = this.leagues[0].fantasyTeams[i];
+        //   this.validCollection[ft.id] = ft.isValid;
+        // }
       }
     }
   },
