@@ -17,13 +17,13 @@
         </router-link>  
       </div>
       <LeagueRules :leagueId="team.league.id"></LeagueRules>
-      <div v-if="fantasyTeams[0].isValid" class="alert alert-success">
+      <div v-if="fantasyTeams[0].isValid" class="alert alert-success mx-3">
         Congratulations, your team is valid and ready for the start of the league! Time to start losing/or winning!
       </div>
-      <div v-if="hProTeam.length != totalTeams">
+      <div v-if="hProTeam.length != totalTeams" class="alert alert-warning mx-3">
         Only {{ hProTeam.length }} of {{ totalTeams }} teams have clinched a spot in the playoffs. Come back to finish picking players for your team when more teams have clinched their spot.
       </div>
-      <div v-if="hasNotPaid" v-html="league.paymentInfo"></div>
+      <div v-if="hasNotPaid" v-html="league.paymentInfo" class="alert alert-primary mx-3"></div>
       <div v-if="fantasyTeamValidation">
         <ul>
           <li v-for="item in fantasyTeamValidation">{{ item.message }}</li>

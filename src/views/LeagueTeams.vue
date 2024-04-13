@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="table-responsive-md col-md hideGM">
-        <table class="table table-bordered table-striped table-condensed cf">
+        <table class="table table-bordered table-condensed cf">
           <thead class="cf">
             <tr>
               <th

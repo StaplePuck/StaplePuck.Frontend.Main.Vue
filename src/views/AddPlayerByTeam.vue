@@ -30,7 +30,7 @@
                     <table>
                         <tr class="invalid">
                             <td class="font-weight-bold">
-                                Red:
+                                Grey:
                             </td>
                             <td>
                                 Player not available
@@ -52,7 +52,7 @@
             
             <span class="px-3 mt-2 d-block font-weight-bold">Click on an available player to add them to your team</span>
             <section class="col-md">
-                <table class="table table-bordered table-responsive-md cf">
+                <table class="table table-bordered table-responsive-md cf freeze-col">
                     <thead class="cf">
                         <tr>
                             <th v-for="(col, colID) in computedFields" :key="colID" 
@@ -111,10 +111,18 @@ table td {
 }
 
 .sorted {
-    background-color : #fff38c;
+    background-color : #fff3cd;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 540px) {
+    .freeze-col {
+      th:first-child, td:first-child
+      {
+          position:sticky;
+          left:0px;
+          background-color: #fff;
+      }
+    }
     #scroll-table.cf:after {
         visibility: hidden;
         display: block;
@@ -210,7 +218,7 @@ table td {
 }
 
 .invalid {
-    background-color: #fe7669;
+    background-color: #d6d8d9;
     pointer-events: none;
     cursor: default;
 }

@@ -34,12 +34,12 @@
                                 Green:
                             </td>
                             <td>
-                                Player already selected
+                                Player on your team
                             </td>
                         </tr>
                         <tr class="invalid">
                             <td class="font-weight-bold">
-                                Red:
+                                Grey:
                             </td>
                             <td>
                                 Player not available
@@ -58,7 +58,7 @@
             </div>
             <span class="px-3 mt-3 d-block font-weight-bold">Click on an available player to add them to your team</span>
             <section class="col-md">
-                <table class="table table-responsive-md table-bordered cf">
+                <table class="table table-responsive-md table-bordered cf freeze-col">
                     <thead class="cf">
                         <tr>
                             <th v-for="(col, colID) in computedFields" :key="colID" 
@@ -78,7 +78,7 @@
                                         {{ row[col.key] }}
                                     </span>
                                 </div>
-                                <div v-else-if="col.key === 'team'">
+                                <div v-else-if="col.key === 'team'" class="text-center">
                                     <img v-bind:src="'https://assets.staplepuck.com/logos/' + row.teamId + '.svg'" width="30" />
                                     {{ row[col.key] }}
                                 </div>
@@ -125,10 +125,19 @@ table td {
 }
 
 .sorted {
-    background-color : #fff38c;
+    background-color : #fff3cd;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 540px) {
+    .freeze-col {
+        th:first-child, td:first-child
+        {
+            position:sticky;
+            left:0px;
+            background-color: #fff;
+        }
+    }
+
     #scroll-table.cf:after {
         visibility: hidden;
         display: block;
@@ -224,12 +233,12 @@ table td {
 }
 
 .invalid {
-    background-color: #fe7669;
+    background-color: #d6d8d9;
     pointer-events: none;
     cursor: default;
 }
 .onTeam {
-    background-color: lightgreen;
+    background-color: #d4edda;
     pointer-events: none;
     cursor: default;
 }
