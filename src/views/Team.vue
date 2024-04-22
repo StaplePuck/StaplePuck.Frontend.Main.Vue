@@ -49,7 +49,7 @@
                           Green:
                         </td>
                         <td>
-                          * Team playing today
+                          + Team playing today
                         </td>
                     </tr>
                     <tr class="invalid">
@@ -57,7 +57,7 @@
                           Grey:
                         </td>
                         <td>
-                          Team eliminated (playoff leagues only)
+                          - Team eliminated (playoff leagues only)
                         </td>
                     </tr>
                     <tr class="sorted">
@@ -326,11 +326,11 @@ export default {
         row.todaysScore = x.playerCalculatedScore.todaysScore;
         if (x.playerSeason.teamStateForSeason.gameState === 1) {
           row.rowColor = "onTeam";
-          row.teamName = x.playerSeason.team.name;
+          row.teamName = " + " + x.playerSeason.team.name;
         }
         if (x.playerSeason.teamStateForSeason.gameState === -1) {
           row.rowColor = "invalid";
-          row.teamName = " * " + x.playerSeason.team.name;
+          row.teamName = " - " + x.playerSeason.team.name;
         }
 
         this.scoringTypeHeadersForTeam.forEach((s) => {
