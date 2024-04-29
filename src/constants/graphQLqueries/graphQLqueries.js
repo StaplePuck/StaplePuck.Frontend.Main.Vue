@@ -130,6 +130,9 @@ export const QUERY_TEAM = gql`
       todaysScore
       rank
       isPaid
+      gM {
+        name
+      }
       league {
         id
         isLocked

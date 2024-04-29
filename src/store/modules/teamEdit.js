@@ -14,13 +14,13 @@ const actions = {
 // mutations
 const mutations = {
   addPlayer(state, playerId) {
-    state.fantasyTeam.playerIds.push(playerId);
+    state.fantasyTeam.playerIds.push(Number(playerId));
     localStorage.setItem("fantasyTeams", JSON.stringify(state.fantasyTeam));
   },
   removePlayer(state, playerId) {
-    const index = state.fantasyTeam.playerIds.indexOf(playerId);
+    const index = state.fantasyTeam.playerIds.indexOf(Number(playerId));
     if (index > -1) { 
-      state.fantasyTeam.playerIds(index, 1); 
+      state.fantasyTeam.playerIds.splice(index, 1); 
       localStorage.setItem("fantasyTeam",JSON.stringify(state.fantasyTeam));
     }
   },
