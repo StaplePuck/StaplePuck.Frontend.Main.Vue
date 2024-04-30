@@ -6,6 +6,9 @@
         <div v-else>
             <PageSummary :headline="fantasyTeam.name">
                 <p>
+                    <router-link :to="{ name: 'editTeam', params: { id: id } }">
+                        Back to main edit page
+                    </router-link>  <br/>
                     Select a player from the <b>{{ team.fullName }}</b> <br>
                     <img v-bind:src="'https://assets.staplepuck.com/logos/' + team.id + '.svg'" width="70" />
                 </p>
@@ -28,6 +31,14 @@
                 </div>
                 <div>
                     <table>
+                        <tr class="onTeam">
+                            <td class="font-weight-bold">
+                                Green:
+                            </td>
+                            <td>
+                                Player on your team
+                            </td>
+                        </tr>
                         <tr class="invalid">
                             <td class="font-weight-bold">
                                 Grey:
@@ -48,7 +59,7 @@
                 </div>
             </div>
 
-            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
+            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :lastSpot="lastSpot" :includeAdd="includeAdd" :includeRemove="includeRemove" />
             
             <span class="px-3 mt-2 d-block font-weight-bold">Click on an available player to add them to your team</span>
             <section class="col-md">
@@ -222,6 +233,9 @@ table td {
     pointer-events: none;
     cursor: default;
 }
+.onTeam {
+    background-color: #d4edda;
+}
 </style>
   
 <script>
@@ -257,6 +271,8 @@ export default {
             team: {},
             selectedPlayer: {},
             scoringTypes: [],
+            includeAdd: false,
+            includeRemove: false
         };
     },
     computed: {
@@ -338,6 +354,22 @@ export default {
                 return 0;
             });
             return data;
+        },
+        lastSpot() {
+            if (!this.league || !this.fantasyTeam) {
+                return true;
+            }
+            // Determine last spot
+            const maxNumberPerTeam = this.league.playersPerTeam;
+            let teamCount = 0;
+            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
+                const fp = this.fantasyTeam.playerIds[i];
+                const playerInfo = this.playersHistoryByLeague.find(x => x.id == fp);
+                if (playerInfo.teamId == this.teamId) {
+                    teamCount++;
+                }
+            }
+            return teamCount >= maxNumberPerTeam;
         }
     },
     props: ['id', 'teamId'],
@@ -412,7 +444,14 @@ export default {
         showPlayer(playerId) {
             this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
             if (this.selectedPlayer) {
-                this.$bvModal.show('player-select-modal');
+                if (this.fantasyTeam.playerIds.find(x => x == playerId)) {
+                    this.includeAdd = false;
+                    this.includeRemove = true;
+                } else {
+                    this.includeAdd = true;
+                    this.includeRemove = false;
+                }
+                this.$bvModal.show('player-select-modal');    
             }
         },
         saveTeam(evt) {

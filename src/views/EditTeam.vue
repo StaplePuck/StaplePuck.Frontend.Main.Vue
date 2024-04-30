@@ -39,7 +39,7 @@
         </router-link>
       </div>
       <span class="px-3 mt-3 h6 d-block font-weight-bold">Click a player to see stats and remove them from your team</span>
-      <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" includeAdd="false" includeRemove="true" />
+      <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :fantasyTeam="fantasyTeams[0]" :lastSpot=false :includeAdd=false :includeRemove=true />
       <div v-for="position in playersInfo">
         <span class="px-3 mb-3 h5">{{ position.name }} ({{ position.count }} of {{ position.max }})</span>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">

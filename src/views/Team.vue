@@ -31,6 +31,7 @@
                     {{ team.league.name }}
                   </router-link>
                 </li>
+                <li><span>GM:</span> {{ team.gM.name }}</li>
                 <li><span>League Ranking:</span> {{ team.rank }}</li>
                 <li><span>Total Points:</span> {{ team.score }}</li>
                 <li><span>Today's Points:</span> {{ team.todaysScore }}</li>
@@ -93,7 +94,7 @@
               >
                 <td v-for="(col, colID) in computedFields" :key="colID">
                   <div v-if="col.key == 'teamName'">
-                    <router-link
+                    <router-link style="cursor: pointer !important; white-space: nowrap;"                
                       :to="{
                         name: 'teamStats',
                         params: { id: team.league.id, teamId: row.teamId }
@@ -142,7 +143,6 @@ li {
 }
 table th,
 table td {
-  cursor: pointer;
   padding: 0.25em;
 }
 .sorted {
@@ -242,12 +242,10 @@ table td {
 
 .invalid {
     background-color: #d6d8d9;
-    pointer-events: none;
     cursor: default;
 }
 .onTeam {
     background-color: #d4edda;
-    pointer-events: none;
     cursor: default;
 }
 </style>
