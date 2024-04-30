@@ -31,6 +31,7 @@
                     {{ team.league.name }}
                   </router-link>
                 </li>
+                <li><span>GM:</span> {{ team.gM.name }}</li>
                 <li><span>League Ranking:</span> {{ team.rank }}</li>
                 <li><span>Total Points:</span> {{ team.score }}</li>
                 <li><span>Today's Points:</span> {{ team.todaysScore }}</li>

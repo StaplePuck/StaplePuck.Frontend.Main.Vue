@@ -6,12 +6,15 @@
         <div v-else>
             <PageSummary :headline="fantasyTeam.name">
                 <p>
+                    <router-link :to="{ name: 'editTeam', params: { id: id } }">
+                        Back to main edit page
+                    </router-link>  <br/>
                     Select a player for the <b>{{ positionType.name }}</b> position.
                 </p>
             </PageSummary>
             <LeagueRules :leagueId="fantasyTeam.leagueId"></LeagueRules>
 
-            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" includeAdd="true" includeRemove="false" />
+            <PlayerSelectDialog :fantasyTeamId="id" :player="selectedPlayer" :league="league" :lastSpot="lastSpot" :includeAdd="includeAdd" :includeRemove="includeRemove" />
             
             <div class="col mb-2 font-weight-bold">
                 Stats Date Range:
@@ -239,8 +242,6 @@ table td {
 }
 .onTeam {
     background-color: #d4edda;
-    pointer-events: none;
-    cursor: default;
 }
 </style>
   
@@ -277,6 +278,8 @@ export default {
             positionType: {},
             selectedPlayer: {},
             scoringTypes: [],
+            includeAdd: false,
+            includeRemove: false
         };
     },
     computed: {
@@ -359,6 +362,22 @@ export default {
                 return 0;
             });
             return data;
+        },
+        lastSpot() {
+            if (!this.league || !this.fantasyTeam) {
+                return true;
+            }
+            // Determine last spot
+            const maxNumberPerPosition = this.league.numberPerPositions.find(x => x.positionType.id == this.posId);
+            let positionCount = 0;
+            for (let i = 0; i < this.fantasyTeam.playerIds.length; i++) {
+                const fp = this.fantasyTeam.playerIds[i];
+                const playerInfo = this.playersHistoryByLeague.find(x => x.id == fp);
+                if (playerInfo.positionTypeId == this.posId) {
+                    positionCount++;
+                }
+            }
+            return positionCount >= maxNumberPerPosition.count;
         }
     },
     props: ['id', 'posId'],
@@ -432,7 +451,14 @@ export default {
         showPlayer(playerId) {
             this.selectedPlayer = this.playersHistoryByLeague.find(x => x.id === playerId);
             if (this.selectedPlayer) {
-                this.$bvModal.show('player-select-modal');
+                if (this.fantasyTeam.playerIds.find(x => x == playerId)) {
+                    this.includeAdd = false;
+                    this.includeRemove = true;
+                } else {
+                    this.includeAdd = true;
+                    this.includeRemove = false;
+                }
+                this.$bvModal.show('player-select-modal');    
             }
         },
         saveTeam(evt) {

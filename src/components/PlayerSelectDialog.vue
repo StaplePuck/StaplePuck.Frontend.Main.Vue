@@ -37,7 +37,7 @@
         <template #modal-footer>
             <div class="w-100">
                 <!-- <p class="float-left">Modal Footer Content</p> -->
-                <b-button v-if="includeAdd === 'true'" 
+                <b-button v-if="includeAdd" 
                     variant="primary" 
                     size="sm" 
                     class="float-right" 
@@ -51,7 +51,7 @@
                     ></span>
                     Add
                 </b-button>
-                <b-button v-if="includeRemove === 'true'" 
+                <b-button v-if="includeRemove" 
                     variant="primary" 
                     size="sm" 
                     class="float-right" 
@@ -84,7 +84,7 @@ export default {
             saving: 0
         };
     },
-    props: ["fantasyTeamId", "player", "league", "includeAdd", "includeRemove"],
+    props: ["fantasyTeamId", "player", "league", "lastSpot", "includeAdd", "includeRemove"],
     computed: { 
         fantasyTeam() {
             return this.$store.state.teamEdit.fantasyTeam;
@@ -147,21 +147,6 @@ export default {
         }
     },
     methods: {
-        getScoringRules(scoringRules, positionId) {
-            var i;
-            const rules = [];
-            for (i = 0; i < scoringRules.length; i++) {
-                if (
-                    scoringRules[i].positionType.id == positionId &&
-                    scoringRules[i].scoringWeight > 0
-                ) {
-                    rules.push(scoringRules[i]);
-                }
-            }
-            return rules.sort((a, b) =>
-                a.scoringType.name.localeCompare(b.scoringType.name)
-            );
-        },
         addPlayer() {
             this.saving = 1;
             const list = [];
@@ -202,25 +187,33 @@ export default {
                 }
                 })
                 .then(() => {
-                this.saveFailed = false;
-                this.saveSuccess = true;
-                this.saving = 0;
-                if (this.$route.name !== 'editTeam') {
-                    this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
-                } else { 
-                    this.$router.go();
-                }
+                    this.saveFailed = false;
+                    this.saveSuccess = true;
+                    this.saving = 0;
+                    if (this.$route.name !== 'editTeam') {
+                        if (this.lastSpot) {
+                            this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
+                        } else {
+                            this.$bvModal.hide('player-select-modal');
+                        }
+                    } else { 
+                        this.$router.go();
+                    }
                 })
                 .catch((error) => {
-                this.saveSuccess = false;
-                this.saveFailed = true;
-                //this.saveErrors = DisplayErrors(this.$bvToast, error);
-                this.saving = 0;
-                if (this.$route.name !== 'editTeam') {
-                    this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
-                } else { 
-                    this.$router.go();
-                }
+                    this.saveSuccess = false;
+                    this.saveFailed = true;
+                    //this.saveErrors = DisplayErrors(this.$bvToast, error);
+                    this.saving = 0;
+                    if (this.$route.name !== 'editTeam') {
+                        if (this.lastSpot) {
+                            this.$router.push({ name: "editTeam", params: { id: this.fantasyTeamId } });
+                        } else {
+                            this.$bvModal.hide('player-select-modal');
+                        }
+                    } else { 
+                        this.$router.go();
+                    }
                 });
         }
     }
