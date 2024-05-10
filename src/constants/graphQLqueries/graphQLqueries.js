@@ -131,6 +131,7 @@ export const QUERY_TEAM = gql`
       rank
       isPaid
       gM {
+        id
         name
       }
       league {
