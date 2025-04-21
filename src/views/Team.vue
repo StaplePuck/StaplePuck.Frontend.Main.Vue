@@ -419,7 +419,7 @@ export default {
           return;
         }
         if (this.fantasyTeams[0].league.isLocked == false) {
-          this.$router.push({ name: "unauthorized" });
+          //this.$router.push({ name: "unauthorized" });
         }
       }
     },

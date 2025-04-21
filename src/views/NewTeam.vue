@@ -12,7 +12,7 @@
           Team name can be changed up until the start of the first game.
         </p>
       </PageSummary>
-      <div v-if="leagues[0].isLocked" class="container">
+      <div v-if="leagues[0].isLocked && false" class="container">
         League is Locked!
       </div>
       <div v-else-if="!canJoin" class="container">
@@ -79,7 +79,7 @@ export default {
   props: ["id"],
   computed: {
     leagueIsLocked: function () {
-      return this.leagues[0].isLocked;
+      return false; //this.leagues[0].isLocked;
     },
     canJoin: function () {
       if (this.leagues[0].allowMultipleTeams) {
