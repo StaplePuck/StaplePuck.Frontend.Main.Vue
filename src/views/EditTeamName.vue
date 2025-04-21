@@ -12,7 +12,7 @@
         </PageSummary>
   
   
-        <div v-if="team.league.isLocked" class="container">
+        <div v-if="team.league.isLocked && false" class="container">
             League is Locked!
         </div>
         <div v-else class="form-width">
@@ -108,7 +108,7 @@
             return;
           }
           if (this.fantasyTeams[0].league.isLocked) {
-            this.$router.push({ name: "unauthorized" });
+            //this.$router.push({ name: "unauthorized" });
           }
           const sub = this.$store.state.auth.userSub;
           if (
