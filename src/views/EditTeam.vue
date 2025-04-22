@@ -254,7 +254,8 @@ export default {
           return;
         }
         if (this.fantasyTeams[0].league.isLocked) {
-          this.$router.push({ name: "unauthorized" });
+          console.log('League is locked, but who cares');
+          //this.$router.push({ name: "unauthorized" });
         }
         const sub = this.$store.state.auth.userSub;
         if (
@@ -264,6 +265,7 @@ export default {
           ) &&
           this.fantasyTeams[0].gM.externalId != sub
         ) {
+          console.log('Not owner');
           this.$router.push({ name: "unauthorized" });
         }
 
