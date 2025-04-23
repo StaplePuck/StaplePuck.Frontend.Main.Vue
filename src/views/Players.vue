@@ -285,7 +285,7 @@ export default {
           return;
         }
         if (this.playerCalculatedScores[0].league.isLocked == false) {
-          //this.$router.push({ name: "unauthorized" });
+          this.$router.push({ name: "unauthorized" });
         }
         this.computedData;
       },
